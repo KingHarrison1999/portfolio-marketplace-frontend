@@ -1,0 +1,287 @@
+.form-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: #f7f7f9;
+}
+
+.form-shell-card {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 2rem;
+}
+
+// Same visual language as .form-shell-card (border/radius/shadow), without
+// its 420px max-width or centering — for forms with several stacked fields
+// living inline in a normal page layout (e.g. create/edit listing) rather
+// than as a standalone centered card.
+.form-section {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 2rem;
+  margin-bottom: 2rem;
+
+  h2 {
+    margin: 0 0 0.35rem;
+    color: #0f172a;
+  }
+
+  > p {
+    margin: 0 0 1.25rem;
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+}
+
+// Danger-zone variant of .form-section — same shape, red accent border,
+// heading, and warning text to visually separate destructive actions
+// (e.g. delete account) from normal settings. Combine with .form-section:
+// class="form-section form-section-danger".
+.form-section-danger {
+  border-color: #fca5a5;
+  background: #fef2f2;
+
+  h2 {
+    color: #dc2626;
+  }
+
+  > p {
+    color: #b91c1c;
+  }
+}
+
+.form-shell-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+}
+
+.form-shell-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #f3f4f6;
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+.form-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #9ca3af;
+  font-size: 0.85rem;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #d1d5db;
+  }
+}
+
+.form-shell-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  &[hidden] {
+    display: none;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+// Inline status message below a form-shell form (validation/API results).
+// Hidden by default; a page's script sets the text and toggles the
+// -error/-success modifier, matching the danger-zone red and a green
+// success accent.
+.form-message {
+  display: none;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  &.is-visible {
+    display: block;
+  }
+
+  &.form-message-error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #b91c1c;
+  }
+
+  &.form-message-success {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    color: #15803d;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  &[hidden] {
+    display: none;
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #0f172a;
+  }
+
+  .form-field-required {
+    color: #dc2626;
+  }
+
+  .form-field-optional {
+    font-weight: 400;
+    color: #6b7280;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 0.75rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    &:disabled {
+      background: #f3f4f6;
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-field-hint {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+}
+
+// Search-as-you-type user picker (admin ad-spaces owner field): a results
+// dropdown that renders directly under the search input, plus a small
+// "chip" showing the currently selected user with a Clear button.
+.owner-search-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #d1d5db;
+  border-radius: 0.5rem;
+  max-height: 220px;
+  overflow-y: auto;
+  background: white;
+
+  &[hidden] {
+    display: none;
+  }
+
+  li {
+    border-bottom: 1px solid #f3f4f6;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .owner-search-empty {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+
+  button {
+    width: 100%;
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border: none;
+    background: none;
+    font-size: 0.85rem;
+    cursor: pointer;
+
+    &:hover {
+      background: #f3f4f6;
+    }
+  }
+}
+
+.owner-search-selected {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  font-size: 0.85rem;
+  color: #15803d;
+
+  &[hidden] {
+    display: none;
+  }
+
+  button {
+    margin-left: auto;
+  }
+}
+
+// Side-by-side fields (e.g. county + district, expiry + CVV).
+.form-field-row {
+  display: flex;
+  gap: 1rem;
+
+  .form-field {
+    flex: 1;
+  }
+}

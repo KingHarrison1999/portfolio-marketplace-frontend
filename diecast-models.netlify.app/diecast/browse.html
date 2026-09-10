@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Browse — Diecast Models</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/browse.js" defer></script>
+  <script src="../js/newsletter.js" defer></script>
+  <script src="../js/site-banner.js" defer></script>
+</head>
+<body>
+  <div id="site-announcement-banner" class="site-announcement-banner" hidden></div>
+  <header class="global-nav">
+    <div class="global-nav-inner">
+      <a href="../index.html" class="global-nav-logo"><img src="../Images/collectors-market-logo.png" alt="The Collectors Market" /></a>
+      <a href="browse.html" class="global-nav-browse">Browse</a>
+      <div class="global-nav-actions">
+        <a href="../cart.html" class="global-nav-icon" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+        <a href="../login.html" class="global-nav-icon" aria-label="Account"><i class="fa-solid fa-user"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="browse-title">Browse All</h1>
+
+    <section class="shop-layout">
+      <button class="floating-filter-btn" id="floating-filter-btn" aria-label="Open filters">
+        <i class="fa-solid fa-filter"></i>
+      </button>
+
+      <div class="filter-overlay" id="filter-overlay">
+        <div class="filters">
+          <div class="filter-header">
+            <h3>Filters</h3>
+            <button class="filter-close" aria-label="Close filters">
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+
+          <fieldset class="brands" id="category-filter-list">
+            <legend>Category</legend>
+            <!-- Populated from GET /api/categories -- see js/browse.js.
+                 Checkboxes: the backend accepts multiple category_id
+                 params and filters by ANY of them (OR). -->
+          </fieldset>
+
+          <label>Max Price
+            <input type="range" class="price-slider" id="price-slider" min="0" max="500" step="5" value="500" />
+          </label>
+          <div class="price-display" id="price-display">Up to £500</div>
+
+          <fieldset class="brands" id="condition-filter-list">
+            <legend>Condition</legend>
+            <!-- The full real listings.condition enum (see the DB CHECK
+                 constraint), not just New/Used -- the old mock list was
+                 missing two of the four real values. -->
+            <label><input type="checkbox" value="new" /> New</label>
+            <label><input type="checkbox" value="like_new" /> Like New</label>
+            <label><input type="checkbox" value="used" /> Used</label>
+            <label><input type="checkbox" value="for_parts" /> For Parts</label>
+          </fieldset>
+
+          <div class="filter-actions">
+            <button type="button" class="btn-apply" id="btn-apply-filters">Apply Filters</button>
+            <button type="button" class="btn-reset" id="btn-reset-filters">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <section class="results">
+        <div class="toolbar">
+          <div class="sort">
+            <label for="sort1">Sort by</label>
+            <select id="sort1">
+              <option value="newest">Newly Listed</option>
+              <option value="price_asc">Price Low-High</option>
+              <option value="price_desc">Price High-Low</option>
+            </select>
+          </div>
+          <form class="search small" id="browse-search-form">
+            <input type="search" placeholder="Search within results…" id="browse-search-input" />
+            <button type="submit">Search</button>
+          </form>
+        </div>
+
+        <div class="product-grid uniform" id="listings-grid">
+          <p class="results-loading">Loading listings&hellip;</p>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="browse.html">Browse</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

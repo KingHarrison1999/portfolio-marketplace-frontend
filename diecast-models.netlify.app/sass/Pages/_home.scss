@@ -1,0 +1,39 @@
+// Home-page-only content. (The recently-viewed rail lives in Components/_carousel.scss —
+// it's reusable carousel infrastructure, not page-specific, even though it's only used here.)
+
+// Compound selector (.band.reputable-sellers, not bare .reputable-sellers) is
+// deliberate: in the markup this section carries both classes, and matching
+// the compound keeps this rule's specificity above Utils/_helpers.scss's
+// generic `.band` wrapper regardless of partial load order — otherwise the
+// two are equal-specificity and whichever loads last in main.scss wins.
+.band.reputable-sellers {
+  background: linear-gradient(120deg, #eef2ff, #fdf2f8);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin-top: 2rem;
+
+  .seller-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .seller-card {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: grid;
+    gap: 0.5rem;
+    align-items: start;
+    grid-template-columns: auto 1fr;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+
+    img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}

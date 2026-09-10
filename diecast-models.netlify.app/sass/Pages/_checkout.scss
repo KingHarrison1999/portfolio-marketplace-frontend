@@ -1,0 +1,43 @@
+.checkout-title {
+  text-align: center;
+  margin: 1.5rem 0 2rem;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 2rem;
+  align-items: start;
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Card wrapper reusing the form shell's visual language (border/radius/shadow)
+// without its full-viewport centering — this section sits inline in a normal
+// page layout. Fields inside still use the global .form-shell-fields /
+// .form-field / .form-field-row classes as-is, no overrides needed.
+.checkout-section {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 2rem;
+  margin-bottom: 2rem;
+
+  h2 {
+    margin: 0 0 1.5rem;
+    color: #0f172a;
+  }
+}
+
+#checkout-loading {
+  text-align: center;
+  color: #6b7280;
+  padding: 4rem 1rem;
+}

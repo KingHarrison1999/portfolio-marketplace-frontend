@@ -1,0 +1,50 @@
+// 7-1 manifest — design-1 (the only active design) — ITCSS-ish order:
+// settings/tools -> vendors -> generic/base -> layout -> components -> themes -> pages.
+
+@use 'Base/reset';
+@use 'Base/typography';
+
+@use 'Components/buttons';
+@use 'Components/carousel';
+@use 'Components/dropdown';
+@use 'Components/filter-overlay';
+@use 'Components/stat-card';
+@use 'Components/form-shell';
+@use 'Components/status-badge';
+@use 'Components/list-shell';
+@use 'Components/wishlist';
+@use 'Components/product-gallery';
+@use 'Components/purchase-panel';
+@use 'Components/order-summary';
+@use 'Components/cart-item';
+@use 'Components/address-card';
+@use 'Components/photo-upload';
+@use 'Components/toggle-list';
+@use 'Components/global-nav';
+@use 'Components/site-announcement';
+
+@use 'Layout/grid';
+@use 'Layout/header';
+@use 'Layout/navigation';
+@use 'Layout/footer';
+@use 'Layout/forms';
+@use 'Layout/dashboard';
+
+@use 'Pages/home';
+@use 'Pages/contact';
+@use 'Pages/terms';
+@use 'Pages/product-detail';
+@use 'Pages/checkout';
+@use 'Pages/cart';
+@use 'Pages/browse';
+@use 'Pages/order-confirmation';
+
+@use 'Themes/dark';
+@use 'Themes/light';
+
+@use 'Utils/variables';
+@use 'Utils/mixins';
+@use 'Utils/functions';
+@use 'Utils/helpers';
+
+// @use 'Vendors/bootstrap';

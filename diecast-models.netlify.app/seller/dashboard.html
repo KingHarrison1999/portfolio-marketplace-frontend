@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shop Manager — Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/seller-dashboard.js" defer></script>
+  <script src="../js/newsletter.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-shell">
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox" />
+    <aside class="dashboard-sidebar">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-store"></i>
+        <span>Shop Manager</span>
+      </a>
+      <ul class="dashboard-nav">
+        <li><a href="dashboard.html" class="active"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a></li>
+        <li><a href="listings.html"><i class="fa-solid fa-boxes-stacked"></i><span>Listings</span></a></li>
+        <li><a href="../account/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
+      </ul>
+    </aside>
+    <label for="sidebar-toggle" class="sidebar-toggle-backdrop"></label>
+    <main class="dashboard-main">
+      <label for="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></label>
+      <h1>Dashboard</h1>
+
+      <div id="dashboard-signin-required" class="cart-empty-state" hidden>
+        <p>Log in as a seller to view your dashboard.</p>
+      </div>
+
+      <div id="dashboard-forbidden" class="cart-empty-state" hidden>
+        <p>This area is for sellers only.</p>
+      </div>
+
+      <div id="dashboard-content" hidden>
+        <section class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Active Listings</div>
+            <div class="stat-value" id="stat-active-listings">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Items Sold</div>
+            <div class="stat-value" id="stat-sold">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Stock</div>
+            <div class="stat-value" id="stat-total-stock">—</div>
+          </div>
+        </section>
+
+        <h2>Recent Orders</h2>
+        <p id="recent-orders-empty" class="address-empty-note" hidden>No orders yet.</p>
+        <div class="list-table-wrap" id="recent-orders-table-wrap" hidden>
+          <table class="list-table">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="recent-orders-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../diecast/browse.html">Browse</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

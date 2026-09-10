@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Account — Orders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/account-orders.js" defer></script>
+  <script src="../js/newsletter.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-shell">
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox" />
+    <aside class="dashboard-sidebar">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-user"></i>
+        <span>My Account</span>
+      </a>
+      <ul class="dashboard-nav">
+        <li><a href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a></li>
+        <li><a href="orders.html" class="active"><i class="fa-solid fa-receipt"></i><span>Orders</span></a></li>
+        <li><a href="settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
+      </ul>
+    </aside>
+    <label for="sidebar-toggle" class="sidebar-toggle-backdrop"></label>
+    <main class="dashboard-main">
+      <label for="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></label>
+      <h1>Orders</h1>
+
+      <p id="orders-signin-message" class="form-message" role="status" hidden>Log in to view your orders.</p>
+
+      <p id="orders-empty" class="address-empty-note" hidden>You haven't placed any orders yet.</p>
+
+      <div class="list-table-wrap" id="orders-table-wrap" hidden>
+        <table class="list-table">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Date</th>
+              <th>Items</th>
+              <th>Status</th>
+              <th>Total</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../diecast/browse.html">Browse</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

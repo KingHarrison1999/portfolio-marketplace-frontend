@@ -1,0 +1,8 @@
+{
+  "liveSassCompile.settings.excludeList": [
+    "/.vscode/**",
+    "/node_modules/**",
+    "/archive/**",
+    "/SASS Folder Template/**"
+  ]
+}

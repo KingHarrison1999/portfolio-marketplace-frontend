@@ -1,0 +1,954 @@
+// Every .theme-dark rule that used to live scattered across each component,
+// consolidated here. All were originally scoped `body.design-1.theme-dark` /
+// `.design-1.theme-dark` — the .design-1 prefix is dropped throughout since
+// design-1 is now the only design. `.theme-dark` is applied on <body>.
+@use '../Utils/variables' as vars;
+
+body.theme-dark {
+  background: #0b0e14;
+  color: #e5e7eb;
+}
+
+.theme-dark {
+  // --- Header / hero ---
+  .site-header {
+    background: #0f131b;
+    border-color: #1f2937;
+
+    .brand-row .hamburger {
+      background: var(--dark-elev);
+      color: var(--dark-ink);
+      border-color: var(--dark-line);
+
+      span {
+        background: var(--dark-ink);
+      }
+    }
+
+    .brand-row .actions {
+      .header-link,
+      .header-icon-link {
+        color: var(--dark-muted);
+
+        &:hover {
+          color: #3b82f6;
+        }
+      }
+    }
+  }
+
+  // Wins over the later, more specific .hero .hero-content rule below only where
+  // they don't overlap — this is the higher-specificity rule (body.theme-dark .hero
+  // in the original), so it's the one that actually renders for .hero's background.
+  .hero {
+    background: linear-gradient(135deg, #121826, #0f131b);
+
+    .hero-content {
+      background: rgba(16, 21, 35, 0.92);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+
+      p {
+        color: var(--dark-muted);
+      }
+    }
+
+    .hero-ads .ad {
+      background: rgba(18, 24, 38, 0.8);
+      border-color: #1f2937;
+      color: #9aa3b2;
+    }
+  }
+
+  .mode-toggle {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  // --- Seller dashboard shell ---
+  .dashboard-shell {
+    background: var(--dark-bg);
+  }
+
+  .sidebar-toggle-btn {
+    background: var(--dark-elev);
+    border-color: var(--dark-line);
+    color: var(--dark-ink);
+  }
+
+  .dashboard-sidebar {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+  }
+
+  .dashboard-nav a {
+    color: var(--dark-muted);
+
+    &:hover {
+      background: var(--dark-elev);
+      color: var(--dark-ink);
+    }
+
+    &.active {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+    }
+  }
+
+  .stat-card {
+    background: var(--dark-elev);
+    border-color: var(--dark-line);
+    box-shadow: var(--dark-shadow);
+
+    .stat-label {
+      color: var(--dark-muted);
+    }
+
+    .stat-value {
+      color: var(--dark-ink);
+    }
+  }
+
+  .dashboard-placeholder {
+    border-color: var(--dark-line);
+    color: var(--dark-muted);
+  }
+
+  // --- Form shell ---
+  .form-shell {
+    background: var(--dark-bg);
+  }
+
+  .form-shell-card {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+    box-shadow: var(--dark-shadow);
+  }
+
+  .form-shell-header {
+    h1 {
+      color: var(--dark-ink);
+    }
+
+    p {
+      color: var(--dark-muted);
+    }
+  }
+
+  .form-field {
+    label {
+      color: var(--dark-ink);
+    }
+
+    input,
+    select,
+    textarea {
+      background: var(--dark-elev);
+      border-color: var(--dark-line);
+      color: var(--dark-ink);
+
+      &:focus {
+        border-color: #3b82f6;
+      }
+
+      &:disabled {
+        background: var(--dark-elev);
+        color: var(--dark-muted);
+      }
+    }
+
+    .form-field-hint {
+      color: var(--dark-muted);
+    }
+  }
+
+  .form-shell-banner {
+    background: var(--dark-elev);
+    color: var(--dark-ink);
+  }
+
+  .form-message-error {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
+  }
+
+  .form-message-success {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.4);
+    color: #4ade80;
+  }
+
+  .form-divider {
+    color: var(--dark-muted);
+
+    &::before,
+    &::after {
+      background: var(--dark-line);
+    }
+  }
+
+  .btn-secondary {
+    background: var(--dark-elev);
+    color: var(--dark-ink);
+    border-color: var(--dark-line);
+
+    &:hover {
+      background: var(--dark-panel);
+      border-color: #374151;
+    }
+  }
+
+  // --- List shell ---
+  .list-tabs {
+    border-bottom-color: var(--dark-line);
+  }
+
+  .list-tab {
+    color: var(--dark-muted);
+
+    &:hover {
+      color: var(--dark-ink);
+    }
+
+    &.active {
+      color: #3b82f6;
+    }
+  }
+
+  .list-table-wrap {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+  }
+
+  .list-table {
+    th {
+      color: var(--dark-muted);
+      border-bottom-color: var(--dark-line);
+    }
+
+    tbody tr {
+      border-bottom-color: var(--dark-line);
+
+      &:hover {
+        background: var(--dark-elev);
+      }
+    }
+  }
+
+  .list-table-title {
+    color: var(--dark-ink);
+  }
+
+  .list-table-thumb {
+    background: var(--dark-line);
+  }
+
+  // --- Status badges ---
+  .status-badge-active {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+  }
+
+  .status-badge-draft {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+  }
+
+  .status-badge-archived {
+    background: rgba(148, 163, 184, 0.2);
+    color: #9aa3b2;
+  }
+
+  .status-badge-pending {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+  }
+
+  .status-badge-shipped {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+  }
+
+  .status-badge-delivered {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+  }
+
+  .status-badge-cancelled {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+  }
+
+  // --- Wishlist ---
+  .wishlist-item {
+    background: var(--dark-elev);
+    border-color: var(--dark-line);
+
+    .wishlist-item-thumb {
+      background: var(--dark-line);
+    }
+
+    h3 {
+      color: var(--dark-ink);
+    }
+
+    .wishlist-item-price {
+      color: var(--dark-muted);
+    }
+
+    .wishlist-item-remove {
+      color: var(--dark-muted);
+
+      &:hover {
+        color: #f87171;
+      }
+    }
+  }
+
+  // --- Product gallery ---
+  .product-gallery {
+    .product-gallery-thumb {
+      background: var(--dark-elev);
+      border-color: var(--dark-line);
+
+      &:hover {
+        border-color: #374151;
+      }
+
+      &.active {
+        border-color: #3b82f6;
+      }
+    }
+
+    .product-gallery-main {
+      background: var(--dark-elev);
+      border-color: var(--dark-line);
+
+      .product-image-placeholder {
+        background: var(--dark-elev);
+        color: var(--dark-muted);
+      }
+    }
+  }
+
+  #listing-loading,
+  .detail-not-found p {
+    color: var(--dark-muted);
+  }
+
+  .rail-scroll .carousel-cards .product-card .product-image-placeholder {
+    background: var(--dark-elev);
+    color: var(--dark-muted);
+  }
+
+  // --- Purchase panel ---
+  .purchase-panel {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+    box-shadow: var(--dark-shadow);
+
+    h1 {
+      color: var(--dark-ink);
+    }
+  }
+
+  .purchase-panel-seller {
+    border-bottom-color: var(--dark-line);
+
+    .purchase-panel-seller-avatar {
+      background: var(--dark-line);
+    }
+
+    .purchase-panel-seller-name {
+      color: var(--dark-ink);
+    }
+
+    .purchase-panel-seller-meta {
+      color: var(--dark-muted);
+    }
+  }
+
+  .purchase-panel-price {
+    color: var(--dark-ink);
+  }
+
+  .purchase-panel-meta {
+    color: var(--dark-muted);
+  }
+
+  .purchase-panel-quantity {
+    label {
+      color: var(--dark-ink);
+    }
+
+    input {
+      background: var(--dark-elev);
+      border-color: var(--dark-line);
+      color: var(--dark-ink);
+
+      &:focus {
+        border-color: #3b82f6;
+      }
+    }
+  }
+
+  .purchase-panel-shipping {
+    border-top-color: var(--dark-line);
+    color: var(--dark-muted);
+
+    strong {
+      color: var(--dark-ink);
+    }
+  }
+
+  // --- Product description ---
+  .product-description p {
+    color: var(--dark-muted);
+  }
+
+  // --- Order summary ---
+  .order-summary {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+    box-shadow: var(--dark-shadow);
+
+    h2 {
+      color: var(--dark-ink);
+    }
+  }
+
+  .order-summary-items {
+    border-bottom-color: var(--dark-line);
+  }
+
+  .order-summary-item {
+    .order-summary-item-name {
+      color: var(--dark-ink);
+    }
+
+    .order-summary-item-qty {
+      color: var(--dark-muted);
+    }
+
+    .order-summary-item-price {
+      color: var(--dark-muted);
+    }
+  }
+
+  .order-summary-row {
+    color: var(--dark-muted);
+
+    &.order-summary-total {
+      border-top-color: var(--dark-line);
+      color: var(--dark-ink);
+    }
+  }
+
+  // --- Checkout ---
+  .checkout-section {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+    box-shadow: var(--dark-shadow);
+
+    h2 {
+      color: var(--dark-ink);
+    }
+  }
+
+  #checkout-loading {
+    color: var(--dark-muted);
+  }
+
+  .checkout-payment-notice {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #93c5fd;
+  }
+
+  // --- Addresses (checkout picker + account settings address book) ---
+  .address-card,
+  .address-card-static {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+
+    &:hover {
+      border-color: #374151;
+    }
+  }
+
+  .address-card:has(input:checked) {
+    border-color: #3b82f6;
+  }
+
+  .address-card-lines {
+    color: var(--dark-ink);
+  }
+
+  .address-empty-note {
+    color: var(--dark-muted);
+  }
+
+  // --- Cart ---
+  .cart-item {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+  }
+
+  .cart-item-seller {
+    border-bottom-color: var(--dark-line);
+
+    .cart-item-seller-avatar {
+      background: var(--dark-line);
+    }
+
+    .cart-item-seller-name {
+      color: var(--dark-ink);
+    }
+
+    .cart-item-seller-meta {
+      color: var(--dark-muted);
+    }
+  }
+
+  .cart-item-thumb {
+    background: var(--dark-line);
+  }
+
+  .cart-item-title,
+  .cart-item-price {
+    color: var(--dark-ink);
+  }
+
+  .cart-item-qty {
+    border-color: var(--dark-line);
+
+    .cart-item-qty-btn {
+      background: var(--dark-elev);
+      color: var(--dark-ink);
+
+      &:hover {
+        background: var(--dark-line);
+      }
+    }
+
+    .cart-item-qty-value {
+      color: var(--dark-ink);
+    }
+  }
+
+  .cart-item-action {
+    color: var(--dark-muted);
+
+    &:hover {
+      color: #3b82f6;
+    }
+  }
+
+  .cart-item-thumb.product-image-placeholder {
+    background: var(--dark-elev);
+    color: var(--dark-muted);
+  }
+
+  #cart-loading,
+  .cart-empty-state p {
+    color: var(--dark-muted);
+  }
+
+  .cart-unavailable-notice {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
+  }
+
+  .cart-item-error {
+    color: #f87171;
+  }
+
+  // --- Form section (wide card, e.g. create/edit listing) ---
+  .form-section {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+    box-shadow: var(--dark-shadow);
+
+    h2 {
+      color: var(--dark-ink);
+    }
+
+    > p {
+      color: var(--dark-muted);
+    }
+  }
+
+  // --- Photo upload ---
+  .photo-upload-add {
+    background: var(--dark-elev);
+    border-color: #3b82f6;
+    color: #60a5fa;
+
+    &:hover {
+      background: var(--dark-line);
+    }
+  }
+
+  .photo-upload-slot {
+    background: var(--dark-elev);
+    border-color: var(--dark-line);
+    color: var(--dark-muted);
+  }
+
+  // --- Danger zone (e.g. delete account) ---
+  .form-section-danger {
+    background: rgba(220, 38, 38, 0.08);
+    border-color: rgba(220, 38, 38, 0.4);
+
+    h2 {
+      color: #f87171;
+    }
+
+    > p {
+      color: #fca5a5;
+    }
+  }
+
+  // --- Toggle list (e.g. notification preferences) ---
+  .toggle-row {
+    label {
+      color: var(--dark-ink);
+    }
+
+    p {
+      color: var(--dark-muted);
+    }
+  }
+
+  // --- Global nav ---
+  .global-nav {
+    background: var(--dark-panel);
+    border-bottom-color: var(--dark-line);
+  }
+
+  .global-nav-logo {
+    color: var(--dark-ink);
+  }
+
+  .global-nav-browse,
+  .global-nav-icon {
+    color: var(--dark-muted);
+
+    &:hover {
+      color: #3b82f6;
+    }
+  }
+
+  // --- Order confirmation ---
+  .order-confirmation-message {
+    h1 {
+      color: var(--dark-ink);
+    }
+
+    p {
+      color: var(--dark-muted);
+    }
+
+    .order-confirmation-number {
+      color: var(--dark-ink);
+    }
+  }
+
+  .order-confirmation-delivery,
+  .order-confirmation-address {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+
+    h2 {
+      color: var(--dark-ink);
+    }
+
+    p,
+    address {
+      color: var(--dark-muted);
+    }
+  }
+
+  #confirmation-loading {
+    color: var(--dark-muted);
+  }
+
+  #confirmation-orders .order-confirmation-id {
+    color: var(--dark-muted);
+  }
+
+  // --- Terms page ---
+  .legal-content section {
+    h2 {
+      color: var(--dark-ink);
+    }
+
+    p {
+      color: var(--dark-muted);
+    }
+  }
+
+  .placeholder-notice {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+
+  // --- Shared surfaces (product cards, filters panel, dropdown, toolbar, etc.) ---
+  .product,
+  .filters,
+  .dropdown,
+  .results .toolbar,
+  .newsletter input,
+  .cat,
+  .band {
+    background: #121826;
+    border-color: #1f2937;
+  }
+
+  .product {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+
+    &:hover {
+      border-color: #3b82f6;
+    }
+  }
+
+  .cat:hover {
+    border-color: #3b82f6;
+  }
+
+  // Higher-specificity override — browse-by-category cards stay light in dark mode.
+  .browse-by-category .cat {
+    background: #ffffff;
+    border-color: #d1d5db;
+    color: #0f172a;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+  }
+
+  .toolbar select,
+  .toolbar input {
+    background: #111827;
+    color: #e5e7eb;
+    border-color: #374151;
+  }
+
+  // --- Recently viewed / top sellers ---
+  .recently-viewed .product-card {
+    background: #fff;
+    color: #0f172a;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4);
+  }
+
+  .top-sellers .slide {
+    background: rgba(255, 255, 255, 0.9);
+
+    .slide-text {
+      color: #0b1324;
+    }
+  }
+
+  // --- Recently added product carousel ---
+  .recently-added.product-carousel .carousel-track .product {
+    background: #121826;
+    border-color: #1f2937;
+
+    h3 {
+      color: #e5e7eb;
+    }
+
+    .meta {
+      color: #9aa3b2;
+    }
+  }
+
+  .recently-added.product-carousel .carousel-btn {
+    background: #1f2937;
+    color: #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  // --- Shop results product grid ---
+  // Needs its own high-specificity override: the light-mode selector here
+  // (.shop-layout .results .product-grid.uniform .product) outranks the
+  // generic .product dark rule above, so without this the card silently
+  // stays light-mode styled regardless of theme.
+  .shop-layout .results .product-grid.uniform .product {
+    background: #121826;
+    border-color: #1f2937;
+
+    h3 {
+      color: #e5e7eb;
+    }
+
+    .meta {
+      color: #9aa3b2;
+    }
+
+    .product-image-placeholder {
+      background: #1f2937;
+      color: #6b7280;
+    }
+
+    .product-actions .btn-outline {
+      background: transparent;
+      color: #60a5fa;
+      border-color: #60a5fa;
+
+      &:hover {
+        background: rgba(59, 130, 246, 0.15);
+      }
+    }
+
+    .product-message {
+      color: #f87171;
+
+      &.is-success {
+        color: #4ade80;
+      }
+    }
+  }
+
+  .results-empty,
+  .results-loading,
+  .filter-empty-note {
+    color: var(--dark-muted);
+  }
+
+  // --- Buttons ---
+  .floating-filter-btn {
+    background: #3b82f6;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+
+    i {
+      color: white;
+    }
+
+    &:hover {
+      background: vars.$color-accent-hover;
+      box-shadow: 0 15px 35px rgba(59, 130, 246, 0.5);
+    }
+  }
+
+  // --- Filter overlay ---
+  .filter-overlay .filters {
+    background: #0f131b;
+    border-color: #1f2937;
+
+    .filter-header {
+      border-bottom-color: #1f2937;
+
+      h3 {
+        color: #e5e7eb;
+      }
+
+      .filter-close {
+        color: #e5e7eb;
+
+        &:hover {
+          background: #1f2937;
+        }
+      }
+    }
+
+    > label {
+      color: #e5e7eb;
+    }
+
+    .price-display {
+      color: #e5e7eb;
+    }
+
+    .brands {
+      legend {
+        color: #e5e7eb;
+      }
+
+      label {
+        color: #e5e7eb;
+
+        &:hover {
+          background: #1f2937;
+          border-color: #374151;
+        }
+      }
+    }
+
+    .filter-actions {
+      border-top-color: #1f2937;
+
+      .btn-reset {
+        background: transparent;
+        color: #e5e7eb;
+        border-color: #374151;
+
+        &:hover {
+          background: #1f2937;
+          border-color: #3b82f6;
+        }
+      }
+    }
+  }
+
+  // --- Footer ---
+  .site-footer {
+    background: linear-gradient(135deg, #0f131b, #121826);
+    border-top-color: #3b82f6;
+
+    .footer-section h4 {
+      color: #e5e7eb;
+    }
+
+    .footer-section p,
+    .footer-section ul li a {
+      color: #9aa3b2;
+    }
+
+    .newsletter input {
+      background: #1f2937;
+      border-color: #374151;
+      color: #e5e7eb;
+    }
+
+    .social a {
+      background: #1f2937;
+      border-color: #374151;
+      color: #e5e7eb;
+    }
+
+    .legal {
+      border-top-color: #1f2937;
+      color: #9aa3b2;
+    }
+  }
+}
+
+// Mobile offcanvas drawer — originally scoped `.site-header.theme-dark` rather
+// than the `body.design-1.theme-dark` pattern used everywhere else; kept as-is.
+.site-header.theme-dark .offcanvas .panel {
+  background: #0f131b;
+  border-right-color: #1f2937;
+
+  .close {
+    background: #1f2937;
+    color: #e5e7eb;
+
+    &:hover {
+      background: #1f2937;
+    }
+  }
+
+  .mobile-nav ul li a {
+    color: #e5e7eb;
+
+    &:hover {
+      background: #1f2937;
+      color: #3b82f6;
+    }
+  }
+
+  .mobile-actions {
+    border-top-color: #1f2937;
+  }
+}

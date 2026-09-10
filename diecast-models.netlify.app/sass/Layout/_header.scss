@@ -1,0 +1,293 @@
+.site-header {
+  position: relative;
+  top: 0;
+  z-index: 30;
+  background: white;
+  border-bottom: 1px solid #d1d5db;
+  overflow: visible;
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: visible;
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: inherit;
+      font-weight: 800;
+      text-decoration: none;
+
+      img {
+        height: 32px;
+        width: auto;
+        display: block;
+      }
+    }
+
+    .hamburger {
+      display: none;
+      background: white;
+      color: #374151;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      padding: 0.4rem 0.55rem;
+      flex-direction: column;
+      gap: 4px;
+      justify-content: center;
+      align-items: center;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: #374151;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+
+      &[aria-expanded="true"] {
+        span:nth-child(1) {
+          transform: rotate(45deg) translate(5px, 5px);
+        }
+        span:nth-child(2) {
+          opacity: 0;
+        }
+        span:nth-child(3) {
+          transform: rotate(-45deg) translate(7px, -6px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        display: flex;
+      }
+    }
+
+    .actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .header-link {
+        color: #374151;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        white-space: nowrap;
+
+        &:hover {
+          color: #3b82f6;
+        }
+      }
+
+      .header-icon-link {
+        display: inline-flex;
+        color: #374151;
+        font-size: 1.1rem;
+        text-decoration: none;
+
+        &:hover {
+          color: #3b82f6;
+        }
+      }
+
+      .mode-toggle {
+        border: 1px solid #d1d5db;
+        border-radius: 999px;
+        padding: 0.4rem 0.6rem;
+        background: white;
+        cursor: pointer;
+        position: relative;
+        width: 60px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: all 0.3s ease;
+
+        .sun,
+        .moon {
+          font-size: 1.1rem;
+          transition: opacity 0.3s ease, transform 0.3s ease;
+          position: absolute;
+        }
+
+        .sun {
+          left: 6px;
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        .moon {
+          right: 6px;
+          opacity: 0;
+          transform: scale(0.8);
+        }
+
+        &.dark-mode {
+          background: #1f2937;
+
+          .sun {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+
+          .moon {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        &:hover {
+          border-color: #3b82f6;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  // Hero — nested here since .hero only ever appears inside .site-header in the markup.
+  // Merged: this base definition (declared later, so it wins on overlapping properties)
+  // plus the former page-specific override's unique padding value.
+  .hero {
+    background: linear-gradient(135deg, #eef2ff, #f9fafb);
+    padding: 3rem 1rem;
+    position: relative;
+    z-index: 0;
+
+    @media (max-width: 768px) {
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 1.25rem;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.15);
+      backdrop-filter: blur(8px);
+
+      h1 {
+        font-size: clamp(1.8rem, 3vw, 3rem);
+        margin: 0 0 0.5rem;
+      }
+
+      p {
+        margin: 0 0 1.25rem;
+        color: #6b7280;
+      }
+
+      .search.large {
+        display: inline-flex;
+        gap: 0.5rem;
+        width: min(780px, 95%);
+        background: white;
+        padding: 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 999px;
+        box-sizing: border-box;
+
+        input {
+          flex: 1;
+          min-width: 0;
+          border: 0;
+          padding: 0.75rem 1rem;
+          font-size: 1rem;
+          background: transparent;
+          box-sizing: border-box;
+        }
+
+        button {
+          background: #3b82f6;
+          color: white;
+          border: 0;
+          padding: 0.75rem 1.25rem;
+          border-radius: 999px;
+          font-weight: 700;
+          flex-shrink: 0;
+          white-space: nowrap;
+          box-sizing: border-box;
+        }
+
+        @media (max-width: 480px) {
+          width: min(780px, 92%);
+          padding: 0.4rem;
+          gap: 0.4rem;
+
+          input {
+            padding: 0.65rem 0.75rem;
+            font-size: 0.95rem;
+          }
+
+          button {
+            padding: 0.65rem 1rem;
+            font-size: 0.9rem;
+            min-width: fit-content;
+          }
+        }
+
+        @media (max-width: 375px) {
+          width: min(780px, 90%);
+          padding: 0.35rem;
+          gap: 0.35rem;
+
+          input {
+            padding: 0.6rem 0.65rem;
+            font-size: 0.9rem;
+          }
+
+          button {
+            padding: 0.6rem 0.85rem;
+            font-size: 0.85rem;
+          }
+        }
+      }
+
+      .hero-ads {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        &[hidden] {
+          display: none;
+        }
+
+        .ad {
+          font-size: 0.9rem;
+          background: white;
+          border: 1px dashed #d1d5db;
+          padding: 0.5rem 0.75rem;
+          border-radius: 0.5rem;
+          color: #6b7280;
+          display: inline-flex;
+
+          img {
+            max-height: 60px;
+            max-width: 220px;
+            width: auto;
+            height: auto;
+            border-radius: 0.35rem;
+          }
+        }
+      }
+    }
+  }
+}

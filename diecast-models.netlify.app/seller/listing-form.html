@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shop Manager — Add a New Listing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/seller-listing-form.js" defer></script>
+  <script src="../js/newsletter.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-shell">
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox" />
+    <aside class="dashboard-sidebar">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-store"></i>
+        <span>Shop Manager</span>
+      </a>
+      <ul class="dashboard-nav">
+        <li><a href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a></li>
+        <li><a href="listings.html" class="active"><i class="fa-solid fa-boxes-stacked"></i><span>Listings</span></a></li>
+        <li><a href="../account/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
+      </ul>
+    </aside>
+    <label for="sidebar-toggle" class="sidebar-toggle-backdrop"></label>
+    <main class="dashboard-main">
+      <label for="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></label>
+      <h1 id="form-heading">Add a new listing</h1>
+
+      <div id="form-signin-required" class="cart-empty-state" hidden>
+        <p>Log in as a seller to manage listings.</p>
+      </div>
+
+      <div id="form-forbidden" class="cart-empty-state" hidden>
+        <p>This area is for sellers only.</p>
+      </div>
+
+      <div id="form-not-found" class="cart-empty-state" hidden>
+        <p>That listing doesn't exist, or isn't yours.</p>
+        <a href="listings.html" class="btn-primary">Back to Listings</a>
+      </div>
+
+      <div id="listing-form-content" hidden>
+        <section class="form-section">
+          <h2>Photos</h2>
+          <p>Add as many as you can so buyers can see every detail (up to 10 at a time, 5MB each).</p>
+
+          <div class="photo-upload-grid" id="photo-upload-grid">
+            <button type="button" class="photo-upload-add" id="photo-upload-add-btn">
+              <i class="fa-solid fa-camera"></i>
+              <span>Add Photos</span>
+            </button>
+          </div>
+          <input type="file" id="photo-file-input" accept="image/*" multiple hidden />
+          <div id="photo-upload-message" class="form-message" role="status"></div>
+        </section>
+
+        <section class="form-section">
+          <h2>Listing Details</h2>
+          <form class="form-shell-fields" id="listing-form">
+            <div class="form-field">
+              <label for="title">Title</label>
+              <input type="text" id="title" placeholder="e.g. 1/18 Ferrari F40 Diecast Model" />
+            </div>
+
+            <div class="form-field-row">
+              <div class="form-field">
+                <label for="category">Category</label>
+                <select id="category">
+                  <option value="">No category</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="condition">Condition</label>
+                <select id="condition">
+                  <option value="">Not specified</option>
+                  <option value="new">New</option>
+                  <option value="like_new">Like New</option>
+                  <option value="used">Used</option>
+                  <option value="for_parts">For Parts</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-field-row">
+              <div class="form-field">
+                <label for="price">Price (£)</label>
+                <input type="text" id="price" placeholder="0.00" inputmode="decimal" />
+              </div>
+              <div class="form-field">
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" value="1" step="1" />
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="description">Description</label>
+              <textarea id="description" placeholder="Describe the item's condition, scale, packaging, and any other details buyers should know."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" id="listing-form-submit-btn">Publish Listing</button>
+            <div id="listing-form-message" class="form-message" role="status"></div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../diecast/browse.html">Browse</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

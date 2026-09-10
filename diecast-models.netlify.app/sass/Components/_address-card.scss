@@ -1,0 +1,96 @@
+// Real saved-address cards, shared between the checkout address picker
+// (radio, read-only) and the account settings address book (list with
+// Edit/Delete actions).
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.address-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: #9ca3af;
+  }
+
+  &:has(input:checked) {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px #3b82f6;
+  }
+
+  input[type='radio'] {
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+}
+
+.address-card-lines {
+  color: #0f172a;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.address-card-default-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.address-empty-note {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+// Non-interactive card variant for the account settings address book (has
+// Edit/Delete actions instead of a radio button).
+.address-card-static {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+
+.address-card-actions {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.checkout-payment-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e3a8a;
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+
+  i {
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+}

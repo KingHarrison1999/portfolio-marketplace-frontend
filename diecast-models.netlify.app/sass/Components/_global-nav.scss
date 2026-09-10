@@ -1,0 +1,61 @@
+// Minimal site-wide nav bar for pages that aren't the homepage and aren't a
+// dashboard shell (those keep their own sidebar nav) — logo, browse link,
+// cart, and account entry points, so every standalone page can get back into
+// the main site.
+.global-nav {
+  background: white;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.global-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.global-nav-logo {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #0f172a;
+  text-decoration: none;
+
+  img {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
+}
+
+.global-nav-browse {
+  color: #374151;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+
+  &:hover {
+    color: #3b82f6;
+  }
+}
+
+.global-nav-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.global-nav-icon {
+  display: inline-flex;
+  color: #374151;
+  font-size: 1.1rem;
+  text-decoration: none;
+
+  &:hover {
+    color: #3b82f6;
+  }
+}

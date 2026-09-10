@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/addresses.js" defer></script>
+  <script src="js/checkout.js" defer></script>
+  <script src="js/newsletter.js" defer></script>
+  <script src="js/site-banner.js" defer></script>
+</head>
+<body>
+  <div id="site-announcement-banner" class="site-announcement-banner" hidden></div>
+  <header class="global-nav">
+    <div class="global-nav-inner">
+      <a href="index.html" class="global-nav-logo"><img src="Images/collectors-market-logo.png" alt="The Collectors Market" /></a>
+      <a href="diecast/browse.html" class="global-nav-browse">Browse</a>
+      <div class="global-nav-actions">
+        <a href="cart.html" class="global-nav-icon" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+        <a href="login.html" class="global-nav-icon" aria-label="Account"><i class="fa-solid fa-user"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="checkout-title">Secure Checkout</h1>
+
+    <p id="checkout-loading">Loading&hellip;</p>
+
+    <div id="checkout-signin-required" class="cart-empty-state" hidden>
+      <p>Please log in to check out.</p>
+      <a href="login.html" class="btn-primary">Log In</a>
+    </div>
+
+    <div id="checkout-empty" class="cart-empty-state" hidden>
+      <p>Your cart is empty.</p>
+      <a href="diecast/browse.html" class="btn-primary">Start Browsing</a>
+    </div>
+
+    <div class="checkout-layout" id="checkout-layout" hidden>
+      <div>
+        <section class="checkout-section">
+          <h2>Shipping address</h2>
+          <div id="checkout-address-list" class="address-list"></div>
+
+          <button type="button" class="btn-secondary" id="checkout-add-address-btn">+ Add a new address</button>
+
+          <form class="form-shell-fields" id="checkout-address-form" hidden>
+            <div class="form-field">
+              <label for="checkout-address-line1">Address line 1</label>
+              <input type="text" id="checkout-address-line1" required />
+            </div>
+            <div class="form-field">
+              <label for="checkout-address-line2">Address line 2 <span class="form-field-optional">(optional)</span></label>
+              <input type="text" id="checkout-address-line2" />
+            </div>
+            <div class="form-field-row">
+              <div class="form-field">
+                <label for="checkout-address-city">City</label>
+                <input type="text" id="checkout-address-city" required />
+              </div>
+              <div class="form-field">
+                <label for="checkout-address-postcode">Postcode</label>
+                <input type="text" id="checkout-address-postcode" required />
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="checkout-address-country">Country</label>
+              <select id="checkout-address-country">
+                <option>United Kingdom</option>
+                <option>United States</option>
+                <option>Canada</option>
+                <option>Australia</option>
+              </select>
+            </div>
+            <div class="form-field-row">
+              <button type="submit" class="btn-primary">Save Address</button>
+              <button type="button" class="btn-secondary" id="checkout-cancel-address-btn">Cancel</button>
+            </div>
+          </form>
+
+          <div id="checkout-address-message" class="form-message" role="status"></div>
+        </section>
+
+        <section class="checkout-section">
+          <h2>Payment</h2>
+          <p class="checkout-payment-notice">
+            <i class="fa-solid fa-circle-info"></i>
+            Payment isn't connected yet. Placing your order below reserves it as
+            <strong>Pending Payment</strong> — no card details are collected and you will not be
+            charged now. You'll be notified separately once payment is available.
+          </p>
+        </section>
+      </div>
+
+      <aside class="order-summary">
+        <h2>Order Summary</h2>
+        <div class="order-summary-items" id="checkout-summary-items"></div>
+        <div class="order-summary-rows" id="checkout-summary-rows"></div>
+        <button type="button" class="btn-primary" style="width: 100%;" id="checkout-place-order-btn">Place Order</button>
+        <div id="checkout-form-message" class="form-message" role="status"></div>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="diecast/browse.html">Browse</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

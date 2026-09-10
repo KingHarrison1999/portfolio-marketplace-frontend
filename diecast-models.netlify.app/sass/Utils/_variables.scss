@@ -1,0 +1,25 @@
+// Design tokens for the diecast-models design-1 theme.
+
+:root {
+  color-scheme: light dark;
+
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --radius: 0.5rem;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  // Dark theme tokens — consumed by Themes/_dark.scss
+  --dark-bg: #0b0e14;
+  --dark-panel: #0f131b;
+  --dark-elev: #121826;
+  --dark-line: #1f2937;
+  --dark-ink: #e5e7eb;
+  --dark-muted: #9aa3b2;
+  --dark-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+// Named replacements for decimal-RGB darken() output found in the compiled main.css
+// (e.g. rgb(19.9912195122, 105.1219512195, 244.2087804878)) — both are darkened
+// variants of the #3b82f6 accent blue, used as :hover states on primary buttons.
+$color-accent-hover: rgb(19.9912195122, 105.1219512195, 244.2087804878);
+$color-accent-hover-alt: rgb(11.1512195122, 99.1219512195, 242.8487804878);

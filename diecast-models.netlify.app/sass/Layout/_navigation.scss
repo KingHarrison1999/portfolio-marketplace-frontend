@@ -1,0 +1,74 @@
+.site-header .main-nav {
+  border-top: 1px solid #d1d5db;
+  position: relative;
+  z-index: 50;
+  overflow-x: visible;
+  overflow-y: visible;
+
+  .menu {
+    display: flex;
+    gap: 0.25rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.4rem 1rem;
+    list-style: none;
+    overflow-x: visible;
+    overflow-y: visible;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0 0.25rem;
+    white-space: nowrap;
+    display: block;
+  }
+
+  @media (min-width: 640px) {
+    .menu {
+      gap: 0.5rem;
+    }
+    a {
+      font-size: 0.875rem;
+      padding: 0 0.5rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    display: block;
+    overflow-x: visible;
+    overflow-y: visible;
+
+    .menu {
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  @media (max-width: 430px) {
+    overflow-x: visible;
+    overflow-y: visible;
+
+    .menu {
+      gap: 0.25rem;
+      padding: 0.4rem 0.5rem;
+      white-space: nowrap;
+
+      a {
+        font-size: 0.75rem;
+        padding: 0 0.25rem;
+        white-space: nowrap;
+      }
+    }
+  }
+}

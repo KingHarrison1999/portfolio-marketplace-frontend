@@ -1,0 +1,70 @@
+// Reusable order-summary card: line items + subtotal/shipping/tax/total rows
+// + a primary action button. Built for checkout; a future cart page can reuse
+// this same component rather than a new one being built for it.
+.order-summary {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+  align-self: start;
+
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    color: #0f172a;
+  }
+}
+
+.order-summary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.order-summary-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+
+  .order-summary-item-name {
+    color: #0f172a;
+  }
+
+  .order-summary-item-qty {
+    color: #9ca3af;
+    font-weight: 400;
+  }
+
+  .order-summary-item-price {
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+}
+
+.order-summary-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.order-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #6b7280;
+
+  &.order-summary-total {
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+    border-top: 1px solid #e5e7eb;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0f172a;
+  }
+}

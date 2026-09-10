@@ -1,0 +1,925 @@
+<!-- The Collectors Market — Design 1 -->
+<!-- Differences: Minimalist, full-width hero with centered big search, sticky horizontal mega-menu, uniform grid, soft metallic light theme, subtle hover animations. -->
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from diecast-models.netlify.app/diecast/design1 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Aug 2026 07:00:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8" />
+  <title>The Collectors Market — Design 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Styles/main.compiled.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barriecito&amp;family=Martian+Mono:wght@200;300;400;500;600;700&amp;family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&amp;family=Oswald:wght@300;400;600;700&amp;family=Roboto+Slab:wght@300;400&amp;display=swap"
+    rel="stylesheet">
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/index.js" defer></script>
+
+  <script src="js/newsletter.js" defer></script>
+  <script src="js/site-banner.js" defer></script>
+</head>
+
+<body class="theme-light design-1">
+  <div id="site-announcement-banner" class="site-announcement-banner" hidden></div>
+  <header class="site-header is-sticky">
+    <div class="brand-row">
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a href="index.html" class="logo">
+        <img src="Images/collectors-market-logo.png" alt="The Collectors Market" />
+      </a>
+      <div class="actions">
+        <a href="diecast/browse.html" class="header-link">Browse</a>
+        <a href="cart.html" class="header-icon-link" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+        <a href="login.html" class="header-icon-link" aria-label="Account"><i class="fa-solid fa-user"></i></a>
+        <button class="mode-toggle sun-moon" aria-pressed="false" title="Toggle light/dark">
+          <span class="sun">☀️</span>
+          <span class="moon">🌙</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="main-nav mega">
+      <ul class="menu">
+        <li class="has-dropdown">
+          <a href="#">Cars</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="#">1/43</a></li>
+              <li><a href="#">1/24</a></li>
+              <li><a href="#">1/18</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="#">Military Vehicles</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="#">1/50</a></li>
+              <li><a href="#">1/18</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="#">Aviation</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="#">1/72</a></li>
+              <li><a href="#">1/48</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="#">Rail</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="#">TT120</a></li>
+              <li><a href="#">OO gauge</a></li>
+              <li><a href="#">N gauge</a></li>
+              <li><a href="#">Other Scales</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="#">Scenery</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="#">Accessories</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="#">Scalextric</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="#">Cars</a></li>
+              <li><a href="#">Sets</a></li>
+              <li><a href="#">Accessories</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="#">Trading Cards</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="#">Pokémon</a></li>
+              <li><a href="#">Yu-Gi-Oh</a></li>
+              <li><a href="#">Magic the Gathering</a></li>
+              <li><a href="#">Other Trading Cards</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="#">Diorama</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="#">Accessories</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="#">Other Collectibles</a>
+          <div class="dropdown">
+            <ul>
+              <li><a href="#">Lego and other Bricks</a></li>
+              <li><a href="#">Funko Pop</a></li>
+              <li><a href="#">Boats</a></li>
+              <li><a href="#">Packaging</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Mobile hamburger menu (Design 1 only) -->
+    <div class="offcanvas">
+      <div class="panel">
+        <button class="close">✕</button>
+        <nav class="mobile-nav">
+          <ul>
+            <li><a href="#">Cars</a></li>
+            <li><a href="#">Military Vehicles</a></li>
+            <li><a href="#">Aviation</a></li>
+            <li><a href="#">Rail</a></li>
+            <li><a href="#">Scenery</a></li>
+            <li><a href="#">Scalextric</a></li>
+            <li><a href="#">Trading Cards</a></li>
+            <li><a href="#">Diorama</a></li>
+            <li><a href="#">Other Collectibles</a></li>
+          </ul>
+        </nav>
+        <div class="mobile-actions">
+          <button class="mode-toggle sun-moon mobile" aria-pressed="false" title="Toggle light/dark">
+            <span class="sun">☀️</span>
+            <span class="moon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-content">
+        <h1>Collect. Trade. Race. Build.</h1>
+        <p>Britain’s marketplace for diecast and collectibles.</p>
+        <form class="search large" id="hero-search-form">
+          <input type="search" id="hero-search-input" placeholder="Search cars, planes, rail, cards, LEGO..." aria-label="Search" />
+          <button type="submit">Search</button>
+        </form>
+        <!-- Populated from GET /api/ad-spaces?placement=homepage-hero -- see
+             js/index.js. Hidden entirely when there are no active ads for
+             this placement, rather than showing placeholder ad content. -->
+        <div class="hero-ads" id="homepage-hero-ads" hidden></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="recently-viewed rail-scroll">
+      <h2>Your Recently Viewed Items</h2>
+      <div class="carousel-cards" data-auto-track="recently-viewed" id="recently-viewed-track">
+        <a href="diecast/listing.html" class="product-card">
+          <img src="Images/f40.png" alt="1/18 Ferrari F40">
+          <div>
+            <h3>1/18 Ferrari F40</h3>
+            <p>London • £189.00</p>
+          </div>
+        </a>
+        <a href="diecast/listing.html" class="product-card">
+          <img src="Images/rail.png" alt="OO Gauge Class 37">
+          <div>
+            <h3>OO Gauge Class 37</h3>
+            <p>York • £79.99</p>
+          </div>
+        </a>
+        <a href="diecast/listing.html" class="product-card">
+          <img src="Images/pokemon.png" alt="Pokémon Elite Trainer Box">
+          <div>
+            <h3>Pokémon Elite Trainer Box</h3>
+            <p>Liverpool • £44.99</p>
+          </div>
+        </a>
+        <a href="diecast/listing.html" class="product-card">
+          <img src="Images/spit.png" alt="1/72 Spitfire Mk IX">
+          <div>
+            <h3>1/72 Spitfire Mk IX</h3>
+            <p>Southampton • £14.95</p>
+          </div>
+        </a>
+        <a href="diecast/listing.html" class="product-card">
+          <img src="Images/mustang.png" alt="LEGO Ford Mustang">
+          <div>
+            <h3>LEGO 10265 Ford Mustang</h3>
+            <p>Cambridge • £129.99</p>
+          </div>
+        </a>
+      </div>
+      <div class="carousel-dots" id="recently-viewed-dots"></div>
+    </section>
+
+    <section class="browse-by-category" id="browse-by-category-section">
+      <h2>Browse by Category</h2>
+      <!-- Populated from GET /api/categories -- see js/index.js. The old
+           hardcoded list here had curated per-category photos; real
+           categories have no image field in the schema, so a generic
+           placeholder icon is used for all of them instead. Section hides
+           itself entirely if there are no real categories yet. -->
+      <div class="category-grid" id="homepage-category-grid"></div>
+    </section>
+
+    <section class="top-sellers carousel-snap">
+      <div class="section-head">
+        <h2>Top Sellers</h2>
+        <a href="diecast/browse.html" class="cta">Browse All – Shop Now</a>
+      </div>
+      <div class="carousel-shell">
+        <button class="carousel-nav" data-carousel-btn="top-sellers" data-dir="back" aria-label="Next sellers"></button>
+        <div class="carousel scroller" data-carousel="top-sellers">
+          <div class="slide">Modeller's Hub • Manchester</div>
+          <div class="slide">RailNation UK • York</div>
+          <div class="slide">SkyWings Aviation • London</div>
+          <div class="slide">BrickYard • Birmingham</div>
+          <div class="slide">CardCastle • Liverpool</div>
+          <div class="slide">Diecast Direct • Bristol</div>
+          <div class="slide">Heritage Rail • Edinburgh</div>
+          <div class="slide">SkyWings Aviation • London</div>
+        </div>
+        <button class="carousel-nav" data-carousel-btn="top-sellers" data-dir="next" aria-label="Next sellers"></button>
+      </div>
+    </section>
+
+    <section class="shop-layout">
+      <!-- Floating Filter Button -->
+      <button class="floating-filter-btn" id="floating-filter-btn" aria-label="Open filters">
+        <i class="fa-solid fa-filter"></i>
+      </button>
+
+      <!-- Filter Overlay -->
+      <div class="filter-overlay" id="filter-overlay">
+        <div class="filters">
+          <div class="filter-header">
+            <h3>Filters</h3>
+            <button class="filter-close" aria-label="Close filters">
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+          <label>Price Range
+            <input type="range" class="price-slider" min="0" max="500" step="5" value="150" />
+          </label>
+          <div class="price-display">£150</div>
+          <fieldset class="brands">
+            <legend>Brand</legend>
+            <label><input type="checkbox" /> Hornby</label>
+            <label><input type="checkbox" /> Kyosho</label>
+            <label><input type="checkbox" /> Tamiya</label>
+            <label><input type="checkbox" /> Airfix</label>
+            <label><input type="checkbox" /> LEGO</label>
+            <label><input type="checkbox" /> Scalextric</label>
+          </fieldset>
+          <div class="filter-actions">
+            <button class="btn-apply">Apply Filters</button>
+            <button class="btn-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <section class="results">
+        <div class="toolbar">
+          <div class="sort">
+            <label for="sort1">Sort by</label>
+            <select id="sort1">
+              <option>Price High-Low</option>
+              <option>Price Low-High</option>
+              <option>Newly Listed</option>
+              <option>Ending Soonest</option>
+              <option>Nearest First</option>
+            </select>
+          </div>
+          <form class="search small" id="toolbar-search-form">
+            <input type="search" id="toolbar-search-input" placeholder="Search within results…" />
+            <button>Search</button>
+          </form>
+        </div>
+
+        <!-- Populated from GET /api/listings -- see js/index.js. The sort
+             dropdown and filter overlay (price/brand) above are still
+             decorative only -- wiring them is a separate, bigger piece of
+             work than fixing these cards' dead links, and wasn't part of
+             this fix. -->
+        <div class="product-grid uniform" id="homepage-shop-grid">
+          <p class="carousel-loading">Loading&hellip;</p>
+        </div>
+      </section>
+    </section>
+
+    <section class="band recently-added product-carousel">
+      <h2>Recently Added</h2>
+      <div class="carousel-container">
+        <!-- Optional Deals Banner -->
+        <div class="carousel-banner">
+          <div class="banner-content">
+            <h3>Deals</h3>
+            <p>Special Offers</p>
+            <a href="diecast/browse.html" class="banner-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Carousel Viewport -->
+        <div class="carousel-viewport">
+          <!-- Populated from GET /api/listings?sort=newest -- see js/index.js -->
+          <div class="carousel-track" id="recently-added-track">
+            <p class="carousel-loading">Loading&hellip;</p>
+          </div>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <button class="carousel-btn carousel-prev" aria-label="Previous">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <button class="carousel-btn carousel-next" aria-label="Next">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <section class="band reputable-sellers">
+      <h2>Reputable Sellers</h2>
+      <p>Meet the trusted faces behind the UK’s favourite diecast shops.</p>
+      <div class="seller-cards">
+        <article class="seller-card">
+          <img src="Images/man1.png" alt="James from Modeller’s Hub">
+          <div>
+            <h3>James • Modeller’s Hub</h3>
+            <p>1,500+ verified sales • Express dispatch</p>
+          </div>
+        </article>
+        <article class="seller-card">
+          <img src="Images/woman1.png" alt="Isla from RailNation">
+          <div>
+            <h3>Isla • RailNation</h3>
+            <p>Rail specialist • 4.9/5 average rating</p>
+          </div>
+        </article>
+        <article class="seller-card">
+          <img src="Images/man2.png" alt="Rohan from SkyWings">
+          <div>
+            <h3>Rohan • SkyWings Aviation</h3>
+            <p>Exclusive aviation drops every Friday</p>
+          </div>
+        </article>
+        <article class="seller-card">
+          <img src="Images/woman2.png" alt="Nia from CardCastle">
+          <div>
+            <h3>Nia • CardCastle</h3>
+            <p>Trading card expert • Booster & slabbed</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="diecast/browse.html">Browse</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mobile-drawer">
+    <div class="drawer-content">
+      <button class="close">✕</button>
+      <form class="search" id="mobile-search-form">
+        <input type="search" id="mobile-search-input" placeholder="Search cars, planes, rail, cards, LEGO..." />
+        <button>Go</button>
+      </form>
+      <ul class="drawer-menu">
+        <!-- Repeat categories with submenus for mobile -->
+        <li>
+          <details>
+            <summary>Cars</summary>
+            <ul>
+              <li><a href="#">1/43</a></li>
+              <li><a href="#">1/24</a></li>
+              <li><a href="#">1/18</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>Military Vehicles</summary>
+            <ul>
+              <li><a href="#">1/50</a></li>
+              <li><a href="#">1/18</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>Aviation</summary>
+            <ul>
+              <li><a href="#">1/72</a></li>
+              <li><a href="#">1/48</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>Rail</summary>
+            <ul>
+              <li><a href="#">TT120</a></li>
+              <li><a href="#">OO gauge</a></li>
+              <li><a href="#">N gauge</a></li>
+              <li><a href="#">Other Scales</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>Scenery</summary>
+            <ul>
+              <li><a href="#">Accessories</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>Scalextric</summary>
+            <ul>
+              <li><a href="#">Cars</a></li>
+              <li><a href="#">Sets</a></li>
+              <li><a href="#">Accessories</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>Trading Cards</summary>
+            <ul>
+              <li><a href="#">Pokémon</a></li>
+              <li><a href="#">Yu-Gi-Oh</a></li>
+              <li><a href="#">Magic the Gathering</a></li>
+              <li><a href="#">Other Trading Cards</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>Diorama</summary>
+            <ul>
+              <li><a href="#">Accessories</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>Other Collectibles</summary>
+            <ul>
+              <li><a href="#">Lego and other Bricks</a></li>
+              <li><a href="#">Funko Pop</a></li>
+              <li><a href="#">Boats</a></li>
+              <li><a href="#">Packaging</a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="hk-footer">
+    <!-- COPYRIGHT BUILT BY HARRISON KING -->
+    <div class="copyright">
+      <p>2025
+        <!-- copyright logo -->
+        <span class="fa-solid fa-copyright"></span>
+        Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Fix theme toggle - ensure reliable switching
+    const body = document.body;
+    const toggle = document.querySelector('.mode-toggle');
+
+    // Initialize theme from body class
+    function updateToggleState() {
+      const isDark = body.classList.contains('theme-dark');
+      toggle.setAttribute('aria-pressed', isDark);
+      if (toggle.classList.contains('sun-moon')) {
+        if (isDark) {
+          toggle.classList.add('dark-mode');
+        } else {
+          toggle.classList.remove('dark-mode');
+        }
+      }
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      body.classList.toggle('theme-dark');
+      updateToggleState();
+    });
+
+    // Initialize on load
+    updateToggleState();
+
+
+    // Bind seller carousel buttons
+    const bindCarousel = (name) => {
+      const track = document.querySelector(`[data-carousel="${name}"]`);
+      if (!track) {
+        return;
+      }
+      const buttons = document.querySelectorAll(`[data-carousel-btn="${name}"]`);
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const direction = btn.dataset.dir === 'next' ? 1 : -1;
+          track.scrollBy({ left: direction * track.clientWidth * 0.6, behavior: 'smooth' });
+        });
+      });
+    };
+    bindCarousel('top-sellers');
+
+    // Floating Filter Button
+    const floatingFilterBtn = document.getElementById('floating-filter-btn');
+    const filterOverlay = document.getElementById('filter-overlay');
+    const filterClose = filterOverlay?.querySelector('.filter-close');
+    const shopSection = document.querySelector('.shop-layout');
+    const priceSlider = filterOverlay?.querySelector('.price-slider');
+    const priceDisplay = filterOverlay?.querySelector('.price-display');
+
+    // Show filter button when scrolled to shop section
+    if (floatingFilterBtn && shopSection) {
+      const handleScroll = () => {
+        const shopRect = shopSection.getBoundingClientRect();
+        const isVisible = shopRect.top < window.innerHeight && shopRect.bottom > 0;
+        
+        if (isVisible) {
+          floatingFilterBtn.style.display = 'flex';
+        } else {
+          floatingFilterBtn.style.display = 'none';
+        }
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', handleScroll);
+      handleScroll(); // Initial check
+    }
+
+    // Filter overlay open/close
+    if (floatingFilterBtn && filterOverlay) {
+      floatingFilterBtn.addEventListener('click', () => {
+        filterOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+
+      if (filterClose) {
+        filterClose.addEventListener('click', () => {
+          filterOverlay.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      }
+
+      filterOverlay.addEventListener('click', (e) => {
+        if (e.target === filterOverlay) {
+          filterOverlay.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    // Price slider update
+    if (priceSlider && priceDisplay) {
+      priceSlider.addEventListener('input', (e) => {
+        priceDisplay.textContent = `£${e.target.value}`;
+      });
+    }
+
+    // Checkbox styling
+    const brandCheckboxes = filterOverlay?.querySelectorAll('.brands label');
+    brandCheckboxes?.forEach((label) => {
+      const checkbox = label.querySelector('input[type="checkbox"]');
+      checkbox?.addEventListener('change', () => {
+        if (checkbox.checked) {
+          label.classList.add('checked');
+        } else {
+          label.classList.remove('checked');
+        }
+      });
+    });
+
+    // Auto-scroll recently viewed cards
+    const autoTracks = document.querySelectorAll('[data-auto-track]');
+    autoTracks.forEach((track) => {
+      let timer;
+      const cycle = () => {
+        if (track.scrollWidth <= track.clientWidth) {
+          return;
+        }
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        const nextLeft = track.scrollLeft + track.clientWidth * 0.6;
+        track.scrollTo({
+          left: nextLeft >= maxScroll ? 0 : nextLeft,
+          behavior: 'smooth'
+        });
+      };
+      const stop = () => {
+        if (timer) {
+          clearInterval(timer);
+        }
+      };
+      const start = () => {
+        stop();
+        timer = setInterval(cycle, 4000);
+      };
+      track.addEventListener('mouseenter', stop);
+      track.addEventListener('mouseleave', start);
+      start();
+
+      // Add dots for recently viewed - Fixed calculation for all zoom levels
+      if (track.id === 'recently-viewed-track') {
+        const dotsContainer = document.getElementById('recently-viewed-dots');
+        if (dotsContainer) {
+          // Calculate actual slide width (card + gap) dynamically
+          const getSlideSize = () => {
+            const firstCard = track.querySelector('.product-card');
+            if (!firstCard) return { slideWidth: 0, gap: 0 };
+            
+            // Get actual rendered card width (accounts for zoom, fractional pixels)
+            const cardRect = firstCard.getBoundingClientRect();
+            const cardWidth = cardRect.width;
+            
+            // Get gap from computed style or calculate from second card position
+            const secondCard = track.querySelector('.product-card:nth-child(2)');
+            let gap = 16; // Default gap from CSS (1rem = 16px)
+            
+            if (secondCard) {
+              const secondRect = secondCard.getBoundingClientRect();
+              gap = secondRect.left - cardRect.right;
+            } else {
+              // Fallback: get gap from computed style
+              const computedStyle = window.getComputedStyle(track);
+              const gapValue = computedStyle.gap || computedStyle.columnGap;
+              if (gapValue) {
+                gap = parseFloat(gapValue);
+              }
+            }
+            
+            return {
+              slideWidth: cardWidth,
+              gap: gap,
+              totalSlideSize: cardWidth + gap
+            };
+          };
+          
+          // Initialize dots based on actual slide count
+          const updateDots = () => {
+            const { totalSlideSize } = getSlideSize();
+            if (totalSlideSize === 0) return;
+            
+            // Clear existing dots
+            dotsContainer.innerHTML = '';
+            
+            // Calculate number of slides (accounting for partial visibility)
+            const totalScrollableWidth = track.scrollWidth - track.clientWidth;
+            const slideCount = Math.ceil(totalScrollableWidth / totalSlideSize) + 1;
+            const actualSlideCount = Math.max(1, Math.min(slideCount, track.children.length));
+            
+            // Create dots
+            for (let i = 0; i < actualSlideCount; i++) {
+              const dot = document.createElement('button');
+              dot.className = 'dot';
+              if (i === 0) dot.classList.add('active');
+              dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+              dot.addEventListener('click', () => {
+                const { totalSlideSize } = getSlideSize();
+                track.scrollTo({ 
+                  left: i * totalSlideSize, 
+                  behavior: 'smooth' 
+                });
+              });
+              dotsContainer.appendChild(dot);
+            }
+          };
+          
+          // Update active dot based on scroll position
+          const updateActiveDot = () => {
+            const { totalSlideSize } = getSlideSize();
+            if (totalSlideSize === 0) return;
+            
+            // Calculate active index using actual slide size
+            // Add small threshold to handle fractional pixels and rounding
+            const threshold = totalSlideSize * 0.3;
+            const activeIndex = Math.round((track.scrollLeft + threshold) / totalSlideSize);
+            const maxIndex = dotsContainer.querySelectorAll('.dot').length - 1;
+            const clampedIndex = Math.max(0, Math.min(activeIndex, maxIndex));
+            
+            dotsContainer.querySelectorAll('.dot').forEach((dot, idx) => {
+              dot.classList.toggle('active', idx === clampedIndex);
+            });
+          };
+          
+          // Initialize dots
+          updateDots();
+          
+          // Update on scroll (throttled for performance)
+          let scrollTimeout;
+          track.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateActiveDot, 10);
+          }, { passive: true });
+          
+          // Recalculate on resize (zoom changes, window resize)
+          let resizeTimeout;
+          const handleResize = () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+              updateDots();
+              updateActiveDot();
+            }, 150);
+          };
+          
+          window.addEventListener('resize', handleResize);
+          
+          // Also listen for zoom changes (if supported)
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleResize);
+          }
+        }
+      }
+
+    // Product Carousel with Drag & Buttons
+    const productCarousel = document.getElementById('recently-added-track');
+    const prevBtn = document.querySelector('.recently-added .carousel-prev');
+    const nextBtn = document.querySelector('.recently-added .carousel-next');
+    
+    if (productCarousel && prevBtn && nextBtn) {
+      let isDragging = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      
+      // Get card width + gap for scroll amount
+      const getScrollAmount = () => {
+        const firstCard = productCarousel.querySelector('.product');
+        if (!firstCard) return 340; // fallback
+        const cardWidth = firstCard.offsetWidth;
+        const gap = 20; // match CSS gap
+        return cardWidth + gap;
+      };
+      
+      // Button navigation
+      prevBtn.addEventListener('click', () => {
+        const scrollAmount = getScrollAmount();
+        productCarousel.scrollBy({
+          left: -scrollAmount,
+          behavior: 'smooth'
+        });
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        const scrollAmount = getScrollAmount();
+        productCarousel.scrollBy({
+          left: scrollAmount,
+          behavior: 'smooth'
+        });
+      });
+      
+      // Drag functionality
+      const startDrag = (e) => {
+        isDragging = true;
+        productCarousel.style.cursor = 'grabbing';
+        productCarousel.style.scrollBehavior = 'auto';
+        startX = e.pageX || e.touches?.[0]?.pageX || 0;
+        scrollLeft = productCarousel.scrollLeft;
+      };
+      
+      const drag = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX || e.touches?.[0]?.pageX || 0;
+        const walk = (x - startX);
+        productCarousel.scrollLeft = scrollLeft - walk;
+      };
+      
+      const stopDrag = () => {
+        isDragging = false;
+        productCarousel.style.cursor = 'grab';
+        productCarousel.style.scrollBehavior = 'smooth';
+      };
+      
+      // Mouse events
+      productCarousel.addEventListener('mousedown', startDrag);
+      productCarousel.addEventListener('mousemove', drag);
+      productCarousel.addEventListener('mouseup', stopDrag);
+      productCarousel.addEventListener('mouseleave', stopDrag);
+      
+      // Touch events
+      productCarousel.addEventListener('touchstart', startDrag, { passive: false });
+      productCarousel.addEventListener('touchmove', drag, { passive: false });
+      productCarousel.addEventListener('touchend', stopDrag);
+      
+      // Prevent vertical scroll on wheel (horizontal scroll)
+      productCarousel.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          e.preventDefault();
+          productCarousel.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
+    }
+    });
+
+    // Hamburger menu functionality (Design 1 only)
+    (function() {
+      const oc = document.querySelector('.offcanvas');
+      const ham = document.querySelector('.hamburger');
+      const close = document.querySelector('.offcanvas .close');
+
+      if (!oc || !ham) return;
+
+      ham.addEventListener('click', () => {
+        oc.classList.add('open');
+        ham.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      });
+
+      if (close) {
+        close.addEventListener('click', () => {
+          oc.classList.remove('open');
+          ham.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      }
+
+      // Close on backdrop click
+      oc.addEventListener('click', (e) => {
+        if (e.target === oc) {
+          oc.classList.remove('open');
+          ham.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Mobile theme toggle inside hamburger menu
+      const mobileToggle = document.querySelector('.offcanvas .mode-toggle.mobile');
+      const desktopToggle = document.querySelector('.site-header .mode-toggle');
+      
+      if (mobileToggle && desktopToggle) {
+        mobileToggle.addEventListener('click', () => {
+          desktopToggle.click();
+        });
+      }
+    })();
+  </script>
+</body>
+
+
+<!-- Mirrored from diecast-models.netlify.app/diecast/design1 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Aug 2026 07:01:12 GMT -->
+</html>

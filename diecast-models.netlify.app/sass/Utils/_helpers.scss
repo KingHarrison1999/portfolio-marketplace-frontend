@@ -1,0 +1,42 @@
+@use 'mixins';
+
+:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+// Hover-lift affordance shared by generic <article> cards, the offcanvas
+// menu panel, and section "bands" — see Utils/_mixins.scss.
+article,
+.panel,
+.band {
+  @include mixins.hover-lift;
+}
+
+// Generic reusable "band" wrapper — wraps standalone home-page sections
+// (recently-added carousel, reputable-sellers) in a card-like surface.
+.band {
+  margin-top: 1.25rem;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin — Commission Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/admin-guard.js" defer></script>
+  <script src="../js/admin-commission.js" defer></script>
+  <script src="../js/newsletter.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-shell">
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox" />
+    <aside class="dashboard-sidebar">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-user-shield"></i>
+        <span>Admin Panel</span>
+      </a>
+      <ul class="dashboard-nav">
+        <li><a href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a></li>
+        <li><a href="manage-users.html"><i class="fa-solid fa-users"></i><span>Users</span></a></li>
+        <li><a href="manage-listings.html"><i class="fa-solid fa-boxes-stacked"></i><span>Listings</span></a></li>
+        <li><a href="categories.html"><i class="fa-solid fa-tags"></i><span>Categories</span></a></li>
+        <li><a href="commission-settings.html" class="active"><i class="fa-solid fa-percent"></i><span>Commission</span></a></li>
+        <li><a href="ad-spaces.html"><i class="fa-solid fa-rectangle-ad"></i><span>Ad Spaces</span></a></li>
+        <li><a href="../account/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
+      </ul>
+    </aside>
+    <label for="sidebar-toggle" class="sidebar-toggle-backdrop"></label>
+    <main class="dashboard-main">
+      <label for="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></label>
+      <h1>Commission Settings</h1>
+
+      <div id="commission-signin-required" class="cart-empty-state" hidden>
+        <p>Log in as an admin to manage commission settings.</p>
+      </div>
+
+      <div id="commission-forbidden" class="cart-empty-state" hidden>
+        <p>This area is for admins only.</p>
+      </div>
+
+      <div id="commission-content" hidden>
+        <section class="form-section">
+          <h2>Commission Rates</h2>
+          <p class="checkout-payment-notice">
+            <i class="fa-solid fa-circle-info"></i>
+            Payment isn't connected yet (Optimise Payments is still a local simulation), so none of
+            these rates apply to any real transaction right now. They're stored for when payment goes
+            live. Three tiers exist -- individual/flat (default), business, and charity (lowest rate)
+            -- but how a seller actually gets assigned to a tier is a separate, still-open decision;
+            this page only sets the rates themselves.
+          </p>
+
+          <form class="form-shell-fields" id="commission-form" novalidate>
+            <div class="form-field">
+              <label for="commission-rate">Individual / flat rate (%)</label>
+              <input type="text" id="commission-rate" placeholder="e.g. 10" inputmode="decimal" required />
+              <p class="form-field-hint" id="commission-rate-hint"></p>
+            </div>
+            <div class="form-field">
+              <label for="business-rate">Business rate (%) <span class="form-field-optional">(optional -- not yet set until saved)</span></label>
+              <input type="text" id="business-rate" placeholder="e.g. 15" inputmode="decimal" />
+              <p class="form-field-hint" id="business-rate-hint"></p>
+            </div>
+            <div class="form-field">
+              <label for="charity-rate">Charity rate (%) <span class="form-field-optional">(optional -- not yet set until saved)</span></label>
+              <input type="text" id="charity-rate" placeholder="e.g. 5" inputmode="decimal" />
+              <p class="form-field-hint" id="charity-rate-hint"></p>
+            </div>
+            <button type="submit" class="btn-primary" id="commission-save-btn">Save Rates</button>
+            <div id="commission-form-message" class="form-message" role="status"></div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../diecast/browse.html">Browse</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,120 @@
+// Self-contained purchase panel — kept as its own component (own file, own
+// wrapper element, no shared classes with the gallery/description) so bidding
+// functionality can be added later — a current-bid display, bid input,
+// auction countdown — without restructuring the rest of the page. Extend
+// .purchase-panel-actions or add a new .purchase-panel-bidding block; nothing
+// else on the page depends on this component's internals.
+.purchase-panel {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+  align-self: start;
+
+  h1 {
+    margin: 0 0 0.75rem;
+    font-size: 1.35rem;
+    line-height: 1.4;
+    color: #0f172a;
+  }
+}
+
+.purchase-panel-seller {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+
+  .purchase-panel-seller-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    flex-shrink: 0;
+  }
+
+  .purchase-panel-seller-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #0f172a;
+  }
+
+  .purchase-panel-seller-meta {
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+}
+
+.purchase-panel-price {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.purchase-panel-meta {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 1.25rem;
+
+  span {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.purchase-panel-quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+
+  label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #0f172a;
+  }
+
+  input {
+    width: 64px;
+    padding: 0.5rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    text-align: center;
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+  }
+}
+
+.purchase-panel-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+}
+
+.purchase-panel-shipping {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+
+  strong {
+    color: #0f172a;
+  }
+}

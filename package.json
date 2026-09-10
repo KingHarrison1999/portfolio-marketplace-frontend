@@ -1,0 +1,11 @@
+{
+  "name": "andys-marketplace",
+  "private": true,
+  "scripts": {
+    "build:css": "sass \"diecast-models.netlify.app/sass/main.scss\" \"diecast-models.netlify.app/Styles/main.compiled.css\"",
+    "watch:css": "sass --watch \"diecast-models.netlify.app/sass/main.scss\" \"diecast-models.netlify.app/Styles/main.compiled.css\""
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}

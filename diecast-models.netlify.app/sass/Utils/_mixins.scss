@@ -1,0 +1,9 @@
+// Shared hover-lift affordance for card-like surfaces (product cards, panels, bands).
+@mixin hover-lift {
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+  }
+}

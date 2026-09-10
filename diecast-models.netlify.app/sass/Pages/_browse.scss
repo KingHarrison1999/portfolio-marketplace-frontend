@@ -1,0 +1,25 @@
+.browse-title {
+  margin: 1.5rem 0 0;
+}
+
+// On the homepage, the floating filter button only appears once you've
+// scrolled into the shop section (JS-driven). This page IS the shop context
+// from the top, so it stays visible without that scroll-linked show/hide.
+.shop-layout .floating-filter-btn {
+  display: flex;
+}
+
+.results-empty,
+.results-loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #6b7280;
+  padding: 3rem 1rem;
+}
+
+.filter-empty-note {
+  margin: 0;
+  padding: 0.5rem 1.5rem;
+  color: #6b7280;
+  font-size: 0.85rem;
+}

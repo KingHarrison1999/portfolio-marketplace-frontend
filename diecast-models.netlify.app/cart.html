@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/newsletter.js" defer></script>
+  <script src="js/site-banner.js" defer></script>
+</head>
+<body>
+  <div id="site-announcement-banner" class="site-announcement-banner" hidden></div>
+  <header class="global-nav">
+    <div class="global-nav-inner">
+      <a href="index.html" class="global-nav-logo"><img src="Images/collectors-market-logo.png" alt="The Collectors Market" /></a>
+      <a href="diecast/browse.html" class="global-nav-browse">Browse</a>
+      <div class="global-nav-actions">
+        <a href="cart.html" class="global-nav-icon" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+        <a href="login.html" class="global-nav-icon" aria-label="Account"><i class="fa-solid fa-user"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="cart-title">Cart</h1>
+
+    <p id="cart-loading">Loading your cart&hellip;</p>
+
+    <div id="cart-signin-required" class="cart-empty-state" hidden>
+      <p>Please log in to view your cart.</p>
+      <a href="login.html" class="btn-primary">Log In</a>
+    </div>
+
+    <div id="cart-empty" class="cart-empty-state" hidden>
+      <p>Your cart is empty.</p>
+      <a href="diecast/browse.html" class="btn-primary">Start Browsing</a>
+    </div>
+
+    <div class="cart-layout" id="cart-layout" hidden>
+      <div class="cart-items" id="cart-items"></div>
+
+      <aside class="order-summary">
+        <h2>Order Summary</h2>
+        <p id="cart-unavailable-notice" class="cart-unavailable-notice" hidden>
+          One or more items above are no longer available in the requested quantity. Remove or update them before checking out.
+        </p>
+        <div class="order-summary-rows" id="cart-summary-rows"></div>
+        <a href="checkout.html" class="btn-primary" id="cart-checkout-link" style="width: 100%;">Go to checkout</a>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="diecast/browse.html">Browse</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

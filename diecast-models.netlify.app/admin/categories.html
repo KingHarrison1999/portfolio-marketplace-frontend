@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin — Categories</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/admin-guard.js" defer></script>
+  <script src="../js/admin-categories.js" defer></script>
+  <script src="../js/newsletter.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-shell">
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox" />
+    <aside class="dashboard-sidebar">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-user-shield"></i>
+        <span>Admin Panel</span>
+      </a>
+      <ul class="dashboard-nav">
+        <li><a href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a></li>
+        <li><a href="manage-users.html"><i class="fa-solid fa-users"></i><span>Users</span></a></li>
+        <li><a href="manage-listings.html"><i class="fa-solid fa-boxes-stacked"></i><span>Listings</span></a></li>
+        <li><a href="categories.html" class="active"><i class="fa-solid fa-tags"></i><span>Categories</span></a></li>
+        <li><a href="commission-settings.html"><i class="fa-solid fa-percent"></i><span>Commission</span></a></li>
+        <li><a href="ad-spaces.html"><i class="fa-solid fa-rectangle-ad"></i><span>Ad Spaces</span></a></li>
+        <li><a href="../account/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
+      </ul>
+    </aside>
+    <label for="sidebar-toggle" class="sidebar-toggle-backdrop"></label>
+    <main class="dashboard-main">
+      <label for="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></label>
+      <h1>Categories</h1>
+
+      <div id="categories-signin-required" class="cart-empty-state" hidden>
+        <p>Log in as an admin to manage categories.</p>
+      </div>
+
+      <div id="categories-forbidden" class="cart-empty-state" hidden>
+        <p>This area is for admins only.</p>
+      </div>
+
+      <div id="categories-content" hidden>
+        <section class="form-section">
+          <h2>All Categories</h2>
+          <p>Buyers see these as browse filters; sellers pick from these when listing an item.</p>
+
+          <div id="category-list" class="address-list"><p class="address-empty-note">Loading categories&hellip;</p></div>
+
+          <button type="button" class="btn-secondary" id="btn-add-category">+ Add New Category</button>
+
+          <form class="form-shell-fields" id="category-form" novalidate hidden>
+            <input type="hidden" id="category-id" />
+            <div class="form-field">
+              <label for="category-name">Name</label>
+              <input type="text" id="category-name" placeholder="e.g. Diecast Cars" required />
+            </div>
+            <div class="form-field">
+              <label for="category-slug">Slug</label>
+              <input type="text" id="category-slug" placeholder="e.g. diecast-cars" required />
+              <p class="form-field-hint">Used in browse filter URLs. Auto-filled from the name -- edit it if you need to.</p>
+            </div>
+            <div class="form-field">
+              <label for="category-parent">Parent category <span class="form-field-optional">(optional)</span></label>
+              <select id="category-parent">
+                <option value="">None -- top-level category</option>
+              </select>
+            </div>
+            <div class="form-field-row">
+              <button type="submit" class="btn-primary" id="category-save-btn">Save Category</button>
+              <button type="button" class="btn-secondary" id="btn-cancel-category">Cancel</button>
+            </div>
+          </form>
+
+          <div id="category-form-message" class="form-message" role="status"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../diecast/browse.html">Browse</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

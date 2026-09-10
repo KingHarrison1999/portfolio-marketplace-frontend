@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Account — Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/addresses.js" defer></script>
+  <script src="../js/settings-addresses.js" defer></script>
+  <script src="../js/settings-profile.js" defer></script>
+  <script src="../js/settings-seller-status.js" defer></script>
+  <script src="../js/newsletter.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-shell">
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox" />
+    <aside class="dashboard-sidebar">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-user"></i>
+        <span>My Account</span>
+      </a>
+      <ul class="dashboard-nav">
+        <li><a href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a></li>
+        <li><a href="orders.html"><i class="fa-solid fa-receipt"></i><span>Orders</span></a></li>
+        <li><a href="settings.html" class="active"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
+      </ul>
+    </aside>
+    <label for="sidebar-toggle" class="sidebar-toggle-backdrop"></label>
+    <main class="dashboard-main">
+      <label for="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></label>
+      <h1>Settings</h1>
+
+      <section class="form-section">
+        <h2>Profile</h2>
+        <form class="form-shell-fields" id="profile-form">
+          <div class="form-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter your name" />
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" disabled />
+            <p class="form-field-hint">Email changes aren't supported here yet -- contact support if you need to change it.</p>
+          </div>
+          <div class="form-field">
+            <label for="profile-bio">Bio <span class="form-field-optional">(optional)</span></label>
+            <textarea id="profile-bio" placeholder="Tell other collectors a bit about yourself"></textarea>
+          </div>
+          <div class="form-field">
+            <label for="profile-avatar-url">Avatar URL <span class="form-field-optional">(optional)</span></label>
+            <input type="text" id="profile-avatar-url" placeholder="https://example.com/avatar.png" />
+          </div>
+          <button type="submit" class="btn-primary" id="profile-save-btn">Save Changes</button>
+          <div id="profile-form-message" class="form-message" role="status"></div>
+        </form>
+      </section>
+
+      <!-- Shown only to a buyer (real role check, js/settings-seller-status.js) -->
+      <section class="form-section" id="seller-status-section" hidden>
+        <h2>Become a Seller</h2>
+        <p>Start listing items for sale. Choose the commission tier that best describes you -- an admin verifies business/charity claims before the discounted rate applies; until then you're charged the standard rate.</p>
+        <form class="form-shell-fields" id="become-seller-form">
+          <div class="form-field">
+            <label for="become-seller-tier">Commission tier</label>
+            <select id="become-seller-tier">
+              <option value="individual">Individual (standard rate)</option>
+              <option value="business">Business</option>
+              <option value="charity">Charity</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary" id="become-seller-btn">Become a Seller</button>
+          <div id="become-seller-message" class="form-message" role="status"></div>
+        </form>
+      </section>
+
+      <!-- Shown only to a seller (real role check, js/settings-seller-status.js) -->
+      <section class="form-section" id="commission-tier-section" hidden>
+        <h2>Commission Tier</h2>
+        <p>Your commission tier determines the rate taken from each sale. Business and charity rates only apply once an admin has verified your claim -- changing your tier here resets verification.</p>
+        <p id="commission-tier-status" class="form-field-hint"></p>
+        <form class="form-shell-fields" id="commission-tier-form">
+          <div class="form-field">
+            <label for="commission-tier-select">Commission tier</label>
+            <select id="commission-tier-select">
+              <option value="individual">Individual (standard rate)</option>
+              <option value="business">Business</option>
+              <option value="charity">Charity</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary" id="commission-tier-save-btn">Update Tier</button>
+          <div id="commission-tier-message" class="form-message" role="status"></div>
+        </form>
+      </section>
+
+      <section class="form-section">
+        <h2>Change Password</h2>
+        <form class="form-shell-fields" id="change-password-form">
+          <div class="form-field">
+            <label for="current-password">Current password</label>
+            <input type="password" id="current-password" placeholder="Enter your current password" />
+          </div>
+          <div class="form-field">
+            <label for="new-password">New password</label>
+            <input type="password" id="new-password" placeholder="Enter a new password" />
+            <p class="form-field-hint">Use at least 8 characters, mixing letters and numbers.</p>
+          </div>
+          <div class="form-field">
+            <label for="confirm-password">Confirm new password</label>
+            <input type="password" id="confirm-password" placeholder="Re-enter your new password" />
+          </div>
+          <button type="submit" class="btn-primary" id="change-password-btn">Update Password</button>
+          <div id="change-password-message" class="form-message" role="status"></div>
+        </form>
+      </section>
+
+      <section class="form-section">
+        <h2>Addresses</h2>
+        <p>Manage the shipping addresses used at checkout.</p>
+
+        <div id="address-list" class="address-list"><p class="address-empty-note">Loading addresses&hellip;</p></div>
+
+        <button type="button" class="btn-secondary" id="btn-add-address">+ Add New Address</button>
+
+        <form class="form-shell-fields" id="address-form" hidden>
+          <input type="hidden" id="address-id" />
+          <div class="form-field">
+            <label for="address-line1">Address line 1</label>
+            <input type="text" id="address-line1" placeholder="Street address" required />
+          </div>
+          <div class="form-field">
+            <label for="address-line2">Address line 2 <span class="form-field-optional">(optional)</span></label>
+            <input type="text" id="address-line2" placeholder="Apartment, suite, etc." />
+          </div>
+          <div class="form-field-row">
+            <div class="form-field">
+              <label for="city">City</label>
+              <input type="text" id="city" required />
+            </div>
+            <div class="form-field">
+              <label for="postcode">Postcode</label>
+              <input type="text" id="postcode" required />
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="address-country">Country</label>
+            <select id="address-country">
+              <option>United Kingdom</option>
+              <option>United States</option>
+              <option>Canada</option>
+              <option>Australia</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label><input type="checkbox" id="address-is-default" /> Set as default address</label>
+          </div>
+          <div class="form-field-row">
+            <button type="submit" class="btn-primary" id="address-save-btn">Save Address</button>
+            <button type="button" class="btn-secondary" id="btn-cancel-address">Cancel</button>
+          </div>
+        </form>
+
+        <div id="address-form-message" class="form-message" role="status"></div>
+      </section>
+
+      <section class="form-section">
+        <h2>Notification Preferences</h2>
+        <div class="toggle-list">
+          <div class="toggle-row">
+            <input type="checkbox" id="notify-orders" />
+            <div>
+              <label for="notify-orders">Order updates</label>
+              <p>Get notified about order confirmations, shipping, and delivery.</p>
+            </div>
+          </div>
+          <div class="toggle-row">
+            <input type="checkbox" id="notify-promo" />
+            <div>
+              <label for="notify-promo">Promotional emails</label>
+              <p>Occasional emails about deals, new arrivals, and seller offers.</p>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-primary" style="margin-top: 1.5rem;" id="notification-save-btn">Save Preferences</button>
+        <div id="notification-form-message" class="form-message" role="status"></div>
+      </section>
+
+      <section class="form-section form-section-danger">
+        <h2>Delete Account</h2>
+        <p>Deleting your account is permanent and cannot be undone. All your data, including your own order history, will be permanently removed.</p>
+        <p class="form-field-hint">If you're a seller who has sold anything, deletion is blocked -- removing your account would also destroy the purchase record for buyers who bought from you.</p>
+        <button type="button" class="btn-danger" id="delete-account-btn">Delete Account</button>
+        <div id="delete-account-message" class="form-message" role="status"></div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../diecast/browse.html">Browse</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

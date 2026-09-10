@@ -1,0 +1,275 @@
+@use '../Utils/variables' as vars;
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem;
+}
+
+.browse-by-category {
+  h2 {
+    margin-bottom: 0.75rem;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+    padding-top: 4px;
+    overflow-y: visible;
+
+    .cat {
+      display: grid;
+      grid-template-rows: minmax(2.8em, auto) 1fr;
+      grid-template-columns: 1fr;
+      align-items: center;
+      justify-items: center;
+      min-height: 140px;
+      background: white;
+      border: 2px solid #d1d5db;
+      border-radius: 1rem;
+      text-decoration: none;
+      color: inherit;
+      font-weight: 600;
+      padding: 1rem;
+      gap: 0.75rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.4;
+      box-sizing: border-box;
+
+      img {
+        grid-row: 2;
+        grid-column: 1;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        align-self: center;
+        justify-self: center;
+      }
+
+      &:hover {
+        border-color: #3b82f6;
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.15);
+        transform: translateY(-3px);
+
+        img {
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    @media (max-width: 430px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+
+      .cat {
+        grid-template-rows: minmax(2.38em, auto) 1fr;
+        min-height: 100px;
+        padding: 0.6rem 0.5rem;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        line-height: 1.4;
+
+        img {
+          max-height: 50px;
+          width: auto;
+          max-width: 100%;
+        }
+      }
+    }
+
+    @media (min-width: 1024px) {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      gap: 0.75rem;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: visible;
+      padding-top: 4px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .cat {
+        flex: 0 0 auto;
+        width: clamp(140px, 11vw, 220px);
+        height: clamp(180px, 16vw, 280px);
+        min-height: clamp(180px, 16vw, 280px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        gap: 0.75rem;
+        font-size: clamp(14px, 1.2vw, 18px);
+        text-align: center;
+        box-sizing: border-box;
+
+        img {
+          max-width: 100%;
+          height: auto;
+          max-height: clamp(90px, 9vw, 160px);
+          object-fit: contain;
+        }
+      }
+    }
+
+    @media (max-width: 375px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.45rem;
+
+      .cat {
+        grid-template-rows: minmax(2.24em, auto) 1fr;
+        min-height: 95px;
+        padding: 0.55rem 0.45rem;
+        gap: 0.45rem;
+        font-size: 0.8rem;
+        line-height: 1.4;
+
+        img {
+          max-height: 45px;
+          width: auto;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.shop-layout {
+  display: block;
+  margin-top: 1rem;
+  position: relative;
+
+  .results .product-grid.uniform {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+
+    .product {
+      background: white;
+      border: 2px solid #d1d5db;
+      border-radius: 1rem;
+      overflow: hidden;
+      display: grid;
+      gap: 0.75rem;
+      transition: all 0.3s ease;
+      padding-bottom: 1rem;
+
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      // Fallback for listings with zero uploaded images -- most listings
+      // render a real <img> from primary_image_url instead (see js/browse.js).
+      .product-image-placeholder {
+        width: 100%;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f4f6;
+        color: #9ca3af;
+        font-size: 2.5rem;
+      }
+
+      h3 {
+        font-size: 1.05rem;
+        margin: 0;
+        padding: 0 1rem;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #0f172a;
+      }
+
+      .meta {
+        color: #6b7280;
+        padding: 0 1rem;
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+
+      .btn {
+        display: inline-block;
+        margin: 0 1rem;
+        border: 0;
+        background: #3b82f6;
+        color: white;
+        padding: 0.65rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: vars.$color-accent-hover-alt;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+      }
+
+      .product-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin: 0 1rem;
+
+        .btn {
+          margin: 0;
+          flex: 1;
+          text-align: center;
+        }
+
+        .btn-outline {
+          background: white;
+          color: #3b82f6;
+          border: 2px solid #3b82f6;
+
+          &:hover {
+            background: #eff6ff;
+            box-shadow: none;
+          }
+        }
+
+        .btn:disabled {
+          background: #9ca3af;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      .product-message {
+        margin: 0.35rem 1rem 0;
+        font-size: 0.8rem;
+        color: #b91c1c;
+
+        &.is-success {
+          color: #15803d;
+        }
+      }
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        border-color: #3b82f6;
+
+        img {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+}

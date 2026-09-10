@@ -1,0 +1,84 @@
+.order-confirmation {
+  max-width: 480px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.order-confirmation-message {
+  text-align: center;
+
+  i {
+    font-size: 3rem;
+    color: #22c55e;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    margin: 0 0 0.5rem;
+  }
+
+  p {
+    color: #6b7280;
+    margin: 0 0 0.5rem;
+  }
+
+  .order-confirmation-number {
+    font-weight: 700;
+    color: #0f172a;
+  }
+}
+
+.order-confirmation-delivery,
+.order-confirmation-address {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    color: #0f172a;
+  }
+
+  p {
+    margin: 0;
+    color: #6b7280;
+  }
+}
+
+.order-confirmation-address address {
+  font-style: normal;
+  line-height: 1.6;
+}
+
+#confirmation-loading {
+  text-align: center;
+  color: #6b7280;
+  padding: 4rem 1rem;
+}
+
+#confirmation-orders {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .order-summary h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .order-confirmation-id {
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+}

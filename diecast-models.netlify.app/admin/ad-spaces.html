@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin — Ad Spaces</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/admin-guard.js" defer></script>
+  <script src="../js/admin-ad-spaces.js" defer></script>
+  <script src="../js/newsletter.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-shell">
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox" />
+    <aside class="dashboard-sidebar">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-user-shield"></i>
+        <span>Admin Panel</span>
+      </a>
+      <ul class="dashboard-nav">
+        <li><a href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a></li>
+        <li><a href="manage-users.html"><i class="fa-solid fa-users"></i><span>Users</span></a></li>
+        <li><a href="manage-listings.html"><i class="fa-solid fa-boxes-stacked"></i><span>Listings</span></a></li>
+        <li><a href="categories.html"><i class="fa-solid fa-tags"></i><span>Categories</span></a></li>
+        <li><a href="commission-settings.html"><i class="fa-solid fa-percent"></i><span>Commission</span></a></li>
+        <li><a href="ad-spaces.html" class="active"><i class="fa-solid fa-rectangle-ad"></i><span>Ad Spaces</span></a></li>
+        <li><a href="../account/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
+      </ul>
+    </aside>
+    <label for="sidebar-toggle" class="sidebar-toggle-backdrop"></label>
+    <main class="dashboard-main">
+      <label for="sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></label>
+      <h1>Ad Spaces</h1>
+      <p class="form-field-hint">
+        Ads with placement <code>homepage-hero</code> render live in the homepage hero banner via
+        the public <code>GET /api/ad-spaces?placement=X</code> endpoint. Other placement values
+        are stored but have no page wired to display them yet.
+      </p>
+
+      <div id="ad-spaces-signin-required" class="cart-empty-state" hidden>
+        <p>Log in as an admin to manage ad spaces.</p>
+      </div>
+
+      <div id="ad-spaces-forbidden" class="cart-empty-state" hidden>
+        <p>This area is for admins only.</p>
+      </div>
+
+      <div id="ad-spaces-content" hidden>
+        <section class="form-section">
+          <h2>All Ad Spaces</h2>
+
+          <div id="ad-space-list" class="address-list"><p class="address-empty-note">Loading ad spaces&hellip;</p></div>
+
+          <button type="button" class="btn-secondary" id="btn-add-ad-space">+ Add New Ad Space</button>
+
+          <form class="form-shell-fields" id="ad-space-form" novalidate hidden>
+            <input type="hidden" id="ad-space-id" />
+            <div class="form-field">
+              <label for="ad-business-name">Business name <span class="form-field-optional">(optional)</span></label>
+              <input type="text" id="ad-business-name" />
+              <p class="form-field-hint">Leave blank for a house promo with no business behind it (e.g. a raffle), owned by no one or by the platform itself.</p>
+            </div>
+            <div class="form-field">
+              <label for="ad-placement">Placement</label>
+              <input type="text" id="ad-placement" placeholder="e.g. homepage-hero" required />
+              <p class="form-field-hint">Free text -- there's no fixed list of ad slots yet.</p>
+            </div>
+            <div class="form-field">
+              <label for="ad-image-url">Creative image URL <span class="form-field-optional">(optional)</span></label>
+              <input type="text" id="ad-image-url" placeholder="https://example.com/ad.png" />
+            </div>
+            <div class="form-field">
+              <label for="ad-click-url">Click-through URL <span class="form-field-optional">(optional)</span></label>
+              <input type="text" id="ad-click-url" placeholder="https://example.com" />
+            </div>
+            <div class="form-field-row">
+              <div class="form-field">
+                <label for="ad-start-date">Start date</label>
+                <input type="date" id="ad-start-date" required />
+              </div>
+              <div class="form-field">
+                <label for="ad-end-date">End date <span class="form-field-optional">(optional)</span></label>
+                <input type="date" id="ad-end-date" />
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="ad-price">Price <span class="form-field-optional">(optional, defaults to 0)</span></label>
+              <input type="text" id="ad-price" placeholder="0.00" inputmode="decimal" />
+            </div>
+            <div class="form-field">
+              <label for="ad-owner-search">Owner <span class="form-field-optional">(optional)</span></label>
+              <input type="text" id="ad-owner-search" placeholder="Search users by display name…" autocomplete="off" />
+              <ul id="ad-owner-results" class="owner-search-results" hidden></ul>
+              <div id="ad-owner-selected" class="owner-search-selected" hidden>
+                Owner: <strong id="ad-owner-selected-name"></strong>
+                <button type="button" id="ad-owner-clear-btn" class="cart-item-action">Clear</button>
+              </div>
+              <input type="hidden" id="ad-owner-id" />
+              <p class="form-field-hint">
+                Search by display name and pick a real platform user, or leave blank for an outside
+                advertiser with no account. A user with no display name set won't show up in a name
+                search -- paste their user ID directly instead, it's matched as an exact lookup.
+              </p>
+            </div>
+            <div class="form-field" id="ad-active-field" hidden>
+              <label><input type="checkbox" id="ad-is-active" /> Active</label>
+            </div>
+            <div class="form-field-row">
+              <button type="submit" class="btn-primary" id="ad-space-save-btn">Save Ad Space</button>
+              <button type="button" class="btn-secondary" id="btn-cancel-ad-space">Cancel</button>
+            </div>
+          </form>
+
+          <div id="ad-space-form-message" class="form-message" role="status"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: hello@thecollectorsmarket.co.uk</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../diecast/browse.html">Browse</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright The Collectors Market - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,135 @@
+.list-shell-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.list-tabs {
+  display: flex;
+  gap: 1.5rem;
+  border-bottom: 1px solid #d1d5db;
+  margin-bottom: 1.25rem;
+}
+
+.list-tab {
+  background: transparent;
+  border: none;
+  padding: 0.6rem 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    color: #0f172a;
+  }
+
+  &.active {
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
+  }
+}
+
+.list-table-wrap {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+
+.list-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  th {
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid #d1d5db;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: #f9fafb;
+    }
+  }
+
+  input[type="checkbox"] {
+    accent-color: #3b82f6;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+}
+
+.list-table-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.list-table-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 0.5rem;
+  background: #e5e7eb;
+  flex-shrink: 0;
+  object-fit: cover;
+
+  &.product-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 1.1rem;
+  }
+}
+
+.list-table-actions {
+  display: flex;
+  gap: 1rem;
+  white-space: nowrap;
+}
+
+// Admin "Manage Users" commission-tier cell: current-tier badge, an
+// override <select>, and (only while an unverified business/charity claim
+// is pending) a Verify button, stacked inline.
+.commission-tier-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  select {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.4rem;
+    font-size: 0.8rem;
+    background: white;
+  }
+}

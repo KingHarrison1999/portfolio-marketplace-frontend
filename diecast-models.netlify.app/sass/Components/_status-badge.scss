@@ -1,0 +1,56 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status-badge-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge-draft {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge-archived {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.status-badge-sold {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-badge-removed {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+// Order-status variants (buyer order history) — a different status vocabulary
+// than the listing statuses above, kept as separate modifier classes on the
+// same .status-badge base.
+.status-badge-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge-shipped {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-badge-delivered {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
