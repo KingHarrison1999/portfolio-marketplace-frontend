@@ -8,7 +8,7 @@
 // even on pages that don't load auth.js (e.g. contact.html), and the
 // endpoint is public anyway, so a plain fetch against the same backend
 // origin auth.js itself points at is simpler and has no real downside.
-const NEWSLETTER_API_URL = 'https://marketplace-backend-starter-production.up.railway.app/api/newsletter/subscribe';
+const NEWSLETTER_API_URL = 'https://portfolio-marketplace-backend-production.up.railway.app/api/newsletter/subscribe';
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('.newsletter');

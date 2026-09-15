@@ -2,7 +2,7 @@
 // email to the business inbox). No auth.js on this page -- the endpoint is
 // public, so a plain fetch against the same backend origin auth.js itself
 // points at is enough.
-const CONTACT_API_URL = 'https://marketplace-backend-starter-production.up.railway.app/api/contact';
+const CONTACT_API_URL = 'https://portfolio-marketplace-backend-production.up.railway.app/api/contact';
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('contact-form');

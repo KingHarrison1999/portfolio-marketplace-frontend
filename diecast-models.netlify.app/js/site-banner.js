@@ -19,7 +19,7 @@
 // link text falls back to a generic label when it's not set.
 
 const SITE_ANNOUNCEMENT_API_URL =
-  'https://marketplace-backend-starter-production.up.railway.app/api/ad-spaces?placement=site-announcement';
+  'https://portfolio-marketplace-backend-production.up.railway.app/api/ad-spaces?placement=site-announcement';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('site-announcement-banner');

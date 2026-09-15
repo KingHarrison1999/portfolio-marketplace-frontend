@@ -4,7 +4,7 @@
 
 const SUPABASE_URL = 'https://ctgarodvlfmtpcxrmhnf.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0Z2Fyb2R2bGZtdHBjeHJtaG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NDcwNjksImV4cCI6MjEwMzIyMzA2OX0.w3H5SJgQVYKLz8eRZrB6h9O3c7RhgEfAyIRnT0pw5jE';
-const BACKEND_API_URL = 'https://marketplace-backend-starter-production.up.railway.app';
+const BACKEND_API_URL = 'https://portfolio-marketplace-backend-production.up.railway.app';
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
