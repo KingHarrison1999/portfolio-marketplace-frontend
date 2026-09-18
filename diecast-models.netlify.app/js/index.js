@@ -2,7 +2,7 @@
 // larger "shop results" product grid to the real backend
 // (GET /api/categories, GET /api/listings?sort=newest), plus the hero/
 // toolbar/mobile-drawer search boxes (real navigation to
-// diecast/browse.html?q=..., not a data fetch of their own).
+// browse.html?q=..., not a data fetch of their own).
 //
 // NOT wired, and flagged rather than faked: "Your Recently Viewed Items"
 // (would need per-visitor view-history tracking, which doesn't exist
@@ -42,7 +42,7 @@ async function loadHomepageCategories() {
   grid.innerHTML = '';
   for (const cat of categories) {
     const a = document.createElement('a');
-    a.href = `diecast/browse.html?category_id=${encodeURIComponent(cat.id)}`;
+    a.href = `browse.html?category_id=${encodeURIComponent(cat.id)}`;
     a.className = 'cat';
     a.textContent = cat.name;
 
@@ -81,7 +81,7 @@ function buildProductCard(listing) {
   article.appendChild(meta);
 
   const link = document.createElement('a');
-  link.href = `diecast/listing.html?id=${encodeURIComponent(listing.id)}`;
+  link.href = `listing.html?id=${encodeURIComponent(listing.id)}`;
   link.className = 'btn';
   link.textContent = 'Shop Now';
   article.appendChild(link);
@@ -145,7 +145,7 @@ async function loadShopGrid() {
 // Hero, toolbar, and mobile-drawer search boxes previously had no submit
 // handler at all -- submitting just reloaded the page and dropped the
 // query. All three now send the visitor to the real browse page's search
-// (diecast/browse.html?q=... -- see js/browse.js reading the same param).
+// (browse.html?q=... -- see js/browse.js reading the same param).
 function wireSearchForms() {
   const forms = [
     ['hero-search-form', 'hero-search-input'],
@@ -161,7 +161,7 @@ function wireSearchForms() {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       const q = input.value.trim();
-      window.location.href = q ? `diecast/browse.html?q=${encodeURIComponent(q)}` : 'diecast/browse.html';
+      window.location.href = q ? `browse.html?q=${encodeURIComponent(q)}` : 'browse.html';
     });
   }
 }

@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="cart-item-body">
           <div class="cart-item-thumb product-image-placeholder"><i class="fa-solid fa-image"></i></div>
           <div class="cart-item-details">
-            <h3 class="cart-item-title"><a href="diecast/listing.html?id=${encodeURIComponent(item.listing.id)}">${escapeHtml(item.listing.title)}</a></h3>
+            <h3 class="cart-item-title"><a href="listing.html?id=${encodeURIComponent(item.listing.id)}">${escapeHtml(item.listing.title)}</a></h3>
             <p class="cart-item-price">£${Number(item.listing.price).toFixed(2)} each</p>
             <div class="cart-item-controls">
               <div class="cart-item-qty">

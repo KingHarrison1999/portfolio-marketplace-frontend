@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const { ok } = await addToCart();
       buyNowLink.classList.remove('is-disabled');
       if (ok) {
-        window.location.href = '../checkout.html';
+        window.location.href = 'checkout.html';
       }
     });
   }
