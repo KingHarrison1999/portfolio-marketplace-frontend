@@ -1,4 +1,4 @@
-// Site-wide announcement banner (e.g. the raffle promo Andy asked for) --
+// Site-wide announcement banner (e.g. a raffle promo the client asked for) --
 // reuses the existing ad_spaces system with placement "site-announcement",
 // rendered via the real public GET /api/ad-spaces?placement=X endpoint.
 //

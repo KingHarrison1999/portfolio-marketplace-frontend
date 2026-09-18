@@ -1,6 +1,6 @@
-# The Collectors Market — Frontend
+# Marketplace — Frontend
 
-Static HTML/CSS/SCSS/vanilla-JS frontend for The Collectors Market (diecast/collectibles
+Static HTML/CSS/SCSS/vanilla-JS frontend for Marketplace (diecast/collectibles
 marketplace). No framework, no client-side build beyond SASS → CSS. Site content lives in
 `diecast-models.netlify.app/` (folder name is a historical leftover from the original host —
 see Deployment below). Backend is a separate repo (`marketplace-backend-starter`, Node/Express +
@@ -23,6 +23,12 @@ change.
 
 - Project name: `collectors-market`
 - Live URL: **https://collectors-market.pages.dev**
+
+  ⚠️ **Not yet renamed.** The Cloudflare Pages project itself is still called `collectors-market`
+  (old client branding) — this doc reflects that actual, current name, it hasn't been left
+  un-rebranded by mistake. If the Cloudflare project is renamed, update the project name, live
+  URL, and the two API/dashboard references below to match — not guessed here, since the new
+  slug isn't decided yet.
 - Connected via GitHub integration to this repo (`KingHarrison1999/Portfolio`), branch `main`
 - Cloudflare account ID: `b2d08bce33c8d391a114f7297ee2575e`
 - Build command: `npm run build:css`
@@ -65,5 +71,5 @@ visitor or a plain HTTP request — that's expected, not a sign anything is brok
 was also found live at `diecast-models.netlify.app` (matching this repo's own folder name). That
 one is confirmed stale — a leftover pre-rebrand "Design Chooser" placeholder page with no
 connection to this project's real content or deploy history. **Cloudflare Pages
-(collectors-market.pages.dev) remains the only host serving current, real content going
-forward.**
+(collectors-market.pages.dev — see the rename flag under Deployment above) remains the only host
+serving current, real content going forward.**

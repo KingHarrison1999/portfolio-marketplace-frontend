@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function renderListing(listing) {
-    document.title = `${listing.title} — The Collectors Market`;
+    document.title = `${listing.title} — Marketplace`;
 
     renderGallery(listing.images, listing.title);
     document.getElementById('listing-title').textContent = listing.title;
