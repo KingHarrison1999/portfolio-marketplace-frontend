@@ -1,5 +1,5 @@
 {
-  "name": "andys-marketplace",
+  "name": "marketplace-frontend",
   "private": true,
   "scripts": {
     "build:css": "sass \"diecast-models.netlify.app/sass/main.scss\" \"diecast-models.netlify.app/Styles/main.compiled.css\"",
