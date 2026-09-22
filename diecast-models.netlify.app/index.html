@@ -50,95 +50,12 @@
     </div>
 
     <nav class="main-nav mega">
-      <ul class="menu">
-        <li class="has-dropdown">
-          <a href="#">Cars</a>
-          <div class="dropdown">
-            <ul>
-              <li><a href="#">1/43</a></li>
-              <li><a href="#">1/24</a></li>
-              <li><a href="#">1/18</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="has-dropdown">
-          <a href="#">Military Vehicles</a>
-          <div class="dropdown">
-            <ul>
-              <li><a href="#">1/50</a></li>
-              <li><a href="#">1/18</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="has-dropdown">
-          <a href="#">Aviation</a>
-          <div class="dropdown">
-            <ul>
-              <li><a href="#">1/72</a></li>
-              <li><a href="#">1/48</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="has-dropdown">
-          <a href="#">Rail</a>
-          <div class="dropdown">
-            <ul>
-              <li><a href="#">TT120</a></li>
-              <li><a href="#">OO gauge</a></li>
-              <li><a href="#">N gauge</a></li>
-              <li><a href="#">Other Scales</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="has-dropdown">
-          <a href="#">Scenery</a>
-          <div class="dropdown">
-            <ul>
-              <li><a href="#">Accessories</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="has-dropdown">
-          <a href="#">Scalextric</a>
-          <div class="dropdown">
-            <ul>
-              <li><a href="#">Cars</a></li>
-              <li><a href="#">Sets</a></li>
-              <li><a href="#">Accessories</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="has-dropdown">
-          <a href="#">Trading Cards</a>
-          <div class="dropdown">
-            <ul>
-              <li><a href="#">Pokémon</a></li>
-              <li><a href="#">Yu-Gi-Oh</a></li>
-              <li><a href="#">Magic the Gathering</a></li>
-              <li><a href="#">Other Trading Cards</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="has-dropdown">
-          <a href="#">Diorama</a>
-          <div class="dropdown">
-            <ul>
-              <li><a href="#">Accessories</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="has-dropdown">
-          <a href="#">Other Collectibles</a>
-          <div class="dropdown">
-            <ul>
-              <li><a href="#">Lego and other Bricks</a></li>
-              <li><a href="#">Funko Pop</a></li>
-              <li><a href="#">Boats</a></li>
-              <li><a href="#">Packaging</a></li>
-            </ul>
-          </div>
-        </li>
-      </ul>
+      <!-- Populated from GET /api/categories -- see js/index.js
+           (loadNavCategories). Top-level categories become plain links;
+           a category only gets the dropdown treatment if it actually has
+           child categories in the data, since none of the current
+           categories do. -->
+      <ul class="menu" id="global-nav-menu"></ul>
     </nav>
 
     <!-- Mobile hamburger menu (Design 1 only) -->
@@ -146,17 +63,9 @@
       <div class="panel">
         <button class="close">✕</button>
         <nav class="mobile-nav">
-          <ul>
-            <li><a href="#">Cars</a></li>
-            <li><a href="#">Military Vehicles</a></li>
-            <li><a href="#">Aviation</a></li>
-            <li><a href="#">Rail</a></li>
-            <li><a href="#">Scenery</a></li>
-            <li><a href="#">Scalextric</a></li>
-            <li><a href="#">Trading Cards</a></li>
-            <li><a href="#">Diorama</a></li>
-            <li><a href="#">Other Collectibles</a></li>
-          </ul>
+          <!-- Populated from the same GET /api/categories fetch as the
+               desktop nav above -- see js/index.js (loadNavCategories). -->
+          <ul id="mobile-nav-menu"></ul>
         </nav>
         <div class="mobile-actions">
           <button class="mode-toggle sun-moon mobile" aria-pressed="false" title="Toggle light/dark">
@@ -235,23 +144,21 @@
       <div class="category-grid" id="homepage-category-grid"></div>
     </section>
 
-    <section class="top-sellers carousel-snap">
+    <section class="top-sellers carousel-snap" id="top-sellers-section">
       <div class="section-head">
         <h2>Top Sellers</h2>
         <a href="browse.html" class="cta">Browse All – Shop Now</a>
       </div>
       <div class="carousel-shell">
         <button class="carousel-nav" data-carousel-btn="top-sellers" data-dir="back" aria-label="Next sellers"></button>
-        <div class="carousel scroller" data-carousel="top-sellers">
-          <div class="slide">Modeller's Hub • Manchester</div>
-          <div class="slide">RailNation UK • York</div>
-          <div class="slide">SkyWings Aviation • London</div>
-          <div class="slide">BrickYard • Birmingham</div>
-          <div class="slide">CardCastle • Liverpool</div>
-          <div class="slide">Diecast Direct • Bristol</div>
-          <div class="slide">Heritage Rail • Edinburgh</div>
-          <div class="slide">SkyWings Aviation • London</div>
-        </div>
+        <!-- Populated from GET /api/listings -- see js/index.js
+             (loadTopSellers). No seller ranking/reputation data exists
+             anywhere in the schema (no reviews, no sales counts), so
+             "top" here means sellers with the most active listings right
+             now -- a real, honest signal derived from the same public
+             listings the shop grid below already shows, not an invented
+             one. Section hides itself if there are no active listings. -->
+        <div class="carousel scroller" data-carousel="top-sellers" id="top-sellers-track"></div>
         <button class="carousel-nav" data-carousel-btn="top-sellers" data-dir="next" aria-label="Next sellers"></button>
       </div>
     </section>
@@ -438,96 +345,13 @@
         <input type="search" id="mobile-search-input" placeholder="Search cars, planes, rail, cards, LEGO..." />
         <button>Go</button>
       </form>
-      <ul class="drawer-menu">
-        <!-- Repeat categories with submenus for mobile -->
-        <li>
-          <details>
-            <summary>Cars</summary>
-            <ul>
-              <li><a href="#">1/43</a></li>
-              <li><a href="#">1/24</a></li>
-              <li><a href="#">1/18</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Military Vehicles</summary>
-            <ul>
-              <li><a href="#">1/50</a></li>
-              <li><a href="#">1/18</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Aviation</summary>
-            <ul>
-              <li><a href="#">1/72</a></li>
-              <li><a href="#">1/48</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Rail</summary>
-            <ul>
-              <li><a href="#">TT120</a></li>
-              <li><a href="#">OO gauge</a></li>
-              <li><a href="#">N gauge</a></li>
-              <li><a href="#">Other Scales</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Scenery</summary>
-            <ul>
-              <li><a href="#">Accessories</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Scalextric</summary>
-            <ul>
-              <li><a href="#">Cars</a></li>
-              <li><a href="#">Sets</a></li>
-              <li><a href="#">Accessories</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Trading Cards</summary>
-            <ul>
-              <li><a href="#">Pokémon</a></li>
-              <li><a href="#">Yu-Gi-Oh</a></li>
-              <li><a href="#">Magic the Gathering</a></li>
-              <li><a href="#">Other Trading Cards</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Diorama</summary>
-            <ul>
-              <li><a href="#">Accessories</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Other Collectibles</summary>
-            <ul>
-              <li><a href="#">Lego and other Bricks</a></li>
-              <li><a href="#">Funko Pop</a></li>
-              <li><a href="#">Boats</a></li>
-              <li><a href="#">Packaging</a></li>
-            </ul>
-          </details>
-        </li>
-      </ul>
+      <!-- A third copy of the same category nav (the desktop mega-menu and
+           the .offcanvas mobile-nav above are the other two) -- populated
+           from the same GET /api/categories fetch, see js/index.js
+           (loadNavCategories). A category renders as a <details> accordion
+           only if it has real children; otherwise a plain link, same rule
+           as the other two menus. -->
+      <ul class="drawer-menu" id="drawer-nav-menu"></ul>
     </div>
   </div>
 

@@ -1,16 +1,21 @@
-// Wires the homepage's "Browse by Category", "Recently Added", and the
-// larger "shop results" product grid to the real backend
-// (GET /api/categories, GET /api/listings?sort=newest), plus the hero/
-// toolbar/mobile-drawer search boxes (real navigation to
-// browse.html?q=..., not a data fetch of their own).
+// Wires the homepage's global nav (desktop mega-menu + mobile drawer),
+// "Browse by Category", "Top Sellers", "Recently Added", and the larger
+// "shop results" product grid to the real backend (GET /api/categories,
+// GET /api/listings?sort=newest), plus the hero/toolbar/mobile-drawer
+// search boxes (real navigation to browse.html?q=..., not a data fetch of
+// their own).
 //
 // NOT wired, and flagged rather than faked: "Your Recently Viewed Items"
 // (would need per-visitor view-history tracking, which doesn't exist
 // anywhere -- nothing currently records that a listing was viewed) and
-// "Top Sellers" / "Reputable Sellers" (would need a seller ranking/
-// reputation concept -- no reviews or sales-ranking data exists in the
-// schema). Those two sections still show their original placeholder
-// markup untouched.
+// "Reputable Sellers" (the fabricated "1,500+ verified sales" / "4.9/5
+// average rating" stats have no real backing data -- no reviews or sales-
+// ranking concept exists in the schema). Those two sections still show
+// their original placeholder markup untouched.
+//
+// "Top Sellers" below is DIFFERENT from "Reputable Sellers" -- it doesn't
+// claim any rating or sales count, just a seller name, so it's wired to a
+// real (if simple) signal: sellers with the most active listings right now.
 
 const PLACEHOLDER_ICON_SVG =
   'data:image/svg+xml,' +
@@ -52,6 +57,107 @@ async function loadHomepageCategories() {
     a.appendChild(img);
 
     grid.appendChild(a);
+  }
+}
+
+// Global nav -- desktop mega-menu, the .offcanvas mobile-nav, AND the
+// .mobile-drawer's accordion menu (three separate copies of the same menu
+// in this markup). All three previously had the same 9 hardcoded diecast
+// category names with href="#" links that went nowhere. Wired to the same
+// GET /api/categories the "Browse by Category" section above uses, via
+// its own independent fetch (same one-section-one-fetch pattern as every
+// other loader in this file). A top-level category only gets the
+// dropdown/accordion treatment if it actually has children in the data --
+// none of the current categories do, so all three menus render as flat
+// link lists for now, but this will pick up real subcategories
+// automatically if any get added later.
+async function loadNavCategories() {
+  const desktopMenu = document.getElementById('global-nav-menu');
+  const mobileMenu = document.getElementById('mobile-nav-menu');
+  const drawerMenu = document.getElementById('drawer-nav-menu');
+  if (!desktopMenu && !mobileMenu && !drawerMenu) return;
+
+  const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
+  if (!res.ok) return; // leave both menus empty rather than guessing
+
+  const body = await res.json();
+  const categories = body.categories || [];
+  const topLevel = categories.filter((cat) => !cat.parent_id);
+
+  const childrenByParent = new Map();
+  for (const cat of categories) {
+    if (!cat.parent_id) continue;
+    if (!childrenByParent.has(cat.parent_id)) childrenByParent.set(cat.parent_id, []);
+    childrenByParent.get(cat.parent_id).push(cat);
+  }
+
+  function categoryLink(cat) {
+    const a = document.createElement('a');
+    a.href = `browse.html?category_id=${encodeURIComponent(cat.id)}`;
+    a.textContent = cat.name;
+    return a;
+  }
+
+  if (desktopMenu) {
+    desktopMenu.innerHTML = '';
+    for (const cat of topLevel) {
+      const li = document.createElement('li');
+      li.appendChild(categoryLink(cat));
+
+      const children = childrenByParent.get(cat.id);
+      if (children && children.length > 0) {
+        li.className = 'has-dropdown';
+        const dropdown = document.createElement('div');
+        dropdown.className = 'dropdown';
+        const ul = document.createElement('ul');
+        for (const child of children) {
+          const childLi = document.createElement('li');
+          childLi.appendChild(categoryLink(child));
+          ul.appendChild(childLi);
+        }
+        dropdown.appendChild(ul);
+        li.appendChild(dropdown);
+      }
+
+      desktopMenu.appendChild(li);
+    }
+  }
+
+  if (mobileMenu) {
+    mobileMenu.innerHTML = '';
+    for (const cat of topLevel) {
+      const li = document.createElement('li');
+      li.appendChild(categoryLink(cat));
+      mobileMenu.appendChild(li);
+    }
+  }
+
+  if (drawerMenu) {
+    drawerMenu.innerHTML = '';
+    for (const cat of topLevel) {
+      const li = document.createElement('li');
+      const children = childrenByParent.get(cat.id);
+
+      if (children && children.length > 0) {
+        const details = document.createElement('details');
+        const summary = document.createElement('summary');
+        summary.textContent = cat.name;
+        details.appendChild(summary);
+
+        const ul = document.createElement('ul');
+        for (const child of children) {
+          const childLi = document.createElement('li');
+          childLi.appendChild(categoryLink(child));
+          ul.appendChild(childLi);
+        }
+        details.appendChild(ul);
+        li.appendChild(details);
+      } else {
+        li.appendChild(categoryLink(cat));
+      }
+
+      drawerMenu.appendChild(li);
+    }
   }
 }
 
@@ -110,6 +216,68 @@ async function loadRecentlyAdded() {
   track.innerHTML = '';
   for (const listing of listings) {
     track.appendChild(buildProductCard(listing));
+  }
+}
+
+// "Top Sellers" pill row -- previously 8 hardcoded fake diecast-era
+// business names (e.g. "Modeller's Hub • Manchester"), separate from and
+// stale relative to the real listing grid below it. Reuses the same
+// public GET /api/listings the shop grid already fetches (each listing
+// row carries its own seller_id), tallies which sellers currently have
+// the most active listings, then looks up just those sellers' real names
+// via the public profiles_public view (id, display_name only -- the same
+// view and pattern js/listing.js already uses for a listing's seller
+// name). No city/location field exists on profiles, so unlike the old
+// markup this doesn't show one rather than inventing it.
+async function loadTopSellers() {
+  const section = document.getElementById('top-sellers-section');
+  const track = document.getElementById('top-sellers-track');
+  if (!section || !track) return;
+
+  const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=50');
+  if (!res.ok) {
+    section.hidden = true;
+    return;
+  }
+
+  const body = await res.json();
+  const listings = body.listings || [];
+
+  const countBySeller = new Map();
+  for (const listing of listings) {
+    countBySeller.set(listing.seller_id, (countBySeller.get(listing.seller_id) || 0) + 1);
+  }
+
+  const topSellerIds = [...countBySeller.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8)
+    .map(([sellerId]) => sellerId);
+
+  if (topSellerIds.length === 0) {
+    section.hidden = true;
+    return;
+  }
+
+  const { data: profiles, error } = await window.MarketplaceAuth.supabaseClient
+    .from('profiles_public')
+    .select('id, display_name')
+    .in('id', topSellerIds);
+
+  if (error || !profiles || profiles.length === 0) {
+    section.hidden = true;
+    return;
+  }
+
+  const nameById = new Map(profiles.map((p) => [p.id, p.display_name]));
+
+  track.innerHTML = '';
+  for (const sellerId of topSellerIds) {
+    const name = nameById.get(sellerId);
+    if (!name) continue; // profiles_public had no row for this id -- skip rather than show a blank pill
+    const slide = document.createElement('div');
+    slide.className = 'slide';
+    slide.textContent = name;
+    track.appendChild(slide);
   }
 }
 
@@ -209,7 +377,9 @@ async function loadHeroAds() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  loadNavCategories();
   loadHomepageCategories();
+  loadTopSellers();
   loadRecentlyAdded();
   loadShopGrid();
   loadHeroAds();
