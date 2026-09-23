@@ -62,7 +62,7 @@ async function loadHomepageCategories() {
 
 // Global nav -- desktop mega-menu, the .offcanvas mobile-nav, AND the
 // .mobile-drawer's accordion menu (three separate copies of the same menu
-// in this markup). All three previously had the same 9 hardcoded diecast
+// in this markup). All three previously had the same 9 hardcoded old-catalog
 // category names with href="#" links that went nowhere. Wired to the same
 // GET /api/categories the "Browse by Category" section above uses, via
 // its own independent fetch (same one-section-one-fetch pattern as every
@@ -219,7 +219,7 @@ async function loadRecentlyAdded() {
   }
 }
 
-// "Top Sellers" pill row -- previously 8 hardcoded fake diecast-era
+// "Top Sellers" pill row -- previously 8 hardcoded fake old-catalog-era
 // business names (e.g. "Modeller's Hub • Manchester"), separate from and
 // stale relative to the real listing grid below it. Reuses the same
 // public GET /api/listings the shop grid already fetches (each listing

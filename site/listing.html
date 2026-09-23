@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Browse — Diecast Models</title>
+  <title>Example Listing — Marketplace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="Styles/main.compiled.css" />
   <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="js/auth.js" defer></script>
-  <script src="js/browse.js" defer></script>
+  <script src="js/listing.js" defer></script>
   <script src="js/newsletter.js" defer></script>
   <script src="js/site-banner.js" defer></script>
 </head>
@@ -26,72 +26,73 @@
   </header>
 
   <div class="container">
-    <h1 class="browse-title">Browse All</h1>
+    <p id="listing-loading">Loading listing&hellip;</p>
 
-    <section class="shop-layout">
-      <button class="floating-filter-btn" id="floating-filter-btn" aria-label="Open filters">
-        <i class="fa-solid fa-filter"></i>
-      </button>
+    <div id="listing-not-found" class="detail-not-found" hidden>
+      <h1>Listing not found</h1>
+      <p>This listing doesn't exist, or is no longer available.</p>
+      <a href="browse.html" class="btn-primary">Back to Browse</a>
+    </div>
 
-      <div class="filter-overlay" id="filter-overlay">
-        <div class="filters">
-          <div class="filter-header">
-            <h3>Filters</h3>
-            <button class="filter-close" aria-label="Close filters">
-              <i class="fa-solid fa-times"></i>
-            </button>
-          </div>
-
-          <fieldset class="brands" id="category-filter-list">
-            <legend>Category</legend>
-            <!-- Populated from GET /api/categories -- see js/browse.js.
-                 Checkboxes: the backend accepts multiple category_id
-                 params and filters by ANY of them (OR). -->
-          </fieldset>
-
-          <label>Max Price
-            <input type="range" class="price-slider" id="price-slider" min="0" max="500" step="5" value="500" />
-          </label>
-          <div class="price-display" id="price-display">Up to £500</div>
-
-          <fieldset class="brands" id="condition-filter-list">
-            <legend>Condition</legend>
-            <!-- The full real listings.condition enum (see the DB CHECK
-                 constraint), not just New/Used -- the old mock list was
-                 missing two of the four real values. -->
-            <label><input type="checkbox" value="new" /> New</label>
-            <label><input type="checkbox" value="like_new" /> Like New</label>
-            <label><input type="checkbox" value="used" /> Used</label>
-            <label><input type="checkbox" value="for_parts" /> For Parts</label>
-          </fieldset>
-
-          <div class="filter-actions">
-            <button type="button" class="btn-apply" id="btn-apply-filters">Apply Filters</button>
-            <button type="button" class="btn-reset" id="btn-reset-filters">Reset</button>
+    <div class="product-detail" id="product-detail" hidden>
+      <div class="product-detail-main">
+        <div class="product-gallery">
+          <div class="product-gallery-thumbs" id="listing-gallery-thumbs" hidden></div>
+          <div class="product-gallery-main" id="listing-gallery-main">
+            <div class="product-image-placeholder"><i class="fa-solid fa-image"></i></div>
           </div>
         </div>
+
+        <section class="product-description">
+          <h2>Description</h2>
+          <p id="listing-description"></p>
+        </section>
       </div>
 
-      <section class="results">
-        <div class="toolbar">
-          <div class="sort">
-            <label for="sort1">Sort by</label>
-            <select id="sort1">
-              <option value="newest">Newly Listed</option>
-              <option value="price_asc">Price Low-High</option>
-              <option value="price_desc">Price High-Low</option>
-            </select>
+      <!-- Self-contained purchase panel — bidding UI will extend .purchase-panel-actions
+           or add a new .purchase-panel-bidding block here later, without touching
+           the gallery or description above. -->
+      <aside class="purchase-panel">
+        <h1 id="listing-title"></h1>
+
+        <div class="purchase-panel-seller">
+          <div class="purchase-panel-seller-avatar"></div>
+          <div>
+            <div class="purchase-panel-seller-name" id="listing-seller-name">&nbsp;</div>
           </div>
-          <form class="search small" id="browse-search-form">
-            <input type="search" placeholder="Search within results…" id="browse-search-input" />
-            <button type="submit">Search</button>
-          </form>
         </div>
 
-        <div class="product-grid uniform" id="listings-grid">
-          <p class="results-loading">Loading listings&hellip;</p>
+        <div class="purchase-panel-price" id="listing-price"></div>
+
+        <div class="purchase-panel-meta">
+          <span id="listing-condition"></span>
+          <span id="listing-stock"></span>
         </div>
-      </section>
+
+        <div class="purchase-panel-quantity">
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" value="1" min="1" />
+        </div>
+
+        <div class="purchase-panel-actions">
+          <a href="checkout.html" class="btn-primary" id="buy-now-link">Buy It Now</a>
+          <a href="cart.html" class="btn-secondary" id="add-to-cart-link">Add to Cart</a>
+          <button type="button" class="btn-secondary" disabled title="Not built yet">Make Offer</button>
+          <button type="button" class="btn-secondary" disabled title="Not built yet">Add to Wishlist</button>
+        </div>
+
+        <div id="purchase-panel-message" class="form-message" role="status"></div>
+
+        <div class="purchase-panel-shipping">
+          <div><strong>Shipping:</strong> Free standard shipping</div>
+          <div><strong>Returns:</strong> 60-day returns accepted</div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="rail-scroll" id="similar-items-section" hidden>
+      <h2>Similar Items</h2>
+      <div class="carousel-cards" id="similar-items-cards"></div>
     </section>
   </div>
 

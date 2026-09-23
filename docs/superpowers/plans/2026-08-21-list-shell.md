@@ -17,7 +17,7 @@ Design doc: `docs/superpowers/specs/2026-08-21-list-shell-design.md`
 ### Task 1: Status badge component
 
 **Files:**
-- Create: `diecast-models.netlify.app/sass/Components/_status-badge.scss`
+- Create: `site/sass/Components/_status-badge.scss`
 
 - [ ] **Step 1: Create the file with this exact content**
 
@@ -49,7 +49,7 @@ Design doc: `docs/superpowers/specs/2026-08-21-list-shell-design.md`
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "status-badge" "diecast-models.netlify.app/sass/Components/_status-badge.scss"`
+Run: `grep -c "status-badge" "site/sass/Components/_status-badge.scss"`
 Expected: a number greater than `0`
 
 ---
@@ -57,7 +57,7 @@ Expected: a number greater than `0`
 ### Task 2: List shell component (header, tabs, table)
 
 **Files:**
-- Create: `diecast-models.netlify.app/sass/Components/_list-shell.scss`
+- Create: `site/sass/Components/_list-shell.scss`
 
 - [ ] **Step 1: Create the file with this exact content**
 
@@ -169,7 +169,7 @@ Expected: a number greater than `0`
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "list-table\|list-tab\|list-shell-header" "diecast-models.netlify.app/sass/Components/_list-shell.scss"`
+Run: `grep -c "list-table\|list-tab\|list-shell-header" "site/sass/Components/_list-shell.scss"`
 Expected: a number greater than `0`
 
 ---
@@ -177,7 +177,7 @@ Expected: a number greater than `0`
 ### Task 3: Wire both new partials into main.scss
 
 **Files:**
-- Modify: `diecast-models.netlify.app/sass/main.scss`
+- Modify: `site/sass/main.scss`
 
 - [ ] **Step 1: Add both to the Components group**
 
@@ -205,7 +205,7 @@ To:
 
 - [ ] **Step 2: Confirm the edit**
 
-Run: `grep -n "status-badge\|list-shell" "diecast-models.netlify.app/sass/main.scss"`
+Run: `grep -n "status-badge\|list-shell" "site/sass/main.scss"`
 Expected: two lines printed — `@use 'Components/status-badge';` and `@use 'Components/list-shell';`
 
 ---
@@ -213,7 +213,7 @@ Expected: two lines printed — `@use 'Components/status-badge';` and `@use 'Com
 ### Task 4: Dark-theme rules for the list shell and status badges
 
 **Files:**
-- Modify: `diecast-models.netlify.app/sass/Themes/_dark.scss`
+- Modify: `site/sass/Themes/_dark.scss`
 
 - [ ] **Step 1: Insert dark-mode rules after the form-shell block, before "Shared surfaces"**
 
@@ -300,7 +300,7 @@ Replace it with:
 
 - [ ] **Step 2: Confirm the edit**
 
-Run: `grep -c "list-table\|list-tab\|status-badge" "diecast-models.netlify.app/sass/Themes/_dark.scss"`
+Run: `grep -c "list-table\|list-tab\|status-badge" "site/sass/Themes/_dark.scss"`
 Expected: a number greater than `0`
 
 ---
@@ -316,10 +316,10 @@ Expected: exits with code 0, no Sass errors printed.
 
 - [ ] **Step 2: Confirm the new selectors made it into the compiled output**
 
-Run: `grep -c "\.list-table\|\.list-tab\|\.status-badge" "diecast-models.netlify.app/Styles/main.compiled.css"`
+Run: `grep -c "\.list-table\|\.list-tab\|\.status-badge" "site/Styles/main.compiled.css"`
 Expected: a number greater than `0`
 
-Run: `grep -c "\.design-1" "diecast-models.netlify.app/Styles/main.compiled.css"`
+Run: `grep -c "\.design-1" "site/Styles/main.compiled.css"`
 Expected: `0`
 
 ---
@@ -327,7 +327,7 @@ Expected: `0`
 ### Task 6: Listings page
 
 **Files:**
-- Create: `diecast-models.netlify.app/seller/listings.html`
+- Create: `site/seller/listings.html`
 
 - [ ] **Step 1: Create the file with this exact content**
 
@@ -430,7 +430,7 @@ Note: `dashboard.html` is not modified by this task — each page carries its ow
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "list-table\|list-tab\|status-badge" "diecast-models.netlify.app/seller/listings.html"`
+Run: `grep -c "list-table\|list-tab\|status-badge" "site/seller/listings.html"`
 Expected: a number greater than `0`
 
 ---
@@ -441,7 +441,7 @@ Expected: a number greater than `0`
 
 - [ ] **Step 1: Open the page**
 
-Open `diecast-models.netlify.app/seller/listings.html` directly in a browser.
+Open `site/seller/listings.html` directly in a browser.
 
 Confirm:
 - Sidebar renders with "Listings" visually active (blue accent), "Dashboard" not active.
@@ -451,7 +451,7 @@ Confirm:
 
 - [ ] **Step 2: Confirm dashboard.html's sidebar link now works**
 
-Open `diecast-models.netlify.app/seller/dashboard.html`, click the "Listings" nav item, and confirm it navigates to the new `listings.html` page (previously a dead link).
+Open `site/seller/dashboard.html`, click the "Listings" nav item, and confirm it navigates to the new `listings.html` page (previously a dead link).
 
 - [ ] **Step 3: Confirm dark mode**
 

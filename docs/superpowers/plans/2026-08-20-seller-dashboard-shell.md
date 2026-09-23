@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a reusable, structure-only seller dashboard shell (sidebar nav + stats row + placeholder content area) styled entirely from the existing design system, at `diecast-models.netlify.app/seller/dashboard.html`.
+**Goal:** Build a reusable, structure-only seller dashboard shell (sidebar nav + stats row + placeholder content area) styled entirely from the existing design system, at `site/seller/dashboard.html`.
 
 **Architecture:** Two new SCSS partials (`Layout/_dashboard.scss` for the shell/sidebar, `Components/_stat-card.scss` for the stats row) wired into the existing 7-1 `main.scss`, plus matching dark-theme rules in `Themes/_dark.scss`. One new static HTML page consumes the resulting classes — no JS, no real data.
 
@@ -17,7 +17,7 @@ Design doc: `docs/superpowers/specs/2026-08-20-seller-dashboard-shell-design.md`
 ### Task 1: Dashboard shell layout partial
 
 **Files:**
-- Create: `diecast-models.netlify.app/sass/Layout/_dashboard.scss`
+- Create: `site/sass/Layout/_dashboard.scss`
 
 - [ ] **Step 1: Create the file with this exact content**
 
@@ -106,7 +106,7 @@ Design doc: `docs/superpowers/specs/2026-08-20-seller-dashboard-shell-design.md`
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "dashboard-shell" "diecast-models.netlify.app/sass/Layout/_dashboard.scss"`
+Run: `grep -c "dashboard-shell" "site/sass/Layout/_dashboard.scss"`
 Expected: `1` (the selector appears once, in the file you just wrote)
 
 ---
@@ -114,7 +114,7 @@ Expected: `1` (the selector appears once, in the file you just wrote)
 ### Task 2: Stat card component partial
 
 **Files:**
-- Create: `diecast-models.netlify.app/sass/Components/_stat-card.scss`
+- Create: `site/sass/Components/_stat-card.scss`
 
 - [ ] **Step 1: Create the file with this exact content**
 
@@ -160,7 +160,7 @@ Expected: `1` (the selector appears once, in the file you just wrote)
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "stat-card" "diecast-models.netlify.app/sass/Components/_stat-card.scss"`
+Run: `grep -c "stat-card" "site/sass/Components/_stat-card.scss"`
 Expected: `2` (the `.stat-card` selector and the `@use` mixin reference both mention it — actual count is fine as long as it's greater than 0; the important check is the file exists and is non-empty)
 
 ---
@@ -168,7 +168,7 @@ Expected: `2` (the `.stat-card` selector and the `@use` mixin reference both men
 ### Task 3: Wire the new partials into main.scss
 
 **Files:**
-- Modify: `diecast-models.netlify.app/sass/main.scss`
+- Modify: `site/sass/main.scss`
 
 - [ ] **Step 1: Add the two new `@use` lines**
 
@@ -206,7 +206,7 @@ To:
 
 - [ ] **Step 2: Confirm the edit**
 
-Run: `grep -n "stat-card\|dashboard" "diecast-models.netlify.app/sass/main.scss"`
+Run: `grep -n "stat-card\|dashboard" "site/sass/main.scss"`
 Expected: two lines printed — `@use 'Components/stat-card';` and `@use 'Layout/dashboard';`
 
 ---
@@ -214,7 +214,7 @@ Expected: two lines printed — `@use 'Components/stat-card';` and `@use 'Layout
 ### Task 4: Dark-theme rules for the dashboard shell
 
 **Files:**
-- Modify: `diecast-models.netlify.app/sass/Themes/_dark.scss`
+- Modify: `site/sass/Themes/_dark.scss`
 
 - [ ] **Step 1: Add dashboard dark-mode rules inside the existing `.theme-dark { ... }` block**
 
@@ -273,7 +273,7 @@ Insert the following immediately after that closing `}` (still inside the surrou
 
 - [ ] **Step 2: Confirm the edit**
 
-Run: `grep -c "dashboard-shell\|dashboard-sidebar\|dashboard-nav\|dashboard-placeholder" "diecast-models.netlify.app/sass/Themes/_dark.scss"`
+Run: `grep -c "dashboard-shell\|dashboard-sidebar\|dashboard-nav\|dashboard-placeholder" "site/sass/Themes/_dark.scss"`
 Expected: `4` or greater (each selector name appears at least once)
 
 ---
@@ -289,10 +289,10 @@ Expected: exits with code 0, no Sass errors printed.
 
 - [ ] **Step 2: Confirm the new selectors made it into the compiled output**
 
-Run: `grep -c "\.dashboard-shell\|\.stat-card\|\.dashboard-nav" "diecast-models.netlify.app/Styles/main.compiled.css"`
+Run: `grep -c "\.dashboard-shell\|\.stat-card\|\.dashboard-nav" "site/Styles/main.compiled.css"`
 Expected: a number greater than `0` (selectors present in the compiled CSS)
 
-Run: `grep -c "\.design-1" "diecast-models.netlify.app/Styles/main.compiled.css"`
+Run: `grep -c "\.design-1" "site/Styles/main.compiled.css"`
 Expected: `0` (confirms nothing reintroduced the old `.design-1` scoping pattern — sanity check consistent with the rest of this codebase's migration)
 
 ---
@@ -300,7 +300,7 @@ Expected: `0` (confirms nothing reintroduced the old `.design-1` scoping pattern
 ### Task 6: Dashboard HTML page
 
 **Files:**
-- Create: `diecast-models.netlify.app/seller/dashboard.html`
+- Create: `site/seller/dashboard.html`
 
 - [ ] **Step 1: Create the file with this exact content**
 
@@ -366,7 +366,7 @@ Note: the nav links point to sibling pages (`listings.html`, `orders.html`, `mes
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "dashboard-shell\|stat-card\|dashboard-nav" "diecast-models.netlify.app/seller/dashboard.html"`
+Run: `grep -c "dashboard-shell\|stat-card\|dashboard-nav" "site/seller/dashboard.html"`
 Expected: a number greater than `0`
 
 ---
@@ -377,7 +377,7 @@ Expected: a number greater than `0`
 
 - [ ] **Step 1: Open the page**
 
-Open `diecast-models.netlify.app/seller/dashboard.html` directly in a browser (double-click works — this page uses plain CSS, no ES modules, no fetch).
+Open `site/seller/dashboard.html` directly in a browser (double-click works — this page uses plain CSS, no ES modules, no fetch).
 
 Confirm:
 - Sidebar renders on the left with brand label "Shop Manager" and 5 nav items (Dashboard, Listings, Orders, Messages, Settings), each with an icon.

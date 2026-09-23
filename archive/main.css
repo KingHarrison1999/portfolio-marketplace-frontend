@@ -1,7 +1,7 @@
-// Archived from diecast-models.netlify.app/Styles/main.css on 2026-08-19.
+// Archived from site/Styles/main.css on 2026-08-19.
 // Legacy monolithic stylesheet (all six designs, pre-7-1-migration) — inactive
 // reference only. design1.html now runs on the compiled 7-1 SCSS output at
-// diecast-models.netlify.app/Styles/main.compiled.css. Not part of the active build.
+// site/Styles/main.compiled.css. Not part of the active build.
 // Note: index.html still has a <link> to the old Styles/main.css path — that
 // reference was left as-is (not repointed) per explicit instruction when this
 // file was archived; it is now a dead link.

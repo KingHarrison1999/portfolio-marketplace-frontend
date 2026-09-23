@@ -2,11 +2,11 @@
 
 ## Context
 
-The site currently has only shopper-facing pages (`diecast/design1.html`) and the design-chooser tool (`index.html`). There's no seller-facing area yet. This spec covers the first piece of one: a reusable dashboard shell (sidebar nav + main content area) modeled structurally on Etsy's Shop Manager, but restyled entirely with this project's own design tokens and components. Structure only — no real data, no page-specific content yet. Future seller pages (Listings, Orders, Messages, Settings) are expected to reuse this same shell.
+The site currently has only shopper-facing pages (the homepage design) and the design-chooser tool (`index.html`). There's no seller-facing area yet. This spec covers the first piece of one: a reusable dashboard shell (sidebar nav + main content area) modeled structurally on Etsy's Shop Manager, but restyled entirely with this project's own design tokens and components. Structure only — no real data, no page-specific content yet. Future seller pages (Listings, Orders, Messages, Settings) are expected to reuse this same shell.
 
 ## Page
 
-New file: `diecast-models.netlify.app/seller/dashboard.html`. New top-level `seller/` folder, parallel to `diecast/`, keeping shopper-facing and seller-facing pages separated as the seller area grows. Same page conventions as `design1.html`: links `../Styles/main.compiled.css`, loads the same Font Awesome kit script for icons.
+New file: `site/seller/dashboard.html`. New top-level `seller/` folder, parallel to the existing shopper-facing pages, keeping shopper-facing and seller-facing pages separated as the seller area grows. Same page conventions as the homepage design: links `../Styles/main.compiled.css`, loads the same Font Awesome kit script for icons.
 
 ## SCSS additions (added to `sass/main.scss`)
 

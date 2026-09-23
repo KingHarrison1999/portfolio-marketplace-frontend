@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a reusable, structure-only centered-form shell (labeled fields + helper text + primary button, centered card layout) styled from the existing design system, at `diecast-models.netlify.app/shared/form-shell.html`.
+**Goal:** Build a reusable, structure-only centered-form shell (labeled fields + helper text + primary button, centered card layout) styled from the existing design system, at `site/shared/form-shell.html`.
 
 **Architecture:** A new globally-reusable `.btn-primary` class in `Components/_buttons.scss`, plus a new `Components/_form-shell.scss` partial (shell/card/header/field), wired into the existing 7-1 `main.scss`, with matching dark-theme rules in `Themes/_dark.scss`. One new static demo page consumes the resulting classes — no JS, no real form logic.
 
@@ -17,7 +17,7 @@ Design doc: `docs/superpowers/specs/2026-08-21-form-shell-design.md`
 ### Task 1: Add `.btn-primary` to the buttons component
 
 **Files:**
-- Modify: `diecast-models.netlify.app/sass/Components/_buttons.scss`
+- Modify: `site/sass/Components/_buttons.scss`
 
 - [ ] **Step 1: Insert `.btn-primary` between the base `button` rule and `.floating-filter-btn`**
 
@@ -72,7 +72,7 @@ So the file reads, in order: `@use` line, `button { ... }`, `.btn-primary { ... 
 
 - [ ] **Step 2: Confirm the edit**
 
-Run: `grep -c "btn-primary" "diecast-models.netlify.app/sass/Components/_buttons.scss"`
+Run: `grep -c "btn-primary" "site/sass/Components/_buttons.scss"`
 Expected: `2` (the rule name appears in the selector and nowhere else duplicated — if you get `1` that's also fine, the important thing is the file contains `.btn-primary {`)
 
 ---
@@ -80,7 +80,7 @@ Expected: `2` (the rule name appears in the selector and nowhere else duplicated
 ### Task 2: Create the form shell component partial
 
 **Files:**
-- Create: `diecast-models.netlify.app/sass/Components/_form-shell.scss`
+- Create: `site/sass/Components/_form-shell.scss`
 
 - [ ] **Step 1: Create the file with this exact content**
 
@@ -167,7 +167,7 @@ Expected: `2` (the rule name appears in the selector and nowhere else duplicated
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "form-shell\|form-field" "diecast-models.netlify.app/sass/Components/_form-shell.scss"`
+Run: `grep -c "form-shell\|form-field" "site/sass/Components/_form-shell.scss"`
 Expected: a number greater than `0`
 
 ---
@@ -175,7 +175,7 @@ Expected: a number greater than `0`
 ### Task 3: Wire the new partial into main.scss
 
 **Files:**
-- Modify: `diecast-models.netlify.app/sass/main.scss`
+- Modify: `site/sass/main.scss`
 
 - [ ] **Step 1: Add `form-shell` to the Components group**
 
@@ -200,7 +200,7 @@ To:
 
 - [ ] **Step 2: Confirm the edit**
 
-Run: `grep -n "form-shell" "diecast-models.netlify.app/sass/main.scss"`
+Run: `grep -n "form-shell" "site/sass/main.scss"`
 Expected: one line printed — `@use 'Components/form-shell';`
 
 ---
@@ -208,7 +208,7 @@ Expected: one line printed — `@use 'Components/form-shell';`
 ### Task 4: Dark-theme rules for the form shell
 
 **Files:**
-- Modify: `diecast-models.netlify.app/sass/Themes/_dark.scss`
+- Modify: `site/sass/Themes/_dark.scss`
 
 - [ ] **Step 1: Insert dark-mode rules after the dashboard block, before "Shared surfaces"**
 
@@ -275,7 +275,7 @@ Replace it with:
 
 - [ ] **Step 2: Confirm the edit**
 
-Run: `grep -c "form-shell\|form-field" "diecast-models.netlify.app/sass/Themes/_dark.scss"`
+Run: `grep -c "form-shell\|form-field" "site/sass/Themes/_dark.scss"`
 Expected: a number greater than `0`
 
 ---
@@ -291,10 +291,10 @@ Expected: exits with code 0, no Sass errors printed.
 
 - [ ] **Step 2: Confirm the new selectors made it into the compiled output**
 
-Run: `grep -c "\.btn-primary\|\.form-shell\|\.form-field" "diecast-models.netlify.app/Styles/main.compiled.css"`
+Run: `grep -c "\.btn-primary\|\.form-shell\|\.form-field" "site/Styles/main.compiled.css"`
 Expected: a number greater than `0`
 
-Run: `grep -c "\.design-1" "diecast-models.netlify.app/Styles/main.compiled.css"`
+Run: `grep -c "\.design-1" "site/Styles/main.compiled.css"`
 Expected: `0` (sanity check consistent with the rest of this codebase's migration — nothing reintroduced old scoping)
 
 ---
@@ -302,7 +302,7 @@ Expected: `0` (sanity check consistent with the rest of this codebase's migratio
 ### Task 6: Form shell demo page
 
 **Files:**
-- Create: `diecast-models.netlify.app/shared/form-shell.html`
+- Create: `site/shared/form-shell.html`
 
 - [ ] **Step 1: Create the file with this exact content**
 
@@ -348,7 +348,7 @@ Expected: `0` (sanity check consistent with the rest of this codebase's migratio
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "form-shell\|form-field\|btn-primary" "diecast-models.netlify.app/shared/form-shell.html"`
+Run: `grep -c "form-shell\|form-field\|btn-primary" "site/shared/form-shell.html"`
 Expected: a number greater than `0`
 
 ---
@@ -359,7 +359,7 @@ Expected: a number greater than `0`
 
 - [ ] **Step 1: Open the page**
 
-Open `diecast-models.netlify.app/shared/form-shell.html` directly in a browser (double-click works — plain CSS, no ES modules, no fetch).
+Open `site/shared/form-shell.html` directly in a browser (double-click works — plain CSS, no ES modules, no fetch).
 
 Confirm:
 - A white card is centered both horizontally and vertically on the page.

@@ -6,7 +6,7 @@ The seller dashboard's sidebar already has a "Listings" nav link pointing at `li
 
 ## Page
 
-`diecast-models.netlify.app/seller/listings.html` — reuses the `.dashboard-shell` / `.dashboard-sidebar` markup from `dashboard.html` verbatim, with the "Listings" nav item marked `active` instead of "Dashboard". This makes the existing sidebar link real rather than building an isolated demo page.
+`site/seller/listings.html` — reuses the `.dashboard-shell` / `.dashboard-sidebar` markup from `dashboard.html` verbatim, with the "Listings" nav item marked `active` instead of "Dashboard". This makes the existing sidebar link real rather than building an isolated demo page.
 
 ## New components
 

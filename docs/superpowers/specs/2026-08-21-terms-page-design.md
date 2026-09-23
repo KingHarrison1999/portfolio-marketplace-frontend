@@ -6,7 +6,7 @@ The site needs a Terms of Service page built with realistic structure and layout
 
 ## Page
 
-`diecast-models.netlify.app/terms.html` — top-level, alongside `index.html`. Not seller- or shopper-specific, and it's real (if placeholder) site content rather than a UI-shell demo, so it doesn't belong in `shared/` with the dashboard/form/list shell demos.
+`site/terms.html` — top-level, alongside `index.html`. Not seller- or shopper-specific, and it's real (if placeholder) site content rather than a UI-shell demo, so it doesn't belong in `shared/` with the dashboard/form/list shell demos.
 
 ## Structure
 

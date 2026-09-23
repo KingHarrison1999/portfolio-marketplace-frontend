@@ -1,15 +1,13 @@
 # Marketplace — Frontend
 
-Static HTML/CSS/SCSS/vanilla-JS frontend for Marketplace (diecast/collectibles
-marketplace). No framework, no client-side build beyond SASS → CSS. Site content lives in
-`diecast-models.netlify.app/` (folder name is a historical leftover from the original host —
-see Deployment below). Backend is a separate repo (`marketplace-backend-starter`, Node/Express +
-Supabase, deployed on Railway).
+Static HTML/CSS/SCSS/vanilla-JS frontend for a generic marketplace demo. No framework, no
+client-side build beyond SASS → CSS. Site content lives in `site/`. Backend is a separate repo
+(`marketplace-backend`, Node/Express + Supabase, deployed on Railway).
 
 ## Build
 
 ```
-npm run build:css     # compiles sass/main.scss -> diecast-models.netlify.app/Styles/main.compiled.css
+npm run build:css     # compiles sass/main.scss -> site/Styles/main.compiled.css
 npm run watch:css      # same, in watch mode
 ```
 
@@ -32,7 +30,7 @@ change.
 - Connected via GitHub integration to this repo (`KingHarrison1999/Portfolio`), branch `main`
 - Cloudflare account ID: `b2d08bce33c8d391a114f7297ee2575e`
 - Build command: `npm run build:css`
-- Output/publish directory: `diecast-models.netlify.app` (copied directly from this repo's
+- Output/publish directory: `site` (copied directly from this repo's
   `netlify.toml`, which still holds the canonical build config even though Netlify is no longer
   the active host — see below)
 
@@ -61,15 +59,17 @@ free-tier deploy credits ran out mid-cycle). **It has been left untouched** — 
 reconfigured — it's just no longer the active deploy target; don't assume it reflects the current
 `main` branch.
 
-Known Netlify site: `diecast-marketplace.netlify.app` — this was the real production Netlify
-site (confirmed by logging into app.netlify.com directly: deploy history matches this repo's
-actual work). It sits behind Netlify's Edge Access (account-login gate, HTTP 401 to anonymous
-requests, real `site_id` `772012cd-2c04-47a8-9652-d901d522401d`), so it won't load for a logged-out
-visitor or a plain HTTP request — that's expected, not a sign anything is broken.
+Known Netlify site: the original production Netlify deployment (hostname omitted here — it
+carries old client-era branding) — confirmed by logging into app.netlify.com directly: deploy
+history matches this repo's actual work. It sits behind Netlify's Edge Access (account-login
+gate, HTTP 401 to anonymous requests, real `site_id` `772012cd-2c04-47a8-9652-d901d522401d`), so
+it won't load for a logged-out visitor or a plain HTTP request — that's expected, not a sign
+anything is broken.
 
 **Resolved discrepancy:** during the Cloudflare Pages migration, a second, unrelated Netlify site
-was also found live at `diecast-models.netlify.app` (matching this repo's own folder name). That
-one is confirmed stale — a leftover pre-rebrand "Design Chooser" placeholder page with no
-connection to this project's real content or deploy history. **Cloudflare Pages
+was also found live too, serving a stale, leftover pre-rebrand "Design Chooser" placeholder page
+(it happened to share this repo's folder name at the time, before that folder was renamed away
+from old client-era branding) with no connection to this project's real content or deploy
+history. **Cloudflare Pages
 (collectors-market.pages.dev — see the rename flag under Deployment above) remains the only host
 serving current, real content going forward.**

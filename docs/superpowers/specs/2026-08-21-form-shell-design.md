@@ -21,7 +21,7 @@ Explicitly excluded (present in the reference screenshot, not in the requested s
 
 ## Demo page
 
-`diecast-models.netlify.app/shared/form-shell.html` — new top-level `shared/` folder for cross-cutting UI that isn't shopper- or seller-specific. Uses 3 stacked `.form-field`s with deliberately generic placeholder copy ("Field label one/two/three", generic helper text, generic input placeholder text) to demonstrate the shell holds more than a single field, plus one `.btn-primary` submit button labeled "Continue". Same page conventions as the other pages in this project (links `../Styles/main.compiled.css`).
+`site/shared/form-shell.html` — new top-level `shared/` folder for cross-cutting UI that isn't shopper- or seller-specific. Uses 3 stacked `.form-field`s with deliberately generic placeholder copy ("Field label one/two/three", generic helper text, generic input placeholder text) to demonstrate the shell holds more than a single field, plus one `.btn-primary` submit button labeled "Continue". Same page conventions as the other pages in this project (links `../Styles/main.compiled.css`).
 
 ## Theming
 

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build `diecast-models.netlify.app/terms.html` — a realistically structured Terms of Service page with clearly-marked placeholder copy, styled from the existing homepage design system.
+**Goal:** Build `site/terms.html` — a realistically structured Terms of Service page with clearly-marked placeholder copy, styled from the existing homepage design system.
 
 **Architecture:** One new small SCSS partial (`Pages/_terms.scss`) for the prose-width wrapper and placeholder-notice banner, wired into `main.scss`, plus one dark-theme rule for the banner. Everything else (fonts, colors, `.container`) already exists globally.
 
@@ -17,7 +17,7 @@ Design doc: `docs/superpowers/specs/2026-08-21-terms-page-design.md`
 ### Task 1: Terms page SCSS partial
 
 **Files:**
-- Create: `diecast-models.netlify.app/sass/Pages/_terms.scss`
+- Create: `site/sass/Pages/_terms.scss`
 
 - [ ] **Step 1: Create the file with this exact content**
 
@@ -60,7 +60,7 @@ Design doc: `docs/superpowers/specs/2026-08-21-terms-page-design.md`
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "legal-content\|placeholder-notice" "diecast-models.netlify.app/sass/Pages/_terms.scss"`
+Run: `grep -c "legal-content\|placeholder-notice" "site/sass/Pages/_terms.scss"`
 Expected: a number greater than `0`
 
 ---
@@ -68,7 +68,7 @@ Expected: a number greater than `0`
 ### Task 2: Wire the new partial into main.scss
 
 **Files:**
-- Modify: `diecast-models.netlify.app/sass/main.scss`
+- Modify: `site/sass/main.scss`
 
 - [ ] **Step 1: Add `terms` to the Pages group**
 
@@ -87,7 +87,7 @@ To:
 
 - [ ] **Step 2: Confirm the edit**
 
-Run: `grep -n "Pages/terms" "diecast-models.netlify.app/sass/main.scss"`
+Run: `grep -n "Pages/terms" "site/sass/main.scss"`
 Expected: one line printed — `@use 'Pages/terms';`
 
 ---
@@ -95,7 +95,7 @@ Expected: one line printed — `@use 'Pages/terms';`
 ### Task 3: Dark-theme rule for the placeholder notice
 
 **Files:**
-- Modify: `diecast-models.netlify.app/sass/Themes/_dark.scss`
+- Modify: `site/sass/Themes/_dark.scss`
 
 - [ ] **Step 1: Insert a dark rule after the status-badge block, before "Shared surfaces"**
 
@@ -128,7 +128,7 @@ Replace it with:
 
 - [ ] **Step 2: Confirm the edit**
 
-Run: `grep -c "placeholder-notice" "diecast-models.netlify.app/sass/Themes/_dark.scss"`
+Run: `grep -c "placeholder-notice" "site/sass/Themes/_dark.scss"`
 Expected: a number greater than `0`
 
 ---
@@ -144,10 +144,10 @@ Expected: exits with code 0, no Sass errors printed.
 
 - [ ] **Step 2: Confirm the new selectors made it into the compiled output**
 
-Run: `grep -c "\.legal-content\|\.placeholder-notice" "diecast-models.netlify.app/Styles/main.compiled.css"`
+Run: `grep -c "\.legal-content\|\.placeholder-notice" "site/Styles/main.compiled.css"`
 Expected: a number greater than `0`
 
-Run: `grep -c "\.design-1" "diecast-models.netlify.app/Styles/main.compiled.css"`
+Run: `grep -c "\.design-1" "site/Styles/main.compiled.css"`
 Expected: `0`
 
 ---
@@ -155,11 +155,11 @@ Expected: `0`
 ### Task 5: Terms of Service page
 
 **Files:**
-- Create: `diecast-models.netlify.app/terms.html`
+- Create: `site/terms.html`
 
 - [ ] **Step 1: Create the file with this exact content**
 
-Note: this file lives at the top level, alongside `index.html` — the stylesheet path is `Styles/main.compiled.css`, not `../Styles/...` (that `../` prefix is only correct for pages nested one folder deep, like `diecast/design1.html` or `seller/dashboard.html`).
+Note: this file lives at the top level, alongside `index.html` — the stylesheet path is `Styles/main.compiled.css`, not `../Styles/...` (that `../` prefix is only correct for pages nested one folder deep, like `admin/dashboard.html` or `seller/dashboard.html`).
 
 ```html
 <!DOCTYPE html>
@@ -225,10 +225,10 @@ Note: this file lives at the top level, alongside `index.html` — the styleshee
 
 - [ ] **Step 2: Confirm the file was written correctly**
 
-Run: `grep -c "legal-content\|placeholder-notice\|<section>" "diecast-models.netlify.app/terms.html"`
+Run: `grep -c "legal-content\|placeholder-notice\|<section>" "site/terms.html"`
 Expected: a number greater than `0`
 
-Run: `grep -c "<h2>" "diecast-models.netlify.app/terms.html"`
+Run: `grep -c "<h2>" "site/terms.html"`
 Expected: `8`
 
 ---
@@ -239,7 +239,7 @@ Expected: `8`
 
 - [ ] **Step 1: Open the page**
 
-Open `diecast-models.netlify.app/terms.html` directly in a browser.
+Open `site/terms.html` directly in a browser.
 
 Confirm:
 - "Terms of Service" title renders at the top.
