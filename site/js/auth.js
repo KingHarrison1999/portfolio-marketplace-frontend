@@ -2,8 +2,8 @@
 // CDN script (window.supabase) to be loaded first, without `defer`, before
 // this file.
 
-const SUPABASE_URL = 'https://ctgarodvlfmtpcxrmhnf.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0Z2Fyb2R2bGZtdHBjeHJtaG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NDcwNjksImV4cCI6MjEwMzIyMzA2OX0.w3H5SJgQVYKLz8eRZrB6h9O3c7RhgEfAyIRnT0pw5jE';
+const SUPABASE_URL = 'https://wtjhtsjvbmkanjvgnxvs.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0amh0c2p2Ym1rYW5qdmdueHZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5MTcxMTQsImV4cCI6MjEwNDQ5MzExNH0.Ad7BmtDgXzM22bY63qQYX0C6adDksZj0iHMd-CXIapQ';
 const BACKEND_API_URL = 'https://portfolio-marketplace-backend-production.up.railway.app';
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
