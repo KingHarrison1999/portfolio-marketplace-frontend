@@ -29,9 +29,23 @@
 //   renderPaymentNotice below) rather than unconditionally saying payment
 //   isn't connected -- a buyer can land here two ways: via the real Stripe
 //   flow (checkout/success.html's "View Order" link, orders already
-//   'paid') or via the still-unhandled multi-seller fallback in
-//   checkout.js (orders left 'pending_payment'). The banner must not
-//   imply a charge happened in the second case.
+//   'paid') or via the multi-seller fallback in checkout.js (orders left
+//   pending_payment). The banner must not imply a charge happened in the
+//   second case.
+//
+// Multi-seller carts: checkout.js only starts the real Stripe flow when
+// checkout produced exactly one order (see its own comment) -- a cart
+// spanning multiple sellers lands here instead, with every order still
+// pending_payment. Each pending_payment card below gets its own "Pay Now"
+// button, using the exact same POST /api/checkout/pay + redirect mechanism
+// checkout.js uses for the single-order case. The buyer can pay each
+// order whenever they're ready, in any order, by revisiting this same
+// page (its URL -- checkout_group_id -- doesn't change as orders get
+// paid). Stripe's success_url/cancel_url are the same fixed
+// checkout/success.html / checkout/cancel.html regardless of which page
+// started the payment, so both already needed to -- and now do -- find
+// their way back to the right order-confirmation.html via the same
+// pendingCheckoutGroupId sessionStorage key checkout.js established.
 
 document.addEventListener('DOMContentLoaded', async () => {
   const loadingEl = document.getElementById('confirmation-loading');
@@ -76,6 +90,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   }
 
+  async function payOrder(orderId, button, messageEl) {
+    button.disabled = true;
+    messageEl.className = 'form-message';
+
+    // Same stash checkout.js uses before its own Stripe redirect --
+    // checkout/success.html and checkout/cancel.html read this back to
+    // link to this exact order-confirmation.html page afterward.
+    sessionStorage.setItem('pendingCheckoutGroupId', checkoutGroupId);
+
+    const res = await window.MarketplaceAuth.fetchWithAuth('/api/checkout/pay', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order_id: orderId }),
+    });
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      messageEl.textContent = body.error || 'Failed to start payment. Please try again.';
+      messageEl.className = 'form-message is-visible form-message-error';
+      button.disabled = false;
+      return;
+    }
+
+    const body = await res.json();
+    window.location.href = body.url;
+  }
+
   function renderOrders(orders) {
     ordersEl.innerHTML = '';
     for (const order of orders) {
@@ -110,6 +151,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="order-summary-row order-summary-total"><span>Total</span><span>£${Number(order.total).toFixed(2)}</span></div>
       `;
       card.appendChild(rows);
+
+      if (order.status === 'pending_payment') {
+        const payBtn = document.createElement('button');
+        payBtn.type = 'button';
+        payBtn.className = 'btn-primary';
+        payBtn.textContent = `Pay Now — £${Number(order.total).toFixed(2)}`;
+        card.appendChild(payBtn);
+
+        const payMessage = document.createElement('div');
+        payMessage.className = 'form-message';
+        payMessage.setAttribute('role', 'status');
+        card.appendChild(payMessage);
+
+        payBtn.addEventListener('click', () => payOrder(order.id, payBtn, payMessage));
+      }
 
       ordersEl.appendChild(card);
     }

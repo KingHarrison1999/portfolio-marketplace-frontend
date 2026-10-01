@@ -68,3 +68,14 @@
     color: #0f172a;
   }
 }
+
+// The "primary action button" slot this component was built for, from day
+// one (see the file header) -- the per-order "Pay Now" button on
+// order-confirmation.html for a still-pending_payment order.
+.order-summary .btn-primary {
+  width: 100%;
+}
+
+.order-summary .form-message {
+  margin-top: 0.75rem;
+}

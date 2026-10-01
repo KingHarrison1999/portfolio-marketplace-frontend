@@ -1877,6 +1877,14 @@ button {
   color: #0f172a;
 }
 
+.order-summary .btn-primary {
+  width: 100%;
+}
+
+.order-summary .form-message {
+  margin-top: 0.75rem;
+}
+
 .cart-items {
   display: flex;
   flex-direction: column;
