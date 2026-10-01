@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Payment Successful</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../Styles/main.compiled.css" />
+  <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/checkout-success.js" defer></script>
+  <script src="../js/newsletter.js" defer></script>
+  <script src="../js/site-banner.js" defer></script>
+</head>
+<body>
+  <div id="site-announcement-banner" class="site-announcement-banner" hidden></div>
+  <header class="global-nav">
+    <div class="global-nav-inner">
+      <a href="../index.html" class="global-nav-logo"><img src="../Images/marketplace-logo.png" alt="Marketplace" /></a>
+      <a href="../browse.html" class="global-nav-browse">Browse</a>
+      <div class="global-nav-actions">
+        <a href="../cart.html" class="global-nav-icon" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+        <a href="../login.html" class="global-nav-icon" aria-label="Account"><i class="fa-solid fa-user"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <p id="success-loading">Confirming your payment&hellip;</p>
+
+    <div id="success-signin-required" class="detail-not-found" hidden>
+      <h1>Sign in required</h1>
+      <p>Sign in to see your payment status.</p>
+      <a href="../login.html" class="btn-primary">Sign In</a>
+    </div>
+
+    <div id="success-not-found" class="detail-not-found" hidden>
+      <h1>We couldn't find that payment</h1>
+      <p>This link is missing or invalid. If you just paid, check your order history instead.</p>
+      <a href="../account/orders.html" class="btn-primary">View My Orders</a>
+    </div>
+
+    <div class="order-confirmation" id="success-paid" hidden>
+      <div class="order-confirmation-message">
+        <i class="fa-solid fa-circle-check"></i>
+        <h1>Payment Successful</h1>
+        <p>Thank you — your payment went through and your order is confirmed.</p>
+      </div>
+      <a href="#" id="success-view-order-link" class="btn-primary">View Order</a>
+      <a href="../browse.html" class="btn-secondary">Continue Shopping</a>
+    </div>
+
+    <div class="order-confirmation" id="success-not-paid" hidden>
+      <div class="order-confirmation-message">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <h1>Payment Not Completed</h1>
+        <p>
+          We checked with Stripe and this payment hasn't gone through yet. Your order is still
+          saved as Pending Payment -- no charge has been made. If you completed payment on
+          Stripe's page, this can take a moment to update; otherwise, you can try paying again.
+        </p>
+      </div>
+      <a href="../checkout.html" class="btn-primary">Back to Checkout</a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Manchester, England</p>
+        <p>Email: kingharrison1999@gmail.com</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../browse.html">Browse</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../shipping-returns.html">Shipping &amp; Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Your email" />
+          <button>Subscribe</button>
+        </form>
+        <div class="newsletter-message" hidden></div>
+        <div class="social">
+          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <footer class="hk-footer">
+    <div class="copyright">
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright Marketplace - All Rights Reserved. Built by Harrison King.</p>
+    </div>
+  </footer>
+</body>
+</html>

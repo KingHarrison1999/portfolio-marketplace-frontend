@@ -1,15 +1,22 @@
-// Wires checkout to the real GET /api/cart, /api/addresses, and
-// POST /api/checkout endpoints.
+// Wires checkout to the real GET /api/cart, /api/addresses,
+// POST /api/checkout, and POST /api/checkout/pay endpoints. After an order
+// is created, this redirects straight to the real Stripe-hosted checkout
+// page for it (see checkout/success.html and checkout/cancel.html for
+// where Stripe sends the buyer back to).
 //
 // KNOWN GAPS (flagged, not silently worked around):
-// - Payment isn't wired here on purpose -- POST /api/checkout only creates
-//   real pending_payment order(s); POST /api/checkout/pay (Optimise
-//   Payments) is a separate, still-unfinished step. The payment section
-//   below is an honest notice, not a card form that would collect details
-//   nothing consumes.
 // - No shipping/tax line items exist anywhere in the schema, so the
 //   summary only ever shows Subtotal + a real "Free" shipping line (there
 //   genuinely is no shipping charge) + Total equal to Subtotal.
+// - A cart spanning multiple sellers makes POST /api/checkout create one
+//   order PER SELLER (see checkoutService.checkout on the backend), and
+//   POST /api/checkout/pay is one Stripe Checkout Session per ORDER -- the
+//   backend has no concept of combining several orders into one payment.
+//   What happens here when that split actually occurs hasn't been decided
+//   yet, so rather than guessing a multi-payment UX, this only starts the
+//   real Stripe flow when checkout produced exactly one order; a
+//   multi-seller cart still falls back to the pre-Stripe behavior (straight
+//   to order-confirmation.html, every order left pending_payment).
 
 document.addEventListener('DOMContentLoaded', async () => {
   const loadingEl = document.getElementById('checkout-loading');
@@ -207,7 +214,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const body = await res.json();
-    window.location.href = `order-confirmation.html?checkout_group_id=${encodeURIComponent(body.checkout_group_id)}`;
+    const orders = body.orders || [];
+
+    // Multi-seller cart: see the KNOWN GAPS comment at the top of this file
+    // -- the payment UX for "checkout produced more than one order" isn't
+    // decided yet, so this falls back to the old behavior rather than
+    // guessing. The order(s) are real and already saved either way.
+    if (orders.length !== 1) {
+      window.location.href = `order-confirmation.html?checkout_group_id=${encodeURIComponent(body.checkout_group_id)}`;
+      return;
+    }
+
+    // Stashed so checkout/success.html can link back to the right
+    // order-confirmation.html after Stripe redirects back -- the
+    // session-status endpoint only reports payment status, not the
+    // checkout_group_id, so there's no other way for that page to know it.
+    sessionStorage.setItem('pendingCheckoutGroupId', body.checkout_group_id);
+
+    const payRes = await window.MarketplaceAuth.fetchWithAuth('/api/checkout/pay', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order_id: orders[0].id }),
+    });
+
+    if (!payRes.ok) {
+      // The order already exists and is saved (pending_payment) regardless
+      // of whether starting payment worked -- say so rather than implying
+      // it was lost. There's no "pay now" action anywhere else in the app
+      // yet (account/orders.html only shows status), so this doesn't claim
+      // one exists.
+      showMessage(
+        formMessageEl,
+        'Your order was placed, but starting payment failed. Your order is saved as Pending Payment -- please try again or contact us.',
+        'error',
+      );
+      placeOrderBtn.disabled = false;
+      return;
+    }
+
+    const payBody = await payRes.json();
+    window.location.href = payBody.url;
   });
 
   const session = await window.MarketplaceAuth.getSession();

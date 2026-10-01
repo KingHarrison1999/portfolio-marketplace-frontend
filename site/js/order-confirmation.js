@@ -25,9 +25,13 @@
 // - No "Estimated Delivery" section -- there's no shipping/logistics
 //   concept anywhere in the schema, so showing a delivery window would be
 //   fabricated. Removed entirely rather than faked.
-// - This page never implies payment happened -- POST /api/checkout only
-//   ever produces pending_payment orders; that's stated plainly rather
-//   than shown as a completed purchase.
+// - The top banner now reflects real payment status (see
+//   renderPaymentNotice below) rather than unconditionally saying payment
+//   isn't connected -- a buyer can land here two ways: via the real Stripe
+//   flow (checkout/success.html's "View Order" link, orders already
+//   'paid') or via the still-unhandled multi-seller fallback in
+//   checkout.js (orders left 'pending_payment'). The banner must not
+//   imply a charge happened in the second case.
 
 document.addEventListener('DOMContentLoaded', async () => {
   const loadingEl = document.getElementById('confirmation-loading');
@@ -111,6 +115,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  function renderPaymentNotice(orders) {
+    const notice = document.getElementById('confirmation-payment-notice');
+    const allPaid = orders.every((o) => o.status === 'paid');
+    if (allPaid) {
+      notice.innerHTML = 'Thank you — your payment was successful and your order is confirmed.';
+    } else {
+      notice.innerHTML =
+        'Thank you — your order has been placed. One or more orders above are still ' +
+        '<strong>Pending Payment</strong> — no charge has been made for those yet.';
+    }
+  }
+
   function renderAddress(order) {
     if (!order.shipping_line1) return; // pre-migration order, no snapshot -- leave the static placeholder
 
@@ -152,6 +168,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   renderOrders(orders);
+  renderPaymentNotice(orders);
   renderAddress(orders[0]);
 
   loadingEl.hidden = true;
