@@ -1,7 +1,22 @@
+// "Inter" was never actually loaded as a web font on any of these pages --
+// no Google Fonts <link> anywhere pulled it in, so every page using this
+// stylesheet has always silently rendered in the OS's default UI font
+// (Segoe UI/San Francisco/etc. via the system-ui fallback), not Inter.
+// Meanwhile index.html (Design 3) does load real webfonts and has a
+// distinct serif-heading look. Matching that here for real: added the same
+// Google Fonts <link> (Merriweather + Source Sans 3) to every page this
+// stylesheet serves, and pointing the actual font stack at those fonts so
+// they're genuinely used, not just declared.
 body {
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  background: #f7f7f9;
-  color: #0f172a;
+  font-family: "Source Sans 3", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #fbfaf7;
+  color: #1f2937;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Merriweather", serif;
 }
 
 h1 {

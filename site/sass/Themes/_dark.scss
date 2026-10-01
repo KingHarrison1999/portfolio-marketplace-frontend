@@ -31,7 +31,7 @@ body.theme-dark {
         color: var(--dark-muted);
 
         &:hover {
-          color: #3b82f6;
+          color: #10b981;
         }
       }
     }
@@ -89,8 +89,8 @@ body.theme-dark {
     }
 
     &.active {
-      background: rgba(59, 130, 246, 0.15);
-      color: #3b82f6;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
     }
   }
 
@@ -147,7 +147,7 @@ body.theme-dark {
       color: var(--dark-ink);
 
       &:focus {
-        border-color: #3b82f6;
+        border-color: #10b981;
       }
 
       &:disabled {
@@ -211,7 +211,7 @@ body.theme-dark {
     }
 
     &.active {
-      color: #3b82f6;
+      color: #10b981;
     }
   }
 
@@ -265,8 +265,8 @@ body.theme-dark {
   }
 
   .status-badge-shipped {
-    background: rgba(59, 130, 246, 0.2);
-    color: #60a5fa;
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
   }
 
   .status-badge-delivered {
@@ -316,7 +316,7 @@ body.theme-dark {
       }
 
       &.active {
-        border-color: #3b82f6;
+        border-color: #10b981;
       }
     }
 
@@ -387,7 +387,7 @@ body.theme-dark {
       color: var(--dark-ink);
 
       &:focus {
-        border-color: #3b82f6;
+        border-color: #10b981;
       }
     }
   }
@@ -460,9 +460,9 @@ body.theme-dark {
   }
 
   .checkout-payment-notice {
-    background: rgba(59, 130, 246, 0.12);
-    border-color: rgba(59, 130, 246, 0.4);
-    color: #93c5fd;
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #6ee7b7;
   }
 
   // --- Addresses (checkout picker + account settings address book) ---
@@ -477,7 +477,7 @@ body.theme-dark {
   }
 
   .address-card:has(input:checked) {
-    border-color: #3b82f6;
+    border-color: #10b981;
   }
 
   .address-card-lines {
@@ -540,7 +540,7 @@ body.theme-dark {
     color: var(--dark-muted);
 
     &:hover {
-      color: #3b82f6;
+      color: #10b981;
     }
   }
 
@@ -582,8 +582,8 @@ body.theme-dark {
   // --- Photo upload ---
   .photo-upload-add {
     background: var(--dark-elev);
-    border-color: #3b82f6;
-    color: #60a5fa;
+    border-color: #10b981;
+    color: #34d399;
 
     &:hover {
       background: var(--dark-line);
@@ -636,7 +636,7 @@ body.theme-dark {
     color: var(--dark-muted);
 
     &:hover {
-      color: #3b82f6;
+      color: #10b981;
     }
   }
 
@@ -711,12 +711,12 @@ body.theme-dark {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 
     &:hover {
-      border-color: #3b82f6;
+      border-color: #10b981;
     }
   }
 
   .cat:hover {
-    border-color: #3b82f6;
+    border-color: #10b981;
   }
 
   // Higher-specificity override — browse-by-category cards stay light in dark mode.
@@ -793,11 +793,11 @@ body.theme-dark {
 
     .product-actions .btn-outline {
       background: transparent;
-      color: #60a5fa;
-      border-color: #60a5fa;
+      color: #34d399;
+      border-color: #34d399;
 
       &:hover {
-        background: rgba(59, 130, 246, 0.15);
+        background: rgba(16, 185, 129, 0.15);
       }
     }
 
@@ -818,8 +818,8 @@ body.theme-dark {
 
   // --- Buttons ---
   .floating-filter-btn {
-    background: #3b82f6;
-    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+    background: #10b981;
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
 
     i {
       color: white;
@@ -827,7 +827,7 @@ body.theme-dark {
 
     &:hover {
       background: vars.$color-accent-hover;
-      box-shadow: 0 15px 35px rgba(59, 130, 246, 0.5);
+      box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
     }
   }
 
@@ -885,7 +885,7 @@ body.theme-dark {
 
         &:hover {
           background: #1f2937;
-          border-color: #3b82f6;
+          border-color: #10b981;
         }
       }
     }
@@ -894,7 +894,7 @@ body.theme-dark {
   // --- Footer ---
   .site-footer {
     background: linear-gradient(135deg, #0f131b, #121826);
-    border-top-color: #3b82f6;
+    border-top-color: #10b981;
 
     .footer-section h4 {
       color: #e5e7eb;
@@ -944,7 +944,7 @@ body.theme-dark {
 
     &:hover {
       background: #1f2937;
-      color: #3b82f6;
+      color: #10b981;
     }
   }
 

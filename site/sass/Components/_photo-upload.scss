@@ -14,9 +14,9 @@
   justify-content: center;
   gap: 0.5rem;
   background: white;
-  border: 2px dashed #3b82f6;
+  border: 2px dashed #10b981;
   border-radius: var(--radius);
-  color: #3b82f6;
+  color: #10b981;
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
@@ -27,7 +27,7 @@
   }
 
   &:hover {
-    background: #eff6ff;
+    background: #ecfdf5;
     border-color: vars.$color-accent-hover;
   }
 }
@@ -71,7 +71,7 @@
   }
 
   &.photo-upload-slot-staged {
-    border-color: #3b82f6;
+    border-color: #10b981;
   }
 }
 

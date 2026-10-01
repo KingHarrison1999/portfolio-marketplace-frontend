@@ -18,8 +18,12 @@
   --dark-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 }
 
-// Named replacements for decimal-RGB darken() output found in the compiled main.css
-// (e.g. rgb(19.9912195122, 105.1219512195, 244.2087804878)) — both are darkened
-// variants of the #3b82f6 accent blue, used as :hover states on primary buttons.
-$color-accent-hover: rgb(19.9912195122, 105.1219512195, 244.2087804878);
-$color-accent-hover-alt: rgb(11.1512195122, 99.1219512195, 242.8487804878);
+// Hover-state shade for the accent color below -- was two near-identical
+// decimal-RGB darken() outputs of the old #3b82f6 accent blue (e.g.
+// rgb(19.9912195122, 105.1219512195, 244.2087804878)), different only by a
+// fraction of a percent, clearly two separate darken() calls rather than an
+// intentional two-tier system. Unified to one plain hex value now that the
+// accent itself is a plain hex too (#10b981, matching Design 3's accent
+// green), rather than carrying the computed-decimal-RGB pattern forward.
+$color-accent-hover: #059669;
+$color-accent-hover-alt: #059669;

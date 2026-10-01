@@ -24,8 +24,8 @@
   }
 
   &:has(input:checked) {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 1px #3b82f6;
+    border-color: #10b981;
+    box-shadow: 0 0 0 1px #10b981;
   }
 
   input[type='radio'] {
@@ -47,8 +47,8 @@
   border-radius: 999px;
   font-size: 0.7rem;
   font-weight: 700;
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: #d1fae5;
+  color: #047857;
 }
 
 .address-empty-note {
@@ -80,7 +80,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
-  background: #eff6ff;
+  background: #ecfdf5;
   border: 1px solid #bfdbfe;
   color: #1e3a8a;
   border-radius: var(--radius);
