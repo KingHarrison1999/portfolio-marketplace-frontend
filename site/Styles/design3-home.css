@@ -28,9 +28,18 @@ body.design-3.theme-dark .site-footer {
 
 body.design-3.theme-dark .masthead,
 body.design-3.theme-dark .scroll-up-navbar {
-  background: #000;
+  background: #0a0a0a;
   color: #fff;
-  border-color: #333;
+  border-color: #262626;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* The hero sits directly under the navbar and is also near-black in dark
+   mode (photo + a dark overlay), so without an explicit border/shadow
+   here the two visually merge into one black mass. */
+body.design-3.theme-dark .masthead .bar .logo,
+body.design-3.theme-dark .scroll-up-navbar .bar .logo {
+  color: #fff;
 }
 
 body.design-3.theme-dark .masthead .bar .mode-toggle.pill-toggle,
@@ -557,11 +566,55 @@ body.design-3 .hero-section + .container {
   padding-left: 1.1rem;
 }
 
+.features-grid .feature.block .list a {
+  color: #059669;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 150ms ease;
+}
+
+.features-grid .feature.block .list a:hover {
+  color: #10b981;
+  text-decoration: underline;
+}
+
+.features-grid .feature.block .list a:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* "Ad space available" tile -- the sole child of its .feature.block, so it
+   fills the full card rather than sitting inside it as a nested dashed box
+   (which read as a broken/unstyled placeholder next to the other three
+   solid-card tiles). */
 .features-grid .feature.block .ad {
-  border: 1px dashed #e6e2da;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  min-height: 80px;
+  padding: 0.75rem;
+  border: 1px solid #a7f3d0;
   border-radius: 0.35rem;
-  padding: 0.5rem;
-  color: #6b7280;
+  background: #ecfdf5;
+  color: #047857;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 200ms ease;
+}
+
+.features-grid .feature.block .ad:hover {
+  border-color: #059669;
+  background: #d1fae5;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+  transform: translateY(-2px);
+}
+
+.features-grid .feature.block .ad:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
 }
 
 .features-grid .feature.block .raffle-row {
@@ -1156,26 +1209,27 @@ body.design-3 .hero-section + .container {
   line-height: 1.6;
 }
 
-.contact-footer .footer-dark-band .footer-dark-inner .footer-office .office-email a {
+/* Every link in the footer's "Office" column -- Quick Links (plain <a> in
+   a <p>, previously had no matching rule at all and fell through to the
+   browser's default blue/underline) and the office email -- share one
+   consistent treatment: no underline at rest, accent green with an
+   underline on hover/focus, same accent as the Search buttons. */
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office a {
   color: #d1d5db;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
   transition: color 200ms ease;
 }
 
-.contact-footer .footer-dark-band .footer-dark-inner .footer-office .office-email a:hover {
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office a:hover {
   color: #10b981;
-}
-
-.contact-footer .footer-dark-band .footer-dark-inner .footer-office .office-map {
-  color: #d1d5db;
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: color 200ms ease;
 }
 
-.contact-footer .footer-dark-band .footer-dark-inner .footer-office .office-map:hover {
-  color: #10b981;
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office a:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter {
@@ -1188,6 +1242,67 @@ body.design-3 .hero-section + .container {
   color: #fff;
   font-weight: 700;
   letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+/* The newsletter form itself -- the only CSS that ever targeted it
+   (".site-footer .newsletter...", further up this file) matches a class
+   that doesn't exist on this markup (the real wrapper is .contact-footer
+   .footer-newsletter), so the input/button were rendering as raw,
+   unstyled HTML form elements. Rounded to match the hero search box's
+   look rather than the masthead search's squared-off one, since this
+   sits on its own dark band rather than inline with other controls. */
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #333;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.9rem;
+  transition: border-color 200ms ease;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter input::placeholder {
+  color: #9ca3af;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter input:focus {
+  outline: none;
+  border-color: #10b981;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter button {
+  border: 0;
+  border-radius: 999px;
+  background: #10b981;
+  color: #fff;
+  padding: 0.65rem 1.1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter button:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter button:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter-message {
+  font-size: 0.85rem;
   margin-bottom: 1rem;
 }
 
@@ -1370,27 +1485,81 @@ body.design-3 .hk-footer .copyright p {
   font-weight: 700;
   clear: both;
 }
+.offcanvas .panel .offcanvas-logo {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  font-size: 1.15rem;
+}
+.offcanvas .offcanvas-label {
+  margin: 0 0 0.5rem;
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 .offcanvas .mobile-nav ul {
   list-style: none;
-  margin: 0.5rem 0;
+  margin: 0 0 0.5rem;
   padding: 0;
 }
 .offcanvas .mobile-nav ul li a {
   display: block;
-  padding: 0.6rem 0;
+  padding: 0.65rem 0.5rem;
+  margin: 0 -0.5rem;
+  border-radius: 0.35rem;
   color: #1f2937;
   text-decoration: none;
-  border-bottom: 1px solid #e6e2da;
+  transition: background 150ms ease, color 150ms ease;
 }
+.offcanvas .mobile-nav ul li a:hover,
+.offcanvas .mobile-nav ul li a:focus-visible {
+  background: #ecfdf5;
+  color: #059669;
+}
+.offcanvas .mobile-nav ul li a:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: -2px;
+}
+/* Visual break between the category list above and the
+   Browse/Cart/Account links below, so the two groups read as distinct
+   sections of the panel rather than one run-on list. */
 .offcanvas-links {
   display: grid;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e6e2da;
 }
 .offcanvas-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.5rem;
+  margin: 0 -0.5rem;
+  border-radius: 0.35rem;
   color: #1f2937;
   text-decoration: none;
   font-weight: 600;
+  transition: background 150ms ease, color 150ms ease;
+}
+.offcanvas-links a i {
+  width: 1.1em;
+  color: #9ca3af;
+  transition: color 150ms ease;
+}
+.offcanvas-links a:hover,
+.offcanvas-links a:focus-visible {
+  background: #ecfdf5;
+  color: #059669;
+}
+.offcanvas-links a:hover i,
+.offcanvas-links a:focus-visible i {
+  color: #059669;
+}
+.offcanvas-links a:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: -2px;
 }
 body.design-3.theme-dark .offcanvas .panel {
   background: #000;
@@ -1400,6 +1569,23 @@ body.design-3.theme-dark .offcanvas .panel .logo,
 body.design-3.theme-dark .offcanvas .mobile-nav ul li a,
 body.design-3.theme-dark .offcanvas-links a {
   color: #fff;
+}
+body.design-3.theme-dark .offcanvas .offcanvas-label {
+  color: #6b7280;
+}
+body.design-3.theme-dark .offcanvas-links {
+  border-top-color: #333;
+}
+body.design-3.theme-dark .offcanvas .mobile-nav ul li a:hover,
+body.design-3.theme-dark .offcanvas .mobile-nav ul li a:focus-visible,
+body.design-3.theme-dark .offcanvas-links a:hover,
+body.design-3.theme-dark .offcanvas-links a:focus-visible {
+  background: #111;
+  color: #10b981;
+}
+body.design-3.theme-dark .offcanvas-links a:hover i,
+body.design-3.theme-dark .offcanvas-links a:focus-visible i {
+  color: #10b981;
 }
 body.design-3.theme-dark .offcanvas .panel .close {
   background: #111;

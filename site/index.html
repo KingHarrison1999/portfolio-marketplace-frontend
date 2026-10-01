@@ -62,15 +62,16 @@
   <div class="offcanvas" id="offcanvas">
     <div class="panel">
       <button class="close" aria-label="Close menu">✕</button>
-      <a href="index.html" class="logo" style="margin-bottom:1rem;display:inline-block;">Marketplace</a>
+      <a href="index.html" class="logo offcanvas-logo">Marketplace</a>
       <nav class="mobile-nav">
+        <p class="offcanvas-label">Categories</p>
         <!-- Populated from GET /api/categories -- see js/index.js (loadNavCategories) -->
         <ul id="mobile-nav-menu"></ul>
       </nav>
       <div class="offcanvas-links">
-        <a href="browse.html">Browse</a>
-        <a href="cart.html">Cart</a>
-        <a href="login.html">Account</a>
+        <a href="browse.html"><i class="fa-solid fa-magnifying-glass"></i> Browse</a>
+        <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+        <a href="login.html"><i class="fa-solid fa-user"></i> Account</a>
       </div>
     </div>
   </div>
