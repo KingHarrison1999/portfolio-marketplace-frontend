@@ -1,201 +1,178 @@
-<!-- Marketplace — Design 1 -->
-<!-- Differences: Minimalist, full-width hero with centered big search, sticky horizontal mega-menu, uniform grid, soft metallic light theme, subtle hover animations. -->
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <meta charset="UTF-8" />
-  <title>Marketplace — Design 1</title>
+  <title>Marketplace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="Styles/main.compiled.css" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Barriecito&amp;family=Martian+Mono:wght@200;300;400;500;600;700&amp;family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&amp;family=Oswald:wght@300;400;600;700&amp;family=Roboto+Slab:wght@300;400&amp;display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&amp;family=Source+Sans+3:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Styles/design3-home.css" />
   <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com/">
   <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="js/auth.js" defer></script>
   <script src="js/index.js" defer></script>
-
   <script src="js/newsletter.js" defer></script>
   <script src="js/site-banner.js" defer></script>
 </head>
 
-<body class="theme-light design-1">
+<body class="design-3 theme-light">
   <div id="site-announcement-banner" class="site-announcement-banner" hidden></div>
-  <header class="site-header is-sticky">
-    <div class="brand-row">
-      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <a href="index.html" class="logo">
-        <img src="Images/marketplace-logo.png" alt="Marketplace" />
-      </a>
-      <div class="actions">
-        <a href="browse.html" class="header-link">Browse</a>
-        <a href="cart.html" class="header-icon-link" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
-        <a href="login.html" class="header-icon-link" aria-label="Account"><i class="fa-solid fa-user"></i></a>
-        <button class="mode-toggle sun-moon" aria-pressed="false" title="Toggle light/dark">
-          <span class="sun">☀️</span>
-          <span class="moon">🌙</span>
+
+  <!-- Sticky navbar that fades in once the visitor scrolls back up -->
+  <header class="scroll-up-navbar" id="scroll-up-navbar">
+    <div class="bar">
+      <a href="index.html" class="logo">Marketplace</a>
+      <div class="right">
+        <button class="hamburger" id="hamburger-2" aria-label="Open menu" aria-expanded="false">
+          <i class="fa-solid fa-bars"></i>
         </button>
-      </div>
-    </div>
-
-    <nav class="main-nav mega">
-      <!-- Populated from GET /api/categories -- see js/index.js
-           (loadNavCategories). Top-level categories become plain links;
-           a category only gets the dropdown treatment if it actually has
-           child categories in the data, since none of the current
-           categories do. -->
-      <ul class="menu" id="global-nav-menu"></ul>
-    </nav>
-
-    <!-- Mobile hamburger menu (Design 1 only) -->
-    <div class="offcanvas">
-      <div class="panel">
-        <button class="close">✕</button>
-        <nav class="mobile-nav">
-          <!-- Populated from the same GET /api/categories fetch as the
-               desktop nav above -- see js/index.js (loadNavCategories). -->
-          <ul id="mobile-nav-menu"></ul>
-        </nav>
-        <div class="mobile-actions">
-          <button class="mode-toggle sun-moon mobile" aria-pressed="false" title="Toggle light/dark">
-            <span class="sun">☀️</span>
-            <span class="moon">🌙</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero">
-      <div class="hero-content">
-        <h1>Buy and sell anything, all in one place.</h1>
-        <form class="search large" id="hero-search-form">
-          <input type="search" id="hero-search-input" placeholder="Search cars, planes, rail, cards, LEGO..." aria-label="Search" />
-          <button type="submit">Search</button>
-        </form>
-        <!-- Populated from GET /api/ad-spaces?placement=homepage-hero -- see
-             js/index.js. Hidden entirely when there are no active ads for
-             this placement, rather than showing placeholder ad content. -->
-        <div class="hero-ads" id="homepage-hero-ads" hidden></div>
       </div>
     </div>
   </header>
 
+  <header class="masthead">
+    <div class="bar">
+      <a href="index.html" class="logo">Marketplace</a>
+      <div class="right">
+        <button class="hamburger" id="hamburger-1" aria-label="Open menu" aria-expanded="false">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <button class="mode-toggle pill-toggle" aria-pressed="false" title="Toggle light/dark">
+          <span class="toggle-knob">
+            <span class="toggle-icon sun-icon">☀️</span>
+            <span class="toggle-icon moon-icon">🌙</span>
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="utility">
+      <form class="search combo" id="masthead-search-form">
+        <select aria-label="Shop by category">
+          <option>Shop by Category</option>
+        </select>
+        <input type="search" id="masthead-search-input" placeholder="Search dresses, jackets, shoes, accessories..." aria-label="Search" />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </header>
+
+  <!-- Mobile/off-canvas nav (shared by both hamburger buttons above) -->
+  <div class="offcanvas" id="offcanvas">
+    <div class="panel">
+      <button class="close" aria-label="Close menu">✕</button>
+      <a href="index.html" class="logo" style="margin-bottom:1rem;display:inline-block;">Marketplace</a>
+      <nav class="mobile-nav">
+        <!-- Populated from GET /api/categories -- see js/index.js (loadNavCategories) -->
+        <ul id="mobile-nav-menu"></ul>
+      </nav>
+      <div class="offcanvas-links">
+        <a href="browse.html">Browse</a>
+        <a href="cart.html">Cart</a>
+        <a href="login.html">Account</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero-section">
+    <div class="carousel-hero" id="carousel-hero">
+      <div class="slides" id="hero-slides">
+        <div class="slide" style="--img:url('Images/Wool%20Herringbone%20Overcoat.jpg')"></div>
+        <div class="slide" style="--img:url('Images/Tan%20Leather%20Biker%20Jacket.jpg')"></div>
+        <div class="slide" style="--img:url('Images/Emerald%20Velvet%20Evening%20Dress.jpg')"></div>
+      </div>
+      <div class="carousel-dots" id="hero-dots">
+        <button class="dot active" aria-label="Slide 1"></button>
+        <button class="dot" aria-label="Slide 2"></button>
+        <button class="dot" aria-label="Slide 3"></button>
+      </div>
+      <div class="overlay">
+        <div>
+          <h1>Buy and sell pre-loved fashion, all in one place.</h1>
+          <p>Clothing, shoes and accessories — curated by our community.</p>
+          <form class="search wide" id="hero-search-form">
+            <input type="search" id="hero-search-input" placeholder="Search dresses, jackets, shoes, accessories..." aria-label="Search" />
+            <button type="submit">Search</button>
+          </form>
+          <!-- Populated from GET /api/ad-spaces?placement=homepage-hero -- see js/index.js -->
+          <div class="hero-ads" id="homepage-hero-ads" hidden></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <main class="container">
-    <section class="recently-viewed rail-scroll">
+    <section class="recently-viewed">
       <h2>Your Recently Viewed Items</h2>
-      <div class="carousel-cards" data-auto-track="recently-viewed" id="recently-viewed-track">
-        <a href="listing.html" class="product-card">
-          <img src="https://picsum.photos/seed/denim-jacket/400/400" alt="Vintage Denim Jacket">
-          <div>
-            <h3>Vintage Denim Jacket</h3>
-            <p>Leeds • £34.99</p>
-          </div>
+      <div class="rv-grid">
+        <a href="listing.html" class="rv">
+          <img src="Images/Floral%20Midi%20Tea%20Dress.jpg" alt="Floral Midi Tea Dress" />
+          <div class="ov">Floral Midi Tea Dress — £28.00</div>
         </a>
-        <a href="listing.html" class="product-card">
-          <img src="https://picsum.photos/seed/band-tshirt/400/400" alt="Retro Band T-Shirt">
-          <div>
-            <h3>Retro Band T-Shirt</h3>
-            <p>Bristol • £18.50</p>
-          </div>
+        <a href="listing.html" class="rv">
+          <img src="Images/Silk%20Pussy-Bow%20Blouse.jpg" alt="Silk Pussy-Bow Blouse" />
+          <div class="ov">Silk Pussy-Bow Blouse — £19.50</div>
         </a>
-        <a href="listing.html" class="product-card">
-          <img src="https://picsum.photos/seed/leather-boots/400/400" alt="Leather Ankle Boots">
-          <div>
-            <h3>Leather Ankle Boots</h3>
-            <p>Glasgow • £42.00</p>
-          </div>
+        <a href="listing.html" class="rv">
+          <img src="Images/Leather%20Chelsea%20Boots.jpg" alt="Leather Chelsea Boots" />
+          <div class="ov">Leather Chelsea Boots — £38.00</div>
         </a>
-        <a href="listing.html" class="product-card">
-          <img src="https://picsum.photos/seed/wool-coat/400/400" alt="Wool Overcoat">
-          <div>
-            <h3>Wool Overcoat</h3>
-            <p>Manchester • £65.00</p>
-          </div>
-        </a>
-        <a href="listing.html" class="product-card">
-          <img src="https://picsum.photos/seed/canvas-sneakers/400/400" alt="Canvas Sneakers">
-          <div>
-            <h3>Canvas Sneakers</h3>
-            <p>Cardiff • £22.99</p>
-          </div>
+        <a href="listing.html" class="rv">
+          <img src="Images/Structured%20Leather%20Satchel%20Bag.jpg" alt="Structured Leather Satchel Bag" />
+          <div class="ov">Structured Leather Satchel Bag — £45.00</div>
         </a>
       </div>
-      <div class="carousel-dots" id="recently-viewed-dots"></div>
+    </section>
+
+    <section class="features-grid">
+      <div class="feature block">
+        <h3>Shop the Edit</h3>
+        <div class="carousel snap">
+          <a href="browse.html?q=dresses">Dresses</a>
+          <a href="browse.html?q=outerwear">Outerwear</a>
+          <a href="browse.html?q=accessories">Accessories</a>
+          <a href="browse.html?q=shoes">Shoes</a>
+        </div>
+      </div>
+      <div class="feature block">
+        <h3>Popular Searches</h3>
+        <ul class="list">
+          <li><a href="browse.html?q=denim">Denim</a></li>
+          <li><a href="browse.html?q=knitwear">Knitwear</a></li>
+          <li><a href="browse.html?q=vintage">Vintage</a></li>
+        </ul>
+      </div>
+      <div class="feature block">
+        <a class="ad" href="contact.html">Ad space available — get in touch</a>
+      </div>
+      <div class="feature block">
+        <h3>Stay in the Loop</h3>
+        <p>Style finds and new arrivals, straight to your inbox.</p>
+      </div>
     </section>
 
     <section class="browse-by-category" id="browse-by-category-section">
       <h2>Browse by Category</h2>
-      <!-- Populated from GET /api/categories -- see js/index.js. The old
-           hardcoded list here had curated per-category photos; real
-           categories have no image field in the schema, so a generic
-           placeholder icon is used for all of them instead. Section hides
-           itself entirely if there are no real categories yet. -->
-      <div class="category-grid" id="homepage-category-grid"></div>
+      <!-- Populated from GET /api/categories -- see js/index.js (loadHomepageCategories) -->
+      <div class="grid" id="homepage-category-grid"></div>
     </section>
 
-    <section class="top-sellers carousel-snap" id="top-sellers-section">
-      <div class="section-head">
-        <h2>Top Sellers</h2>
-        <a href="browse.html" class="cta">Browse All – Shop Now</a>
-      </div>
-      <div class="carousel-shell">
-        <button class="carousel-nav" data-carousel-btn="top-sellers" data-dir="back" aria-label="Next sellers"></button>
-        <!-- Populated from GET /api/listings -- see js/index.js
-             (loadTopSellers). No seller ranking/reputation data exists
-             anywhere in the schema (no reviews, no sales counts), so
-             "top" here means sellers with the most active listings right
-             now -- a real, honest signal derived from the same public
-             listings the shop grid below already shows, not an invented
-             one. Section hides itself if there are no active listings. -->
-        <div class="carousel scroller" data-carousel="top-sellers" id="top-sellers-track"></div>
-        <button class="carousel-nav" data-carousel-btn="top-sellers" data-dir="next" aria-label="Next sellers"></button>
-      </div>
-    </section>
-
-    <section class="shop-layout">
-      <!-- Floating Filter Button -->
-      <button class="floating-filter-btn" id="floating-filter-btn" aria-label="Open filters">
-        <i class="fa-solid fa-filter"></i>
-      </button>
-
-      <!-- Filter Overlay -->
-      <div class="filter-overlay" id="filter-overlay">
-        <div class="filters">
-          <div class="filter-header">
-            <h3>Filters</h3>
-            <button class="filter-close" aria-label="Close filters">
-              <i class="fa-solid fa-times"></i>
-            </button>
-          </div>
-          <label>Price Range
-            <input type="range" class="price-slider" min="0" max="500" step="5" value="150" />
-          </label>
-          <div class="price-display">£150</div>
-          <fieldset class="brands">
-            <legend>Category</legend>
-            <label><input type="checkbox" /> T-Shirts</label>
-            <label><input type="checkbox" /> Jeans</label>
-            <label><input type="checkbox" /> New</label>
-            <label><input type="checkbox" /> Secondhand</label>
-            <label><input type="checkbox" /> Shoes</label>
-            <label><input type="checkbox" /> Jackets</label>
-            <label><input type="checkbox" /> Underwear</label>
-          </fieldset>
-          <div class="filter-actions">
-            <button class="btn-apply">Apply Filters</button>
-            <button class="btn-reset">Reset</button>
-          </div>
-        </div>
-      </div>
+    <section class="shop two-col">
+      <aside class="filters">
+        <h3>Filters</h3>
+        <label>Price Range
+          <input type="range" class="price-slider" min="0" max="500" step="5" value="150" />
+        </label>
+        <div class="price-display">£150</div>
+        <fieldset class="conditions">
+          <legend>Condition</legend>
+          <label><input type="checkbox" /> New</label>
+          <label><input type="checkbox" /> Like New</label>
+          <label><input type="checkbox" /> Used</label>
+          <label><input type="checkbox" /> For Parts</label>
+        </fieldset>
+      </aside>
 
       <section class="results">
         <div class="toolbar">
@@ -205,8 +182,6 @@
               <option>Price High-Low</option>
               <option>Price Low-High</option>
               <option>Newly Listed</option>
-              <option>Ending Soonest</option>
-              <option>Nearest First</option>
             </select>
           </div>
           <form class="search small" id="toolbar-search-form">
@@ -215,493 +190,156 @@
           </form>
         </div>
 
-        <!-- Populated from GET /api/listings -- see js/index.js. The sort
-             dropdown and filter overlay (price/brand) above are still
-             decorative only -- wiring them is a separate, bigger piece of
-             work than fixing these cards' dead links, and wasn't part of
-             this fix. -->
+        <!-- Populated from GET /api/listings -- see js/index.js (loadShopGrid) -->
         <div class="product-grid uniform" id="homepage-shop-grid">
           <p class="carousel-loading">Loading&hellip;</p>
         </div>
       </section>
     </section>
-
-    <section class="band recently-added product-carousel">
-      <h2>Recently Added</h2>
-      <div class="carousel-container">
-        <!-- Optional Deals Banner -->
-        <div class="carousel-banner">
-          <div class="banner-content">
-            <h3>Deals</h3>
-            <p>Special Offers</p>
-            <a href="browse.html" class="banner-btn">Shop Now</a>
-          </div>
-        </div>
-        
-        <!-- Carousel Viewport -->
-        <div class="carousel-viewport">
-          <!-- Populated from GET /api/listings?sort=newest -- see js/index.js -->
-          <div class="carousel-track" id="recently-added-track">
-            <p class="carousel-loading">Loading&hellip;</p>
-          </div>
-        </div>
-        
-        <!-- Navigation Buttons -->
-        <button class="carousel-btn carousel-prev" aria-label="Previous">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M15 18l-6-6 6-6"/>
-          </svg>
-        </button>
-        <button class="carousel-btn carousel-next" aria-label="Next">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 18l6-6-6-6"/>
-          </svg>
-        </button>
-      </div>
-    </section>
-
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-cols">
-      <div class="footer-section">
-        <h4>Contact</h4>
-        <p>Manchester, England</p>
-        <p>Email: kingharrison1999@gmail.com</p>
+  <footer class="contact-footer">
+    <div class="footer-cta-band">
+      <div class="footer-cta-inner">
+        <div class="cta-right">
+          <p class="cta-text">READY TO START?</p>
+          <h2 class="cta-heading">Contact us<span class="cta-underline"></span></h2>
+          <a class="cta-button" href="contact.html" aria-label="Contact us"><i class="fa-solid fa-arrow-right"></i></a>
+        </div>
       </div>
-      <div class="footer-section">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="browse.html">Browse</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-          <li><a href="shipping-returns.html">Shipping &amp; Returns</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h4>Newsletter</h4>
-        <form class="newsletter">
-          <input type="email" placeholder="Your email" />
-          <button>Subscribe</button>
-        </form>
-        <div class="newsletter-message" hidden></div>
-        <div class="social">
-          <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X">
-            <i class="fa-brands fa-x-twitter"></i>
-          </a>
-
-          <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-
-          <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-
+    </div>
+    <div class="footer-dark-band">
+      <div class="footer-dark-inner">
+        <div class="footer-office">
+          <h4 class="office-heading">Office</h4>
+          <p class="office-address">Manchester, England</p>
+          <p class="office-email"><a href="mailto:kingharrison1999@gmail.com">kingharrison1999@gmail.com</a></p>
+        </div>
+        <div class="footer-office">
+          <h4 class="office-heading">Quick Links</h4>
+          <p><a href="browse.html">Browse</a></p>
+          <p><a href="terms.html">Terms of Service</a></p>
+          <p><a href="shipping-returns.html">Shipping &amp; Returns</a></p>
+        </div>
+        <div class="footer-newsletter">
+          <h4 class="newsletter-heading">Newsletter</h4>
+          <form class="newsletter">
+            <input type="email" placeholder="Your email" />
+            <button type="submit">Subscribe</button>
+          </form>
+          <div class="newsletter-message" hidden></div>
+          <h4 class="social-heading" style="margin-top:1rem;">Follow</h4>
+          <div class="footer-social-icons">
+            <a href="https://x.com/" target="_blank" rel="noreferrer noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://instagram.com/" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          </div>
+        </div>
+        <div class="footer-cta-right">
+          <p class="brand-tagline">Marketplace</p>
         </div>
       </div>
     </div>
   </footer>
 
-  <div class="mobile-drawer">
-    <div class="drawer-content">
-      <button class="close">✕</button>
-      <form class="search" id="mobile-search-form">
-        <input type="search" id="mobile-search-input" placeholder="Search cars, planes, rail, cards, LEGO..." />
-        <button>Go</button>
-      </form>
-      <!-- A third copy of the same category nav (the desktop mega-menu and
-           the .offcanvas mobile-nav above are the other two) -- populated
-           from the same GET /api/categories fetch, see js/index.js
-           (loadNavCategories). A category renders as a <details> accordion
-           only if it has real children; otherwise a plain link, same rule
-           as the other two menus. -->
-      <ul class="drawer-menu" id="drawer-nav-menu"></ul>
-    </div>
-  </div>
-
   <footer class="hk-footer">
-    <!-- COPYRIGHT BUILT BY HARRISON KING -->
     <div class="copyright">
-      <p>2025
-        <!-- copyright logo -->
-        <span class="fa-solid fa-copyright"></span>
-        Copyright Marketplace - All Rights Reserved. Built by Harrison King.
-      </p>
+      <p>2025 <span class="fa-solid fa-copyright"></span> Copyright Marketplace - All Rights Reserved. Built by Harrison King.</p>
     </div>
   </footer>
 
   <script>
-    // Fix theme toggle - ensure reliable switching
-    const body = document.body;
-    const toggle = document.querySelector('.mode-toggle');
+    (function () {
+      const body = document.body;
+      const toggle = document.querySelector('.mode-toggle');
 
-    // Initialize theme from body class
-    function updateToggleState() {
-      const isDark = body.classList.contains('theme-dark');
-      toggle.setAttribute('aria-pressed', isDark);
-      if (toggle.classList.contains('sun-moon')) {
-        if (isDark) {
-          toggle.classList.add('dark-mode');
-        } else {
-          toggle.classList.remove('dark-mode');
-        }
+      function updateToggleState() {
+        const isDark = body.classList.contains('theme-dark');
+        if (toggle) toggle.setAttribute('aria-pressed', isDark);
       }
-    }
-
-    toggle.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      body.classList.toggle('theme-dark');
-      updateToggleState();
-    });
-
-    // Initialize on load
-    updateToggleState();
-
-
-    // Bind seller carousel buttons
-    const bindCarousel = (name) => {
-      const track = document.querySelector(`[data-carousel="${name}"]`);
-      if (!track) {
-        return;
-      }
-      const buttons = document.querySelectorAll(`[data-carousel-btn="${name}"]`);
-      buttons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const direction = btn.dataset.dir === 'next' ? 1 : -1;
-          track.scrollBy({ left: direction * track.clientWidth * 0.6, behavior: 'smooth' });
-        });
-      });
-    };
-    bindCarousel('top-sellers');
-
-    // Floating Filter Button
-    const floatingFilterBtn = document.getElementById('floating-filter-btn');
-    const filterOverlay = document.getElementById('filter-overlay');
-    const filterClose = filterOverlay?.querySelector('.filter-close');
-    const shopSection = document.querySelector('.shop-layout');
-    const priceSlider = filterOverlay?.querySelector('.price-slider');
-    const priceDisplay = filterOverlay?.querySelector('.price-display');
-
-    // Show filter button when scrolled to shop section
-    if (floatingFilterBtn && shopSection) {
-      const handleScroll = () => {
-        const shopRect = shopSection.getBoundingClientRect();
-        const isVisible = shopRect.top < window.innerHeight && shopRect.bottom > 0;
-        
-        if (isVisible) {
-          floatingFilterBtn.style.display = 'flex';
-        } else {
-          floatingFilterBtn.style.display = 'none';
-        }
-      };
-
-      window.addEventListener('scroll', handleScroll);
-      window.addEventListener('resize', handleScroll);
-      handleScroll(); // Initial check
-    }
-
-    // Filter overlay open/close
-    if (floatingFilterBtn && filterOverlay) {
-      floatingFilterBtn.addEventListener('click', () => {
-        filterOverlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      });
-
-      if (filterClose) {
-        filterClose.addEventListener('click', () => {
-          filterOverlay.classList.remove('open');
-          document.body.style.overflow = '';
-        });
-      }
-
-      filterOverlay.addEventListener('click', (e) => {
-        if (e.target === filterOverlay) {
-          filterOverlay.classList.remove('open');
-          document.body.style.overflow = '';
-        }
-      });
-    }
-
-    // Price slider update
-    if (priceSlider && priceDisplay) {
-      priceSlider.addEventListener('input', (e) => {
-        priceDisplay.textContent = `£${e.target.value}`;
-      });
-    }
-
-    // Checkbox styling
-    const brandCheckboxes = filterOverlay?.querySelectorAll('.brands label');
-    brandCheckboxes?.forEach((label) => {
-      const checkbox = label.querySelector('input[type="checkbox"]');
-      checkbox?.addEventListener('change', () => {
-        if (checkbox.checked) {
-          label.classList.add('checked');
-        } else {
-          label.classList.remove('checked');
-        }
-      });
-    });
-
-    // Auto-scroll recently viewed cards
-    const autoTracks = document.querySelectorAll('[data-auto-track]');
-    autoTracks.forEach((track) => {
-      let timer;
-      const cycle = () => {
-        if (track.scrollWidth <= track.clientWidth) {
-          return;
-        }
-        const maxScroll = track.scrollWidth - track.clientWidth;
-        const nextLeft = track.scrollLeft + track.clientWidth * 0.6;
-        track.scrollTo({
-          left: nextLeft >= maxScroll ? 0 : nextLeft,
-          behavior: 'smooth'
-        });
-      };
-      const stop = () => {
-        if (timer) {
-          clearInterval(timer);
-        }
-      };
-      const start = () => {
-        stop();
-        timer = setInterval(cycle, 4000);
-      };
-      track.addEventListener('mouseenter', stop);
-      track.addEventListener('mouseleave', start);
-      start();
-
-      // Add dots for recently viewed - Fixed calculation for all zoom levels
-      if (track.id === 'recently-viewed-track') {
-        const dotsContainer = document.getElementById('recently-viewed-dots');
-        if (dotsContainer) {
-          // Calculate actual slide width (card + gap) dynamically
-          const getSlideSize = () => {
-            const firstCard = track.querySelector('.product-card');
-            if (!firstCard) return { slideWidth: 0, gap: 0 };
-            
-            // Get actual rendered card width (accounts for zoom, fractional pixels)
-            const cardRect = firstCard.getBoundingClientRect();
-            const cardWidth = cardRect.width;
-            
-            // Get gap from computed style or calculate from second card position
-            const secondCard = track.querySelector('.product-card:nth-child(2)');
-            let gap = 16; // Default gap from CSS (1rem = 16px)
-            
-            if (secondCard) {
-              const secondRect = secondCard.getBoundingClientRect();
-              gap = secondRect.left - cardRect.right;
-            } else {
-              // Fallback: get gap from computed style
-              const computedStyle = window.getComputedStyle(track);
-              const gapValue = computedStyle.gap || computedStyle.columnGap;
-              if (gapValue) {
-                gap = parseFloat(gapValue);
-              }
-            }
-            
-            return {
-              slideWidth: cardWidth,
-              gap: gap,
-              totalSlideSize: cardWidth + gap
-            };
-          };
-          
-          // Initialize dots based on actual slide count
-          const updateDots = () => {
-            const { totalSlideSize } = getSlideSize();
-            if (totalSlideSize === 0) return;
-            
-            // Clear existing dots
-            dotsContainer.innerHTML = '';
-            
-            // Calculate number of slides (accounting for partial visibility)
-            const totalScrollableWidth = track.scrollWidth - track.clientWidth;
-            const slideCount = Math.ceil(totalScrollableWidth / totalSlideSize) + 1;
-            const actualSlideCount = Math.max(1, Math.min(slideCount, track.children.length));
-            
-            // Create dots
-            for (let i = 0; i < actualSlideCount; i++) {
-              const dot = document.createElement('button');
-              dot.className = 'dot';
-              if (i === 0) dot.classList.add('active');
-              dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-              dot.addEventListener('click', () => {
-                const { totalSlideSize } = getSlideSize();
-                track.scrollTo({ 
-                  left: i * totalSlideSize, 
-                  behavior: 'smooth' 
-                });
-              });
-              dotsContainer.appendChild(dot);
-            }
-          };
-          
-          // Update active dot based on scroll position
-          const updateActiveDot = () => {
-            const { totalSlideSize } = getSlideSize();
-            if (totalSlideSize === 0) return;
-            
-            // Calculate active index using actual slide size
-            // Add small threshold to handle fractional pixels and rounding
-            const threshold = totalSlideSize * 0.3;
-            const activeIndex = Math.round((track.scrollLeft + threshold) / totalSlideSize);
-            const maxIndex = dotsContainer.querySelectorAll('.dot').length - 1;
-            const clampedIndex = Math.max(0, Math.min(activeIndex, maxIndex));
-            
-            dotsContainer.querySelectorAll('.dot').forEach((dot, idx) => {
-              dot.classList.toggle('active', idx === clampedIndex);
-            });
-          };
-          
-          // Initialize dots
-          updateDots();
-          
-          // Update on scroll (throttled for performance)
-          let scrollTimeout;
-          track.addEventListener('scroll', () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(updateActiveDot, 10);
-          }, { passive: true });
-          
-          // Recalculate on resize (zoom changes, window resize)
-          let resizeTimeout;
-          const handleResize = () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-              updateDots();
-              updateActiveDot();
-            }, 150);
-          };
-          
-          window.addEventListener('resize', handleResize);
-          
-          // Also listen for zoom changes (if supported)
-          if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', handleResize);
-          }
-        }
-      }
-
-    // Product Carousel with Drag & Buttons
-    const productCarousel = document.getElementById('recently-added-track');
-    const prevBtn = document.querySelector('.recently-added .carousel-prev');
-    const nextBtn = document.querySelector('.recently-added .carousel-next');
-    
-    if (productCarousel && prevBtn && nextBtn) {
-      let isDragging = false;
-      let startX = 0;
-      let scrollLeft = 0;
-      
-      // Get card width + gap for scroll amount
-      const getScrollAmount = () => {
-        const firstCard = productCarousel.querySelector('.product');
-        if (!firstCard) return 340; // fallback
-        const cardWidth = firstCard.offsetWidth;
-        const gap = 20; // match CSS gap
-        return cardWidth + gap;
-      };
-      
-      // Button navigation
-      prevBtn.addEventListener('click', () => {
-        const scrollAmount = getScrollAmount();
-        productCarousel.scrollBy({
-          left: -scrollAmount,
-          behavior: 'smooth'
-        });
-      });
-      
-      nextBtn.addEventListener('click', () => {
-        const scrollAmount = getScrollAmount();
-        productCarousel.scrollBy({
-          left: scrollAmount,
-          behavior: 'smooth'
-        });
-      });
-      
-      // Drag functionality
-      const startDrag = (e) => {
-        isDragging = true;
-        productCarousel.style.cursor = 'grabbing';
-        productCarousel.style.scrollBehavior = 'auto';
-        startX = e.pageX || e.touches?.[0]?.pageX || 0;
-        scrollLeft = productCarousel.scrollLeft;
-      };
-      
-      const drag = (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        const x = e.pageX || e.touches?.[0]?.pageX || 0;
-        const walk = (x - startX);
-        productCarousel.scrollLeft = scrollLeft - walk;
-      };
-      
-      const stopDrag = () => {
-        isDragging = false;
-        productCarousel.style.cursor = 'grab';
-        productCarousel.style.scrollBehavior = 'smooth';
-      };
-      
-      // Mouse events
-      productCarousel.addEventListener('mousedown', startDrag);
-      productCarousel.addEventListener('mousemove', drag);
-      productCarousel.addEventListener('mouseup', stopDrag);
-      productCarousel.addEventListener('mouseleave', stopDrag);
-      
-      // Touch events
-      productCarousel.addEventListener('touchstart', startDrag, { passive: false });
-      productCarousel.addEventListener('touchmove', drag, { passive: false });
-      productCarousel.addEventListener('touchend', stopDrag);
-      
-      // Prevent vertical scroll on wheel (horizontal scroll)
-      productCarousel.addEventListener('wheel', (e) => {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      if (toggle) {
+        toggle.addEventListener('click', (e) => {
           e.preventDefault();
-          productCarousel.scrollLeft += e.deltaY;
-        }
-      }, { passive: false });
-    }
-    });
+          body.classList.toggle('theme-dark');
+          updateToggleState();
+        });
+        updateToggleState();
+      }
 
-    // Hamburger menu functionality (Design 1 only)
-    (function() {
-      const oc = document.querySelector('.offcanvas');
-      const ham = document.querySelector('.hamburger');
-      const close = document.querySelector('.offcanvas .close');
+      // Hamburger -> shared off-canvas panel (both masthead + scroll-up navbar buttons)
+      const oc = document.getElementById('offcanvas');
+      const closeBtn = oc ? oc.querySelector('.close') : null;
+      const hamburgers = [document.getElementById('hamburger-1'), document.getElementById('hamburger-2')].filter(Boolean);
 
-      if (!oc || !ham) return;
-
-      ham.addEventListener('click', () => {
+      function openMenu() {
+        if (!oc) return;
         oc.classList.add('open');
-        ham.setAttribute('aria-expanded', 'true');
+        hamburgers.forEach((h) => h.setAttribute('aria-expanded', 'true'));
         document.body.style.overflow = 'hidden';
-      });
-
-      if (close) {
-        close.addEventListener('click', () => {
-          oc.classList.remove('open');
-          ham.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
+      }
+      function closeMenu() {
+        if (!oc) return;
+        oc.classList.remove('open');
+        hamburgers.forEach((h) => h.setAttribute('aria-expanded', 'false'));
+        document.body.style.overflow = '';
+      }
+      hamburgers.forEach((h) => h.addEventListener('click', openMenu));
+      if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+      if (oc) {
+        oc.addEventListener('click', (e) => {
+          if (e.target === oc) closeMenu();
         });
       }
 
-      // Close on backdrop click
-      oc.addEventListener('click', (e) => {
-        if (e.target === oc) {
-          oc.classList.remove('open');
-          ham.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        }
-      });
+      // Scroll-up navbar: appears once the visitor scrolls back up past the hero
+      const scrollNav = document.getElementById('scroll-up-navbar');
+      if (scrollNav) {
+        let lastY = window.scrollY;
+        window.addEventListener('scroll', () => {
+          const y = window.scrollY;
+          const scrollingUp = y < lastY;
+          const pastHero = y > 400;
+          scrollNav.classList.toggle('is-visible', scrollingUp && pastHero);
+          lastY = y;
+        }, { passive: true });
+      }
 
-      // Mobile theme toggle inside hamburger menu
-      const mobileToggle = document.querySelector('.offcanvas .mode-toggle.mobile');
-      const desktopToggle = document.querySelector('.site-header .mode-toggle');
-      
-      if (mobileToggle && desktopToggle) {
-        mobileToggle.addEventListener('click', () => {
-          desktopToggle.click();
+      // Hero carousel: auto-advance + clickable dots
+      const heroSlides = document.getElementById('hero-slides');
+      const heroDots = heroDotsList();
+      function heroDotsList() {
+        const c = document.getElementById('hero-dots');
+        return c ? Array.from(c.querySelectorAll('.dot')) : [];
+      }
+      if (heroSlides && heroDots.length) {
+        let idx = 0;
+        function goTo(i) {
+          idx = i;
+          heroSlides.scrollTo({ left: heroSlides.clientWidth * i, behavior: 'smooth' });
+          heroDots.forEach((d, di) => d.classList.toggle('active', di === i));
+        }
+        heroDots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+        setInterval(() => goTo((idx + 1) % heroDots.length), 5000);
+      }
+
+      // Masthead search (not covered by js/index.js's wireSearchForms, which
+      // only wires hero/toolbar/mobile-drawer search boxes)
+      const mastheadForm = document.getElementById('masthead-search-form');
+      const mastheadInput = document.getElementById('masthead-search-input');
+      if (mastheadForm && mastheadInput) {
+        mastheadForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const q = mastheadInput.value.trim();
+          window.location.href = q ? `browse.html?q=${encodeURIComponent(q)}` : 'browse.html';
+        });
+      }
+
+      // Price slider readout
+      const priceSlider = document.querySelector('.price-slider');
+      const priceDisplay = document.querySelector('.price-display');
+      if (priceSlider && priceDisplay) {
+        priceSlider.addEventListener('input', (e) => {
+          priceDisplay.textContent = `£${e.target.value}`;
         });
       }
     })();
