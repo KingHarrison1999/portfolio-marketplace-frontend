@@ -5,15 +5,17 @@
 @use '../Utils/variables' as vars;
 
 body.theme-dark {
-  background: #0b0e14;
-  color: #e5e7eb;
+  background: var(--dark-bg);
+  color: var(--dark-ink);
 }
 
 .theme-dark {
   // --- Header / hero ---
+  // Same darkest-tier chrome as .global-nav/.site-footer below, not
+  // var(--dark-panel) (that's the card tier).
   .site-header {
-    background: #0f131b;
-    border-color: #1f2937;
+    background: #0d0c0b;
+    border-color: var(--dark-line);
 
     .brand-row .hamburger {
       background: var(--dark-elev);
@@ -59,9 +61,34 @@ body.theme-dark {
     }
   }
 
-  .mode-toggle {
-    background: #1f2937;
-    border-color: #374151;
+  // Matches the homepage's dark .mode-toggle.pill-toggle exactly (same
+  // component, ported) -- see Components/_mode-toggle.scss for the base
+  // (light-mode) styles this overrides.
+  .mode-toggle.pill-toggle {
+    background: #374151;
+    border-color: #4b5563;
+
+    &:hover {
+      border-color: #059669;
+    }
+
+    .toggle-knob {
+      background: #1f2937;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .sun-icon {
+      color: #fbbf24;
+    }
+
+    &[aria-pressed='true'] {
+      background: #059669;
+      border-color: #059669;
+
+      .moon-icon {
+        color: white;
+      }
+    }
   }
 
   // --- Seller dashboard shell ---
@@ -194,7 +221,7 @@ body.theme-dark {
 
     &:hover {
       background: var(--dark-panel);
-      border-color: #374151;
+      border-color: var(--dark-line);
     }
   }
 
@@ -255,8 +282,8 @@ body.theme-dark {
   }
 
   .status-badge-archived {
-    background: rgba(148, 163, 184, 0.2);
-    color: #9aa3b2;
+    background: rgba(168, 162, 155, 0.2);
+    color: var(--dark-muted);
   }
 
   .status-badge-pending {
@@ -312,7 +339,7 @@ body.theme-dark {
       border-color: var(--dark-line);
 
       &:hover {
-        border-color: #374151;
+        border-color: #3a352d;
       }
 
       &.active {
@@ -472,7 +499,7 @@ body.theme-dark {
     border-color: var(--dark-line);
 
     &:hover {
-      border-color: #374151;
+      border-color: #3a352d;
     }
   }
 
@@ -622,8 +649,11 @@ body.theme-dark {
   }
 
   // --- Global nav ---
+  // Deliberately not var(--dark-panel) -- that token is the card/section
+  // tier now. Header/footer chrome sits one tier darker than cards, same
+  // split as the homepage's masthead vs. feature-block.
   .global-nav {
-    background: var(--dark-panel);
+    background: #0d0c0b;
     border-bottom-color: var(--dark-line);
   }
 
@@ -700,11 +730,15 @@ body.theme-dark {
   .filters,
   .dropdown,
   .results .toolbar,
-  .newsletter input,
   .cat,
   .band {
-    background: #121826;
-    border-color: #1f2937;
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+  }
+
+  .newsletter input {
+    background: var(--dark-elev);
+    border-color: var(--dark-line);
   }
 
   .product {
@@ -729,9 +763,9 @@ body.theme-dark {
 
   .toolbar select,
   .toolbar input {
-    background: #111827;
-    color: #e5e7eb;
-    border-color: #374151;
+    background: var(--dark-elev);
+    color: var(--dark-ink);
+    border-color: var(--dark-line);
   }
 
   // --- Recently viewed / top sellers ---
@@ -775,20 +809,20 @@ body.theme-dark {
   // generic .product dark rule above, so without this the card silently
   // stays light-mode styled regardless of theme.
   .shop-layout .results .product-grid.uniform .product {
-    background: #121826;
-    border-color: #1f2937;
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
 
     h3 {
-      color: #e5e7eb;
+      color: var(--dark-ink);
     }
 
     .meta {
-      color: #9aa3b2;
+      color: var(--dark-muted);
     }
 
     .product-image-placeholder {
-      background: #1f2937;
-      color: #6b7280;
+      background: var(--dark-elev);
+      color: var(--dark-muted);
     }
 
     .product-actions .btn-outline {
@@ -833,58 +867,58 @@ body.theme-dark {
 
   // --- Filter overlay ---
   .filter-overlay .filters {
-    background: #0f131b;
-    border-color: #1f2937;
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
 
     .filter-header {
-      border-bottom-color: #1f2937;
+      border-bottom-color: var(--dark-line);
 
       h3 {
-        color: #e5e7eb;
+        color: var(--dark-ink);
       }
 
       .filter-close {
-        color: #e5e7eb;
+        color: var(--dark-ink);
 
         &:hover {
-          background: #1f2937;
+          background: var(--dark-elev);
         }
       }
     }
 
     > label {
-      color: #e5e7eb;
+      color: var(--dark-ink);
     }
 
     .price-display {
-      color: #e5e7eb;
+      color: var(--dark-ink);
     }
 
     .brands {
       legend {
-        color: #e5e7eb;
+        color: var(--dark-ink);
       }
 
       label {
-        color: #e5e7eb;
+        color: var(--dark-ink);
 
         &:hover {
-          background: #1f2937;
-          border-color: #374151;
+          background: var(--dark-elev);
+          border-color: var(--dark-line);
         }
       }
     }
 
     .filter-actions {
-      border-top-color: #1f2937;
+      border-top-color: var(--dark-line);
 
       .btn-reset {
         background: transparent;
-        color: #e5e7eb;
-        border-color: #374151;
+        color: var(--dark-ink);
+        border-color: var(--dark-line);
 
         &:hover {
-          background: #1f2937;
+          background: var(--dark-elev);
           border-color: #10b981;
         }
       }
@@ -893,33 +927,33 @@ body.theme-dark {
 
   // --- Footer ---
   .site-footer {
-    background: linear-gradient(135deg, #0f131b, #121826);
+    background: #0d0c0b;
     border-top-color: #10b981;
 
     .footer-section h4 {
-      color: #e5e7eb;
+      color: var(--dark-ink);
     }
 
     .footer-section p,
     .footer-section ul li a {
-      color: #9aa3b2;
+      color: var(--dark-muted);
     }
 
     .newsletter input {
-      background: #1f2937;
-      border-color: #374151;
-      color: #e5e7eb;
+      background: var(--dark-elev);
+      border-color: var(--dark-line);
+      color: var(--dark-ink);
     }
 
     .social a {
-      background: #1f2937;
-      border-color: #374151;
-      color: #e5e7eb;
+      background: var(--dark-elev);
+      border-color: var(--dark-line);
+      color: var(--dark-ink);
     }
 
     .legal {
-      border-top-color: #1f2937;
-      color: #9aa3b2;
+      border-top-color: var(--dark-line);
+      color: var(--dark-muted);
     }
   }
 }
@@ -927,28 +961,28 @@ body.theme-dark {
 // Mobile offcanvas drawer — originally scoped `.site-header.theme-dark` rather
 // than the `body.design-1.theme-dark` pattern used everywhere else; kept as-is.
 .site-header.theme-dark .offcanvas .panel {
-  background: #0f131b;
-  border-right-color: #1f2937;
+  background: #0d0c0b;
+  border-right-color: var(--dark-line);
 
   .close {
-    background: #1f2937;
-    color: #e5e7eb;
+    background: var(--dark-elev);
+    color: var(--dark-ink);
 
     &:hover {
-      background: #1f2937;
+      background: var(--dark-elev);
     }
   }
 
   .mobile-nav ul li a {
-    color: #e5e7eb;
+    color: var(--dark-ink);
 
     &:hover {
-      background: #1f2937;
+      background: var(--dark-elev);
       color: #10b981;
     }
   }
 
   .mobile-actions {
-    border-top-color: #1f2937;
+    border-top-color: var(--dark-line);
   }
 }

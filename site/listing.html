@@ -12,14 +12,42 @@
   <script src="js/listing.js" defer></script>
   <script src="js/newsletter.js" defer></script>
   <script src="js/site-banner.js" defer></script>
+  <script src="js/theme.js" defer></script>
 </head>
-<body>
+<body class="theme-light">
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('marketplace-theme') === 'dark') {
+          document.body.classList.add('theme-dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <div id="site-announcement-banner" class="site-announcement-banner" hidden></div>
   <header class="global-nav">
     <div class="global-nav-inner">
-      <a href="index.html" class="global-nav-logo"><img src="Images/marketplace-logo.png" alt="Marketplace" /></a>
+      <a href="index.html" class="global-nav-logo">Marketplace</a>
       <a href="browse.html" class="global-nav-browse">Browse</a>
       <div class="global-nav-actions">
+        <button class="mode-toggle pill-toggle" aria-pressed="false" title="Toggle light/dark">
+          <span class="toggle-knob">
+            <svg class="toggle-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <line x1="12" y1="2" x2="12" y2="4"></line>
+              <line x1="12" y1="20" x2="12" y2="22"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="2" y1="12" x2="4" y2="12"></line>
+              <line x1="20" y1="12" x2="22" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="toggle-icon moon-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </span>
+        </button>
         <a href="cart.html" class="global-nav-icon" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
         <a href="login.html" class="global-nav-icon" aria-label="Account"><i class="fa-solid fa-user"></i></a>
       </div>

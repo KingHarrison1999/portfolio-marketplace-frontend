@@ -1,0 +1,74 @@
+// Sun/moon light-dark toggle switch -- ported from the homepage (Design 3)
+// so browse/listing/cart/checkout/login share the exact same control. The
+// dark-mode override lives in Themes/_dark.scss, next to the rest of the
+// dark palette.
+.mode-toggle.pill-toggle {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  border-radius: 9999px;
+  border: 2px solid #e6e2da;
+  background: #e5e7eb;
+  padding: 2px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, visibility 0.2s ease, all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  &:hover {
+    border-color: #059669;
+  }
+
+  .toggle-knob {
+    position: absolute;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+
+    .toggle-icon {
+      width: 0.85rem;
+      height: 0.85rem;
+    }
+
+    .sun-icon {
+      display: block;
+      color: #f59e0b;
+    }
+
+    .moon-icon {
+      display: none;
+    }
+  }
+
+  &[aria-pressed='true'] {
+    background: #059669;
+    border-color: #059669;
+
+    .toggle-knob {
+      transform: translateX(24px);
+    }
+
+    .toggle-knob .sun-icon {
+      display: none;
+    }
+
+    .toggle-knob .moon-icon {
+      display: block;
+      color: white;
+    }
+  }
+
+  &[aria-pressed='false'] .toggle-knob {
+    transform: translateX(0);
+  }
+}

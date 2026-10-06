@@ -8,13 +8,20 @@
   --radius: 0.5rem;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  // Dark theme tokens — consumed by Themes/_dark.scss
-  --dark-bg: #0b0e14;
-  --dark-panel: #0f131b;
-  --dark-elev: #121826;
-  --dark-line: #1f2937;
-  --dark-ink: #e5e7eb;
-  --dark-muted: #9aa3b2;
+  // Dark theme tokens — consumed by Themes/_dark.scss. Warm charcoal
+  // family (matching the homepage's tiered dark palette) rather than the
+  // old cool slate-blue one: --dark-bg is the page background, --dark-panel
+  // the card/section tier, --dark-elev a touch lighter for nested
+  // interactive bits (inputs, buttons, stat tiles), --dark-line the shared
+  // border tone. Masthead/footer-level chrome (.global-nav, .site-footer)
+  // intentionally doesn't use --dark-panel -- it's one tier darker than
+  // cards, same as the homepage's masthead vs. feature-block split.
+  --dark-bg: #141210;
+  --dark-panel: #1c1a17;
+  --dark-elev: #242019;
+  --dark-line: #2e2a24;
+  --dark-ink: #e8e8e8;
+  --dark-muted: #a8a29b;
   --dark-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 }
 

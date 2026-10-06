@@ -1,6 +1,6 @@
 @charset "UTF-8";
-/* design3.scss — Magazine/grid, parallax, earthy tones, serif headings */
-body.design-3 {
+/* home.css — Magazine/grid, parallax, earthy tones, serif headings */
+body.home {
   margin: 0;
   background: #fbfaf7;
   color: #1f2937;
@@ -11,61 +11,66 @@ body.design-3 {
   min-height: unset;
 }
 
-body.design-3.theme-dark {
-  background: #111;
+body.home.theme-dark {
+  background: #141210;
   color: #e8e8e8;
 }
 
-body.design-3.theme-dark .masthead,
-body.design-3.theme-dark .feature.block,
-body.design-3.theme-dark .filters,
-body.design-3.theme-dark .card,
-body.design-3.theme-dark .site-footer {
-  background: #000;
-  color: #fff;
-  border-color: #333;
+/* Tiered dark palette instead of flattening everything to black: the page
+   background, the masthead/footer, and cards each sit one step apart so
+   there's actual depth, with one shared border tone (#2e2a24) tying the
+   tiers together. Accent tiles like the "Hearth & Mend" ad keep their own
+   light background regardless of theme, by design -- nothing here touches
+   them. */
+body.home.theme-dark .masthead,
+body.home.theme-dark .scroll-up-navbar,
+body.home.theme-dark .site-footer {
+  background: #0d0c0b;
+  color: #e8e8e8;
+  border-color: #2e2a24;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-body.design-3.theme-dark .masthead,
-body.design-3.theme-dark .scroll-up-navbar {
-  background: #0a0a0a;
-  color: #fff;
-  border-color: #262626;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+body.home.theme-dark .feature.block,
+body.home.theme-dark .filters,
+body.home.theme-dark .card {
+  background: #1c1a17;
+  color: #e8e8e8;
+  border-color: #2e2a24;
 }
 
 /* The hero sits directly under the navbar and is also near-black in dark
    mode (photo + a dark overlay), so without an explicit border/shadow
    here the two visually merge into one black mass. */
-body.design-3.theme-dark .masthead .bar .logo,
-body.design-3.theme-dark .scroll-up-navbar .bar .logo {
+body.home.theme-dark .masthead .bar .logo,
+body.home.theme-dark .scroll-up-navbar .bar .logo {
   color: #fff;
 }
 
-body.design-3.theme-dark .masthead .bar .mode-toggle.pill-toggle,
-body.design-3.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle,
+body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle {
   background: #374151;
   border-color: #4b5563;
 }
 
-body.design-3.theme-dark .masthead .bar .mode-toggle.pill-toggle:hover,
-body.design-3.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle:hover {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle:hover,
+body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle:hover {
   border-color: #059669;
 }
 
-body.design-3.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob,
-body.design-3.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob,
+body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob {
   background: #1f2937;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-body.design-3.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon,
-body.design-3.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon,
+body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
   color: #fbbf24;
 }
 
-body.design-3.theme-dark .masthead .bar .mode-toggle.pill-toggle[aria-pressed=true],
-body.design-3.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=true] {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle[aria-pressed=true],
+body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=true] {
   background: #059669;
   border-color: #059669;
 }
@@ -143,12 +148,13 @@ body.design-3.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pr
 }
 
 .masthead .bar .mode-toggle.pill-toggle .toggle-knob .toggle-icon {
-  font-size: 0.75rem;
-  line-height: 1;
+  width: 0.85rem;
+  height: 0.85rem;
 }
 
 .masthead .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
   display: block;
+  color: #f59e0b;
 }
 
 .masthead .bar .mode-toggle.pill-toggle .toggle-knob .moon-icon {
@@ -362,7 +368,7 @@ body.design-3.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pr
   margin-bottom: 0.5rem;
 }
 
-body.design-3 .carousel-hero {
+body.home .carousel-hero {
   position: relative;
   top: auto;
   left: auto;
@@ -374,7 +380,7 @@ body.design-3 .carousel-hero {
   overflow: hidden;
 }
 
-body.design-3 .carousel-hero .slides {
+body.home .carousel-hero .slides {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 100%;
@@ -385,16 +391,16 @@ body.design-3 .carousel-hero .slides {
   -ms-overflow-style: none;
 }
 
-body.design-3 .carousel-hero .slides::-webkit-scrollbar {
+body.home .carousel-hero .slides::-webkit-scrollbar {
   display: none;
 }
 
-body.design-3 .carousel-hero .slides .slide {
+body.home .carousel-hero .slides .slide {
   scroll-snap-align: start;
   background: center/cover var(--img);
 }
 
-body.design-3 .carousel-hero .carousel-dots {
+body.home .carousel-hero .carousel-dots {
   position: absolute;
   bottom: 12px;
   left: 50%;
@@ -404,7 +410,7 @@ body.design-3 .carousel-hero .carousel-dots {
   z-index: 10;
 }
 
-body.design-3 .carousel-hero .carousel-dots .dot {
+body.home .carousel-hero .carousel-dots .dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -415,21 +421,21 @@ body.design-3 .carousel-hero .carousel-dots .dot {
   transition: all 200ms ease;
 }
 
-body.design-3 .carousel-hero .carousel-dots .dot.active {
+body.home .carousel-hero .carousel-dots .dot.active {
   background: rgb(255, 255, 255);
   transform: scale(1.2);
 }
 
-body.design-3 .carousel-hero .carousel-dots .dot:hover {
+body.home .carousel-hero .carousel-dots .dot:hover {
   background: rgba(255, 255, 255, 0.7);
 }
 
-body.design-3 .carousel-hero .carousel-dots .dot:focus {
+body.home .carousel-hero .carousel-dots .dot:focus {
   outline: 2px solid rgba(255, 255, 255, 0.8);
   outline-offset: 2px;
 }
 
-body.design-3 .carousel-hero .overlay {
+body.home .carousel-hero .overlay {
   position: absolute;
   inset: 0;
   display: grid;
@@ -439,18 +445,18 @@ body.design-3 .carousel-hero .overlay {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.35));
 }
 
-body.design-3 .carousel-hero .overlay h1 {
+body.home .carousel-hero .overlay h1 {
   font-family: "Merriweather", serif;
   font-size: clamp(1.8rem, 3vw, 3rem);
   margin: 0 0 0.35rem;
 }
 
-body.design-3 .carousel-hero .overlay p {
+body.home .carousel-hero .overlay p {
   margin: 0 0 0.75rem;
   color: #f3f4f6;
 }
 
-body.design-3 .carousel-hero .overlay .search.wide {
+body.home .carousel-hero .overlay .search.wide {
   display: inline-flex;
   gap: 0.5rem;
   background: rgba(255, 255, 255, 0.9);
@@ -459,14 +465,14 @@ body.design-3 .carousel-hero .overlay .search.wide {
   width: min(760px, 92%);
 }
 
-body.design-3 .carousel-hero .overlay .search.wide input {
+body.home .carousel-hero .overlay .search.wide input {
   flex: 1;
   border: 0;
   padding: 0.75rem 1rem;
   border-radius: 999px;
 }
 
-body.design-3 .carousel-hero .overlay .search.wide button {
+body.home .carousel-hero .overlay .search.wide button {
   background: #059669;
   color: #fff;
   border: 0;
@@ -481,8 +487,8 @@ body.design-3 .carousel-hero .overlay .search.wide button {
   padding: 1rem;
 }
 
-body.design-3 .hero-section + main.container,
-body.design-3 .hero-section + .container {
+body.home .hero-section + main.container,
+body.home .hero-section + .container {
   padding-top: 0.5rem;
 }
 
@@ -501,6 +507,7 @@ body.design-3 .hero-section + .container {
 }
 
 .recently-viewed .rv-grid .rv img {
+  display: block;
   width: 100%;
   height: 140px;
   -o-object-fit: cover;
@@ -587,22 +594,46 @@ body.design-3 .hero-section + .container {
 /* "Ad space available" tile -- the sole child of its .feature.block, so it
    fills the full card rather than sitting inside it as a nested dashed box
    (which read as a broken/unstyled placeholder next to the other three
-   solid-card tiles). */
+   solid-card tiles). height:100% is a content-box height here (no
+   box-sizing override), so without border-box its own padding+border were
+   being added on top of that 100%, overflowing past the bottom of the
+   parent card -- border-box makes the 100% include them instead. */
 .features-grid .feature.block .ad {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.25rem;
   text-align: center;
   height: 100%;
+  box-sizing: border-box;
   min-height: 80px;
   padding: 0.75rem;
   border: 1px solid #a7f3d0;
   border-radius: 0.35rem;
   background: #ecfdf5;
   color: #047857;
-  font-weight: 600;
   text-decoration: none;
   transition: all 200ms ease;
+}
+
+.features-grid .feature.block .ad .ad-brand {
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #047857;
+}
+
+.features-grid .feature.block .ad .ad-tagline {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #065f46;
+}
+
+.features-grid .feature.block .ad .ad-cta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #059669;
 }
 
 .features-grid .feature.block .ad:hover {
@@ -631,9 +662,14 @@ body.design-3 .hero-section + .container {
   padding: 0.4rem 0.55rem;
 }
 
+/* The reference Design 3 page has exactly 8 top-level categories filling
+   an 8-column grid edge to edge; this marketplace has only 3 (Men, Women,
+   Junior), so the same fixed 8-column track would leave 5/8 of the row
+   empty. auto-fit keeps the identical card look/spacing/hover below but
+   sizes the columns to however many categories actually exist. */
 .browse-by-category .grid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 0.5rem;
 }
 
@@ -884,9 +920,6 @@ body.design-3 .hero-section + .container {
   .features-grid {
     grid-template-columns: 1fr 1fr;
   }
-  .browse-by-category .grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
   .shop.two-col {
     grid-template-columns: 1fr;
   }
@@ -899,21 +932,21 @@ body.design-3 .hero-section + .container {
 }
 /* Tablet-only: Remove excess gap between Browse by Category and Shop section */
 @media (min-width: 768px) and (max-width: 1023px) {
-  body.design-3 .browse-by-category {
+  body.home .browse-by-category {
     margin-bottom: 0;
   }
-  body.design-3 .shop.two-col {
+  body.home .shop.two-col {
     margin-top: 0.25rem;
   }
 }
 /* Mobile and Tablet: Remove filter button and modal entirely */
 @media (max-width: 1024px) {
-  body.design-3 .shop.two-col .filters h3 {
+  body.home .shop.two-col .filters h3 {
     display: none;
   }
-  body.design-3 .filter-toggle-btn,
-  body.design-3 .filter-modal,
-  body.design-3 #filterModal {
+  body.home .filter-toggle-btn,
+  body.home .filter-modal,
+  body.home #filterModal {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
@@ -927,23 +960,23 @@ body.design-3 .hero-section + .container {
 }
 /* Design 3 Shop Section - Responsive Grid */
 @media (min-width: 1024px) {
-  body.design-3 .filter-toggle-btn,
-  body.design-3 .filter-modal {
+  body.home .filter-toggle-btn,
+  body.home .filter-modal {
     display: none;
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform {
+  body.home .shop.two-col .results .product-grid.uniform {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 @media (min-width: 640px) and (max-width: 1023px) {
-  body.design-3 .shop.two-col .results .product-grid.uniform {
+  body.home .shop.two-col .results .product-grid.uniform {
     grid-template-columns: repeat(2, 1fr);
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform .product {
+  body.home .shop.two-col .results .product-grid.uniform .product {
     align-items: stretch;
     justify-content: flex-start;
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform .product img {
+  body.home .shop.two-col .results .product-grid.uniform .product img {
     display: block;
     width: 100%;
     aspect-ratio: 4/3;
@@ -955,36 +988,33 @@ body.design-3 .hero-section + .container {
     max-width: 100%;
     flex-shrink: 0;
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform .product h3 {
+  body.home .shop.two-col .results .product-grid.uniform .product h3 {
     text-align: left;
     width: 100%;
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform .product .meta {
+  body.home .shop.two-col .results .product-grid.uniform .product .meta {
     text-align: left;
     width: 100%;
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform .product .btn {
+  body.home .shop.two-col .results .product-grid.uniform .product .btn {
     align-self: stretch;
     width: 100%;
     margin-top: auto;
   }
 }
 @media (max-width: 639px) {
-  body.design-3 .shop.two-col .results .product-grid.uniform {
+  body.home .shop.two-col .results .product-grid.uniform {
     grid-template-columns: 1fr;
   }
-  body.design-3 .browse-by-category .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  body.design-3 .masthead .utility .search.combo,
-  body.design-3 .scroll-up-navbar .utility .search.combo {
+  body.home .masthead .utility .search.combo,
+  body.home .scroll-up-navbar .utility .search.combo {
     display: flex;
     gap: 0.25rem;
     align-items: stretch;
     flex-wrap: nowrap;
   }
-  body.design-3 .masthead .utility .search.combo select,
-  body.design-3 .scroll-up-navbar .utility .search.combo select {
+  body.home .masthead .utility .search.combo select,
+  body.home .scroll-up-navbar .utility .search.combo select {
     flex: 0 0 auto;
     min-width: 0;
     max-width: 140px;
@@ -996,8 +1026,8 @@ body.design-3 .hero-section + .container {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  body.design-3 .masthead .utility .search.combo input,
-  body.design-3 .scroll-up-navbar .utility .search.combo input {
+  body.home .masthead .utility .search.combo input,
+  body.home .scroll-up-navbar .utility .search.combo input {
     flex: 1 1 auto;
     min-width: 0;
     padding: 0.4rem 0.5rem;
@@ -1005,8 +1035,8 @@ body.design-3 .hero-section + .container {
     border: 1px solid #e6e2da;
     border-radius: 0.35rem;
   }
-  body.design-3 .masthead .utility .search.combo button,
-  body.design-3 .scroll-up-navbar .utility .search.combo button {
+  body.home .masthead .utility .search.combo button,
+  body.home .scroll-up-navbar .utility .search.combo button {
     flex: 0 0 auto;
     width: 40px;
     min-width: 40px;
@@ -1025,8 +1055,8 @@ body.design-3 .hero-section + .container {
     font-size: 0;
     text-indent: -9999px;
   }
-  body.design-3 .masthead .utility .search.combo button::before,
-  body.design-3 .scroll-up-navbar .utility .search.combo button::before {
+  body.home .masthead .utility .search.combo button::before,
+  body.home .scroll-up-navbar .utility .search.combo button::before {
     content: "⌕";
     font-size: 1.2rem;
     line-height: 1;
@@ -1037,11 +1067,11 @@ body.design-3 .hero-section + .container {
 }
 /* Desktop-only: Shop card image and text alignment */
 @media (min-width: 1024px) {
-  body.design-3 .shop.two-col .results .product-grid.uniform .product {
+  body.home .shop.two-col .results .product-grid.uniform .product {
     align-items: stretch;
     justify-content: flex-start;
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform .product img {
+  body.home .shop.two-col .results .product-grid.uniform .product img {
     display: block;
     width: 100%;
     aspect-ratio: 4/3;
@@ -1053,15 +1083,15 @@ body.design-3 .hero-section + .container {
     max-width: 100%;
     flex-shrink: 0;
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform .product h3 {
+  body.home .shop.two-col .results .product-grid.uniform .product h3 {
     text-align: left;
     width: 100%;
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform .product .meta {
+  body.home .shop.two-col .results .product-grid.uniform .product .meta {
     text-align: left;
     width: 100%;
   }
-  body.design-3 .shop.two-col .results .product-grid.uniform .product .btn {
+  body.home .shop.two-col .results .product-grid.uniform .product .btn {
     align-self: stretch;
     width: 100%;
     margin-top: auto;
@@ -1161,38 +1191,37 @@ body.design-3 .hero-section + .container {
 .contact-footer .footer-dark-band .footer-dark-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr auto;
+  padding: 2.5rem 1rem;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
-  align-items: start;
 }
 
 .contact-footer .footer-dark-band .footer-dark-inner .footer-brand {
   display: none;
 }
 
-.contact-footer .footer-dark-band .footer-dark-inner .footer-cta-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
-  text-align: right;
-  min-width: 280px;
+/* "Office" and "Quick Links" sit side by side as one row (mirroring the
+   reference's UK/EU two-column row), separated by a vertical divider;
+   Newsletter and Follow are their own full-width rows below, each gap
+   above coming from the flex column's even spacing rather than a
+   per-block margin, so the whole stack reads as one evenly-spaced
+   rhythm instead of Newsletter/Follow crowding each other. */
+.contact-footer .footer-dark-band .footer-dark-inner .footer-contact-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
 }
 
-.contact-footer .footer-dark-band .footer-dark-inner .footer-cta-right .brand-tagline {
-  color: #fff;
-  font-weight: 900;
-  letter-spacing: -0.01em;
-  font-size: 0.9em;
-  margin: 0;
-  margin-top: 0.5rem;
-}
-
-.contact-footer .footer-dark-band .footer-dark-inner .footer-office {
+.contact-footer .footer-dark-band .footer-dark-inner .footer-contact-row .footer-office:nth-child(2) {
   border-left: 1px solid #2a2a2a;
   padding-left: 2rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-divider {
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  margin: 0;
 }
 
 .contact-footer .footer-dark-band .footer-dark-inner .footer-office .office-heading {
@@ -1232,17 +1261,12 @@ body.design-3 .hero-section + .container {
   border-radius: 2px;
 }
 
-.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter {
-  border-left: 1px solid #2a2a2a;
-  padding-left: 2rem;
-}
-
 .contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter-heading,
-.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .social-heading {
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .social-heading {
   color: #fff;
   font-weight: 700;
   letter-spacing: 0.1em;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem;
 }
 
 /* The newsletter form itself -- the only CSS that ever targeted it
@@ -1303,7 +1327,7 @@ body.design-3 .hero-section + .container {
 
 .contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter-message {
   font-size: 0.85rem;
-  margin-bottom: 1rem;
+  margin: 0;
 }
 
 .contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter-cta {
@@ -1319,23 +1343,29 @@ body.design-3 .hero-section + .container {
   color: #10b981;
 }
 
-.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .footer-social-icons a {
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .footer-social-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .footer-social-icons a {
   color: #d1d5db;
+  font-size: 1.1rem;
   transition: all 200ms ease;
 }
 
-.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .footer-social-icons a:hover {
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .footer-social-icons a:hover {
   color: #10b981;
   transform: translateY(-2px);
 }
 
-.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .footer-social-icons a:focus {
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .footer-social-icons a:focus {
   outline: 2px solid #10b981;
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-body.design-3 .hk-footer {
+body.home .hk-footer {
   background-color: #000;
   color: #fff;
   border-top: 1px solid #2a2a2a;
@@ -1349,14 +1379,14 @@ body.design-3 .hk-footer {
   box-sizing: border-box;
 }
 
-body.design-3 .hk-footer .copyright {
+body.home .hk-footer .copyright {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0.5rem 1rem;
   box-sizing: border-box;
 }
 
-body.design-3 .hk-footer .copyright p {
+body.home .hk-footer .copyright p {
   color: #ffffff;
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -1364,87 +1394,23 @@ body.design-3 .hk-footer .copyright p {
   margin: 0;
 }
 
-/* Footer Responsive - Tablet (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 2rem;
+/* Footer Responsive - Mobile (max-width: 639px): the Office/Quick Links
+   row collapses to one column, trading the vertical divider between
+   them for a top rule, same as the divider between rows elsewhere in
+   the stack. */
+@media (max-width: 639px) {
+  body.home .contact-footer .footer-dark-band .footer-dark-inner .footer-contact-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-office {
+  body.home .contact-footer .footer-dark-band .footer-dark-inner .footer-contact-row .footer-office:nth-child(2) {
     border-left: 0;
     padding-left: 0;
     border-top: 1px solid #2a2a2a;
     padding-top: 1.5rem;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-office:first-of-type {
-    border-top: 0;
-    padding-top: 0;
-    grid-column: 1;
-    grid-row: 1;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-office:nth-of-type(2) {
-    grid-column: 2;
-    grid-row: 1;
-    border-top: 0;
-    padding-top: 0;
-    border-left: 1px solid #2a2a2a;
-    padding-left: 2rem;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter {
-    border-left: 0;
-    padding-left: 0;
-    border-top: 1px solid #2a2a2a;
-    padding-top: 1.5rem;
-    grid-column: 1/-1;
-    grid-row: 2;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .footer-social-icons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-cta-right {
-    display: none;
   }
 }
-/* Footer Responsive - Mobile (max-width: 767px) */
-@media (max-width: 767px) {
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-office {
-    border-left: 0;
-    padding-left: 0;
-    border-top: 1px solid #2a2a2a;
-    padding-top: 1.5rem;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-office:first-of-type {
-    border-top: 0;
-    padding-top: 0;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter {
-    border-left: 0;
-    padding-left: 0;
-    border-top: 1px solid #2a2a2a;
-    padding-top: 1.5rem;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .footer-social-icons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  body.design-3 .contact-footer .footer-dark-band .footer-dark-inner .footer-cta-right {
-    border-top: 1px solid #2a2a2a;
-    padding-top: 1.5rem;
-    align-items: flex-start;
-    text-align: left;
-  }
-}/*# sourceMappingURL=design3.css.map */
-/* ---- Additions for the portfolio marketplace port of Design 3 ---- */
+/* ---- Additions for the portfolio marketplace homepage ---- */
 /* (offcanvas menu, filter internals, and small pieces the original
    diecast demo didn't need — the rest of this file above is untouched
    from the archived Design 3 stylesheet.) */
@@ -1561,33 +1527,33 @@ body.design-3 .hk-footer .copyright p {
   outline: 2px solid #059669;
   outline-offset: -2px;
 }
-body.design-3.theme-dark .offcanvas .panel {
+body.home.theme-dark .offcanvas .panel {
   background: #000;
   color: #fff;
 }
-body.design-3.theme-dark .offcanvas .panel .logo,
-body.design-3.theme-dark .offcanvas .mobile-nav ul li a,
-body.design-3.theme-dark .offcanvas-links a {
+body.home.theme-dark .offcanvas .panel .logo,
+body.home.theme-dark .offcanvas .mobile-nav ul li a,
+body.home.theme-dark .offcanvas-links a {
   color: #fff;
 }
-body.design-3.theme-dark .offcanvas .offcanvas-label {
+body.home.theme-dark .offcanvas .offcanvas-label {
   color: #6b7280;
 }
-body.design-3.theme-dark .offcanvas-links {
+body.home.theme-dark .offcanvas-links {
   border-top-color: #333;
 }
-body.design-3.theme-dark .offcanvas .mobile-nav ul li a:hover,
-body.design-3.theme-dark .offcanvas .mobile-nav ul li a:focus-visible,
-body.design-3.theme-dark .offcanvas-links a:hover,
-body.design-3.theme-dark .offcanvas-links a:focus-visible {
+body.home.theme-dark .offcanvas .mobile-nav ul li a:hover,
+body.home.theme-dark .offcanvas .mobile-nav ul li a:focus-visible,
+body.home.theme-dark .offcanvas-links a:hover,
+body.home.theme-dark .offcanvas-links a:focus-visible {
   background: #111;
   color: #10b981;
 }
-body.design-3.theme-dark .offcanvas-links a:hover i,
-body.design-3.theme-dark .offcanvas-links a:focus-visible i {
+body.home.theme-dark .offcanvas-links a:hover i,
+body.home.theme-dark .offcanvas-links a:focus-visible i {
   color: #10b981;
 }
-body.design-3.theme-dark .offcanvas .panel .close {
+body.home.theme-dark .offcanvas .panel .close {
   background: #111;
   border-color: #333;
   color: #fff;
@@ -1611,23 +1577,26 @@ body.design-3.theme-dark .offcanvas .panel .close {
   font-size: 0.9rem;
   margin-bottom: 0.75rem;
 }
-.filters .conditions {
+.filters .conditions,
+.filters .sizes {
   border: 0;
   padding: 0;
   margin: 0.75rem 0 0;
 }
-.filters .conditions legend {
+.filters .conditions legend,
+.filters .sizes legend {
   font-weight: 700;
   padding: 0;
   margin-bottom: 0.35rem;
 }
-.filters .conditions label {
+.filters .conditions label,
+.filters .sizes label {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   font-weight: 400;
 }
-body.design-3.theme-dark .filters .price-display {
+body.home.theme-dark .filters .price-display {
   color: #9ca3af;
 }
 
@@ -1669,7 +1638,7 @@ body.design-3.theme-dark .filters .price-display {
   text-decoration: underline;
 }
 
-/* Site-wide announcement banner (shared component, not design-3-specific
+/* Site-wide announcement banner (shared component, not home-specific
    in the original build, so it needs a baseline here) */
 .site-announcement-banner {
   background: #059669;
