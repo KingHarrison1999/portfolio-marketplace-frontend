@@ -124,7 +124,6 @@ body.theme-dark {
   .stat-card {
     background: var(--dark-elev);
     border-color: var(--dark-line);
-    box-shadow: var(--dark-shadow);
 
     .stat-label {
       color: var(--dark-muted);
@@ -148,7 +147,6 @@ body.theme-dark {
   .form-shell-card {
     background: var(--dark-panel);
     border-color: var(--dark-line);
-    box-shadow: var(--dark-shadow);
   }
 
   .form-shell-header {
@@ -372,7 +370,6 @@ body.theme-dark {
   .purchase-panel {
     background: var(--dark-panel);
     border-color: var(--dark-line);
-    box-shadow: var(--dark-shadow);
 
     h1 {
       color: var(--dark-ink);
@@ -437,7 +434,6 @@ body.theme-dark {
   .order-summary {
     background: var(--dark-panel);
     border-color: var(--dark-line);
-    box-shadow: var(--dark-shadow);
 
     h2 {
       color: var(--dark-ink);
@@ -475,7 +471,6 @@ body.theme-dark {
   .checkout-section {
     background: var(--dark-panel);
     border-color: var(--dark-line);
-    box-shadow: var(--dark-shadow);
 
     h2 {
       color: var(--dark-ink);
@@ -595,7 +590,6 @@ body.theme-dark {
   .form-section {
     background: var(--dark-panel);
     border-color: var(--dark-line);
-    box-shadow: var(--dark-shadow);
 
     h2 {
       color: var(--dark-ink);
@@ -768,6 +762,31 @@ body.theme-dark {
     border-color: var(--dark-line);
   }
 
+  .custom-select-trigger {
+    background: var(--dark-elev);
+    color: var(--dark-ink);
+    border-color: var(--dark-line);
+  }
+
+  .custom-select-menu {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+  }
+
+  .custom-select-option {
+    color: var(--dark-ink);
+
+    &:hover,
+    &.is-highlighted {
+      background: var(--dark-line);
+      color: #34d399;
+    }
+
+    &[aria-selected='true'] {
+      color: #34d399;
+    }
+  }
+
   // --- Recently viewed / top sellers ---
   .recently-viewed .product-card {
     background: #fff;
@@ -925,37 +944,9 @@ body.theme-dark {
     }
   }
 
-  // --- Footer ---
-  .site-footer {
-    background: #0d0c0b;
-    border-top-color: #10b981;
-
-    .footer-section h4 {
-      color: var(--dark-ink);
-    }
-
-    .footer-section p,
-    .footer-section ul li a {
-      color: var(--dark-muted);
-    }
-
-    .newsletter input {
-      background: var(--dark-elev);
-      border-color: var(--dark-line);
-      color: var(--dark-ink);
-    }
-
-    .social a {
-      background: var(--dark-elev);
-      border-color: var(--dark-line);
-      color: var(--dark-ink);
-    }
-
-    .legal {
-      border-top-color: var(--dark-line);
-      color: var(--dark-muted);
-    }
-  }
+  // .site-footer has no dark-mode override here anymore -- it's
+  // unconditionally dark now (see Layout/_footer.scss), same as home.css's
+  // footer, so there's nothing left for the toggle to change.
 }
 
 // Mobile offcanvas drawer — originally scoped `.site-header.theme-dark` rather

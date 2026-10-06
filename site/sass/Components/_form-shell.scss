@@ -13,19 +13,19 @@
   background: white;
   border: 1px solid #d1d5db;
   border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
+  box-shadow: none;
   padding: 2rem;
 }
 
-// Same visual language as .form-shell-card (border/radius/shadow), without
-// its 420px max-width or centering — for forms with several stacked fields
-// living inline in a normal page layout (e.g. create/edit listing) rather
-// than as a standalone centered card.
+// Same visual language as .form-shell-card (border/radius, no shadow),
+// without its 420px max-width or centering — for forms with several
+// stacked fields living inline in a normal page layout (e.g. create/edit
+// listing) rather than as a standalone centered card.
 .form-section {
   background: white;
   border: 1px solid #d1d5db;
   border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
+  box-shadow: none;
   padding: 2rem;
   margin-bottom: 2rem;
 

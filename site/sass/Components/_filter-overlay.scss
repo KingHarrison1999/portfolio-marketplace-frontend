@@ -235,7 +235,7 @@
       .btn-reset {
         flex: 1;
         padding: 0.75rem 1rem;
-        border-radius: 0.5rem;
+        border-radius: 999px;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -246,7 +246,6 @@
         background: #10b981;
         color: white;
         font-size: 1rem;
-        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
 
         &:hover {
           background: vars.$color-accent-hover;

@@ -3,7 +3,15 @@
 :root {
   color-scheme: light dark;
 
-  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.08);
+  // home.css's cards (.feature.block, .filters, browse-by-category tiles)
+  // are flat/border-only at rest and only ever pick up a shadow as a
+  // hover-lift affordance -- this value now matches that hover-lift
+  // magnitude (same as .browse-by-category .grid a:hover in home.css)
+  // rather than being a permanent resting shadow. Components that used to
+  // apply it at rest (form-shell-card, purchase-panel, order-summary,
+  // checkout-section, stat-card) now set box-shadow: none and rely on
+  // their border instead, matching home.css's own non-interactive cards.
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.1);
   --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
   --radius: 0.5rem;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);

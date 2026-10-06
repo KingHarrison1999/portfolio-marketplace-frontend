@@ -1,0 +1,80 @@
+// Custom listbox that js/custom-select.js builds in place of the "Sort
+// by" <select> on browse.html (and the homepage's decorative one) --
+// native <select> option hover/highlight color can't be styled with CSS
+// in any browser, so this replaces the control itself to make that
+// hover color controllable (brand green instead of browser blue). The
+// underlying <select> stays in the DOM, hidden, for existing JS
+// (js/browse.js) to keep reading/writing its value unmodified.
+.custom-select {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 170px;
+  border: 1px solid #cbd5f5;
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+  background: white;
+  color: #1f2937;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #059669;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #059669;
+    outline-offset: 2px;
+  }
+}
+
+.custom-select-caret {
+  font-size: 0.7rem;
+  color: #6b7280;
+  transition: transform 150ms ease;
+}
+
+.custom-select.is-open .custom-select-caret {
+  transform: rotate(180deg);
+}
+
+.custom-select-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.custom-select-option {
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.35rem;
+  font-size: 0.95rem;
+  color: #1f2937;
+  cursor: pointer;
+
+  &:hover,
+  &.is-highlighted {
+    background: #ecfdf5;
+    color: #047857;
+  }
+
+  &[aria-selected='true'] {
+    font-weight: 600;
+    color: #059669;
+  }
+}

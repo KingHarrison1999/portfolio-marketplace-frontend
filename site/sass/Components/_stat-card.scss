@@ -10,7 +10,7 @@
   background: white;
   border: 1px solid #d1d5db;
   border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
+  box-shadow: none;
   padding: 1.25rem;
   @include mixins.hover-lift;
 

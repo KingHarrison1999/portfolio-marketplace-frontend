@@ -24,11 +24,15 @@
   }
 }
 
+// Unconditionally dark, like home.css's footer bands -- this footer
+// doesn't react to the light/dark toggle at all, same as the homepage's
+// doesn't. (Themes/_dark.scss's .site-footer override becomes redundant
+// once this is unconditional and was removed from there.)
 .site-footer {
   margin-top: 3rem;
-  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  background: #0d0c0b;
   border-top: 3px solid #10b981;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   padding: 2.5rem 0 1rem;
 
   .footer-cols {
@@ -47,14 +51,14 @@
       margin: 0 0 1rem;
       font-size: 1.2rem;
       font-weight: 800;
-      color: #0f172a;
+      color: #e8e8e8;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     p {
       margin: 0.5rem 0;
-      color: #6b7280;
+      color: #a8a29b;
       font-size: 0.95rem;
       line-height: 1.6;
     }
@@ -69,7 +73,7 @@
 
       li a {
         text-decoration: none;
-        color: #6b7280;
+        color: #a8a29b;
         font-weight: 500;
         transition: color 0.2s ease;
         font-size: 0.95rem;
@@ -88,11 +92,17 @@
     margin-top: 1rem;
 
     input {
-      padding: 0.75rem;
-      border: 2px solid #d1d5db;
-      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid #2e2a24;
+      border-radius: 999px;
+      background: #242019;
+      color: #e8e8e8;
       font-size: 0.95rem;
       transition: border-color 0.2s ease;
+
+      &::placeholder {
+        color: #a8a29b;
+      }
 
       &:focus {
         outline: none;
@@ -104,7 +114,7 @@
       border: 0;
       background: #10b981;
       color: white;
-      border-radius: 0.5rem;
+      border-radius: 999px;
       padding: 0.75rem 1rem;
       font-weight: 700;
       cursor: pointer;
@@ -122,36 +132,30 @@
   .newsletter-message {
     margin-top: 0.5rem;
     font-size: 0.85rem;
+    color: #a8a29b;
 
     &[hidden] {
       display: none;
     }
   }
 
+  // Plain icon links, matching home.css's .footer-social-icons -- not
+  // boxed buttons.
   .social {
     display: flex;
-    gap: 0.75rem;
-    color: black;
+    gap: 1rem;
     margin-top: 1.25rem;
     justify-content: center;
 
     a {
       text-decoration: none;
-      background: white;
-      color: #0f172a;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.5rem;
-      border: 2px solid #d1d5db;
-      transition: all 0.2s ease;
-      font-weight: 600;
-      font-size: 2rem;
+      color: #a8a29b;
+      font-size: 1.1rem;
+      transition: all 200ms ease;
 
       &:hover {
-        background: #10b981;
-        color: white;
-        border-color: #10b981;
+        color: #10b981;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
       }
     }
   }
@@ -159,9 +163,9 @@
   .legal {
     text-align: center;
     padding: 1.5rem 0 0;
-    color: #6b7280;
+    color: #a8a29b;
     font-size: 0.9rem;
-    border-top: 1px solid #d1d5db;
+    border-top: 1px solid #2e2a24;
     margin-top: 2rem;
   }
 }

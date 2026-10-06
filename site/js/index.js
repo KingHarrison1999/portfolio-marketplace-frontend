@@ -286,28 +286,84 @@ async function loadTopSellers() {
 // 404'd. Real data, same card markup as Recently Added. The sort dropdown
 // and filter overlay above this grid are still decorative only (see the
 // HTML comment) -- out of scope for this fix.
+//
+// FALLBACK_LISTINGS below exists because the live backend is a Railway
+// project that gets suspended between billing cycles -- when that happens
+// this fetch fails and the homepage would otherwise show a dead "Failed to
+// load listings" message instead of a real product grid. Unlike the old
+// hardcoded set this removed, these fallback cards link to browse.html
+// (not a fake ?id=) so they never 404.
 async function loadShopGrid() {
   const grid = document.getElementById('homepage-shop-grid');
   if (!grid) return;
 
-  const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=16');
-  if (!res.ok) {
-    grid.innerHTML = '<p class="carousel-loading">Failed to load listings.</p>';
-    return;
-  }
+  try {
+    const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=16');
+    if (!res.ok) throw new Error(`listings request failed: ${res.status}`);
 
-  const body = await res.json();
-  const listings = body.listings || [];
+    const body = await res.json();
+    const listings = body.listings || [];
+    if (listings.length === 0) throw new Error('no listings returned');
 
-  if (listings.length === 0) {
-    grid.innerHTML = '<p class="carousel-loading">No listings yet.</p>';
-    return;
+    grid.innerHTML = '';
+    for (const listing of listings) {
+      grid.appendChild(buildProductCard(listing));
+    }
+  } catch (err) {
+    console.warn('loadShopGrid: live listings unavailable, showing static fallback cards.', err);
+    grid.innerHTML = '';
+    for (const item of FALLBACK_LISTINGS) {
+      grid.appendChild(buildFallbackCard(item));
+    }
   }
+}
 
-  grid.innerHTML = '';
-  for (const listing of listings) {
-    grid.appendChild(buildProductCard(listing));
-  }
+// Real product photos already in site/Images/, reused here so the fallback
+// grid looks identical in quality to live data -- just not live.
+const FALLBACK_LISTINGS = [
+  { title: 'Wool Herringbone Overcoat', price: 68.0, image: 'Wool Herringbone Overcoat.jpg' },
+  { title: 'Tan Leather Biker Jacket', price: 54.0, image: 'Tan Leather Biker Jacket.jpg' },
+  { title: 'Emerald Velvet Evening Dress', price: 42.0, image: 'Emerald Velvet Evening Dress.jpg' },
+  { title: 'Structured Leather Satchel Bag', price: 36.0, image: 'Structured Leather Satchel Bag.jpg' },
+  { title: 'Striped Cotton Boat-Neck Top', price: 18.0, image: 'Striped Cotton Boat-Neck Top.jpg' },
+  { title: 'Wide-Leg Corduroy Trousers', price: 28.0, image: 'Wide-Leg Corduroy Trousers.jpg' },
+  { title: 'Silk Pussy-Bow Blouse', price: 24.0, image: 'Silk Pussy-Bow Blouse.jpg' },
+  { title: 'Brown Leather Ankle Boots', price: 46.0, image: 'Brown Leather Ankle Boots.jpg' },
+  { title: 'Polka Dot Shirt Dress', price: 22.0, image: 'Polka Dot Shirt Dress.jpg' },
+  { title: 'Leather Chelsea Boots', price: 38.0, image: 'Leather Chelsea Boots.jpg' },
+  { title: 'Pearl Drop Earrings', price: 12.0, image: 'Pearl Drop Earrings vintage.jpg' },
+  { title: "Men's Wind-Up Wristwatch", price: 32.0, image: "Men's Wind-Up Wristwatch vintage.jpg" },
+  { title: 'Floral Midi Tea Dress', price: 20.0, image: 'Floral Midi Tea Dress.jpg' },
+  { title: 'Pleated Tartan Mini Skirt', price: 16.0, image: 'Pleated Tartan Mini Skirt.jpg' },
+  { title: 'Lace Trim Camisole Top', price: 14.0, image: 'Lace Trim Camisole top.jpg' },
+  { title: 'Silk Scarf, Paisley Print', price: 10.0, image: 'Silk Scarf Paisley Print.jpg' },
+];
+
+function buildFallbackCard(item) {
+  const article = document.createElement('article');
+  article.className = 'product';
+
+  const img = document.createElement('img');
+  img.src = `Images/${encodeURIComponent(item.image)}`;
+  img.alt = item.title;
+  article.appendChild(img);
+
+  const h3 = document.createElement('h3');
+  h3.textContent = item.title;
+  article.appendChild(h3);
+
+  const meta = document.createElement('p');
+  meta.className = 'meta';
+  meta.textContent = `£${item.price.toFixed(2)}`;
+  article.appendChild(meta);
+
+  const link = document.createElement('a');
+  link.href = 'browse.html';
+  link.className = 'btn';
+  link.textContent = 'Shop Now';
+  article.appendChild(link);
+
+  return article;
 }
 
 // Hero, toolbar, and mobile-drawer search boxes previously had no submit
