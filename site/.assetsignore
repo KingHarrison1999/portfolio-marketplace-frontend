@@ -1,0 +1,20 @@
+# Files in site/ that `wrangler deploy --assets ./site` must not upload.
+# Same syntax as .gitignore.
+
+.assetsignore
+
+# Build sources and host config -- the site serves the compiled CSS only.
+sass/
+*.map
+netlify.toml
+
+# Images nothing references: no page, script or stylesheet, and no
+# listing_images row in the database. Listing photos are stored in the DB as
+# "/Images/<file>" paths, so check the database (not just the code) before
+# adding an image here.
+Images/Hero 1 Vintage.jpg
+Images/Hero beach.jpg
+Images/Hero Glasses.jpg
+Images/Hero shoes.jpg
+Images/Hero winter.jpg
+Images/Retro Band T-Shirt.jpg
