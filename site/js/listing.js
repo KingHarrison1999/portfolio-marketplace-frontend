@@ -1,9 +1,9 @@
 // Wires the listing detail page to GET /api/listings/:id.
 //
 // KNOWN GAPS (flagged, not silently worked around):
-// - Seller display name is read directly from the public profiles_public
-//   view via Supabase (not the Express API) -- that view was built
-//   specifically for this purpose. There's no seller rating/review data
+// - Seller display name comes from the listing response
+//   (seller_display_name); the public profiles_public view via Supabase is
+//   only a fallback if that field is missing. There's no seller rating/review data
 //   anywhere in the schema, so the old "100% positive · 250 sales" mock
 //   stat has no real replacement and was removed rather than faked.
 // - "Similar Items" has no dedicated backend endpoint -- this reuses
@@ -177,19 +177,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  async function loadSellerName(sellerId) {
+  // GET /api/listings/:id already returns seller_display_name; the
+  // profiles_public lookup only runs if that field is missing.
+  async function loadSellerName(listing) {
     const sellerNameEl = document.getElementById('listing-seller-name');
-    const { data, error } = await window.MarketplaceAuth.supabaseClient
-      .from('profiles_public')
-      .select('display_name')
-      .eq('id', sellerId)
-      .maybeSingle();
-
-    if (error || !data || !data.display_name) {
-      sellerNameEl.textContent = 'Unknown Seller';
+    if (listing.seller_display_name) {
+      sellerNameEl.textContent = listing.seller_display_name;
       return;
     }
-    sellerNameEl.textContent = data.display_name;
+
+    try {
+      const { data, error } = await window.MarketplaceAuth.supabaseClient
+        .from('profiles_public')
+        .select('display_name')
+        .eq('id', listing.seller_id)
+        .maybeSingle();
+      if (error) throw error;
+      sellerNameEl.textContent = (data && data.display_name) || 'Unknown Seller';
+    } catch (err) {
+      console.warn('listing: seller name lookup failed.', err);
+      sellerNameEl.textContent = 'Unknown Seller';
+    }
   }
 
   function wireAddToCart(listing) {
@@ -335,7 +343,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderListing(listing);
   renderDetails(listing);
   loadCategory(listing);
-  loadSellerName(listing.seller_id);
+  loadSellerName(listing);
   loadSimilarItems(listing);
   wireAddToCart(listing);
 });
