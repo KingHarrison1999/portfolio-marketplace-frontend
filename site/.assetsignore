@@ -12,9 +12,8 @@ netlify.toml
 # listing_images row in the database. Listing photos are stored in the DB as
 # "/Images/<file>" paths, so check the database (not just the code) before
 # adding an image here.
-Images/Hero 1 Vintage.jpg
-Images/Hero beach.jpg
-Images/Hero Glasses.jpg
-Images/Hero shoes.jpg
-Images/Hero winter.jpg
+#
+# The original "Hero <name>.jpg" photos -- the hero uses the resized
+# "hero-<name>.jpg" copies. "Hero " with a space, so hero-*.jpg never match.
+Images/Hero *.jpg
 Images/Retro Band T-Shirt.jpg
