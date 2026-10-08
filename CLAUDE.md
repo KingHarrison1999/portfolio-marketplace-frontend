@@ -35,9 +35,18 @@ change.
 wrangler deployments list --name portfolio-marketplace-frontend
 ```
 
-⚠️ The exact deploy command/config isn't recorded in this repo (there's no `wrangler.toml` /
-`wrangler.jsonc` checked in). Before the next deploy, confirm the command that was used and add it
-here (or commit a wrangler config) rather than guessing.
+Deploy (run from the repo root, after `npm run build:css` if any SCSS changed):
+
+```
+wrangler deploy --name portfolio-marketplace-frontend --assets ./site --compatibility-date 2026-10-06
+```
+
+The Worker is assets-only — no script, no bindings — and there's no `wrangler.toml` /
+`wrangler.jsonc` in the repo, so every setting is on the command line. The compatibility date
+matches the live version (check with `wrangler versions view <version-id> --name
+portfolio-marketplace-frontend`). Add `--dry-run` to validate without uploading. This deploys the
+Worker only; it never touches the old Cloudflare Pages project (that would be
+`wrangler pages deploy`, which must never be run for this site).
 
 If `wrangler` isn't already authenticated in whatever environment is doing the deploy, that's a
 one-time `wrangler login` (or a supplied `CLOUDFLARE_API_TOKEN`) first — same pattern as the
