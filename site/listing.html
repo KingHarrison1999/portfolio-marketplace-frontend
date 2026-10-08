@@ -11,79 +11,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="js/auth.js" defer></script>
   <script src="js/listing.js" defer></script>
-  <script src="js/masthead.js" defer></script>
   <script src="js/newsletter.js" defer></script>
   <script src="js/site-banner.js" defer></script>
-  <script src="js/theme.js" defer></script>
 </head>
 <body class="listing-page theme-light">
-  <script>
-    (function () {
-      try {
-        if (localStorage.getItem('marketplace-theme') === 'dark') {
-          document.body.classList.add('theme-dark');
-        }
-      } catch (e) {}
-    })();
-  </script>
   <div id="site-announcement-banner" class="site-announcement-banner" hidden></div>
-  <header class="masthead">
-    <div class="bar">
-      <a href="index.html" class="logo">Marketplace</a>
-      <div class="right">
-        <a href="cart.html" class="masthead-icon" aria-label="Cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i></a>
-        <a href="login.html" class="masthead-icon" aria-label="Account"><i class="fa-solid fa-user" aria-hidden="true"></i></a>
-        <button class="hamburger" id="hamburger-1" aria-label="Open menu" aria-expanded="false" aria-controls="offcanvas">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-        <button class="mode-toggle pill-toggle" aria-pressed="false" title="Toggle light/dark">
-          <span class="toggle-knob">
-            <svg class="toggle-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="4"></circle>
-              <line x1="12" y1="2" x2="12" y2="4"></line>
-              <line x1="12" y1="20" x2="12" y2="22"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="2" y1="12" x2="4" y2="12"></line>
-              <line x1="20" y1="12" x2="22" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg class="toggle-icon moon-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </span>
-        </button>
-      </div>
-    </div>
-    <div class="utility">
-      <form class="search combo" id="masthead-search-form">
-        <select aria-label="Shop by category">
-          <option>Shop by Category</option>
-        </select>
-        <input type="search" id="masthead-search-input" placeholder="Search dresses, jackets, shoes, accessories..." aria-label="Search" />
-        <button type="submit">Search</button>
-      </form>
-    </div>
-  </header>
-
-  <!-- Mobile/off-canvas nav (opened by the hamburger above) -->
-  <div class="offcanvas" id="offcanvas">
-    <div class="panel">
-      <button class="close" aria-label="Close menu">✕</button>
-      <a href="index.html" class="logo offcanvas-logo">Marketplace</a>
-      <nav class="mobile-nav">
-        <p class="offcanvas-label">Categories</p>
-        <!-- Populated from GET /api/categories -- see js/masthead.js -->
-        <ul id="mobile-nav-menu"></ul>
-      </nav>
-      <div class="offcanvas-links">
-        <a href="browse.html"><i class="fa-solid fa-magnifying-glass"></i> Browse</a>
-        <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
-        <a href="login.html"><i class="fa-solid fa-user"></i> Account</a>
-      </div>
-    </div>
-  </div>
+  <script src="js/masthead.js"></script>
 
   <div class="container listing-container">
     <p id="listing-loading">Loading listing&hellip;</p>

@@ -1,9 +1,8 @@
-// Wires the homepage's global nav (desktop mega-menu + mobile drawer),
-// "Browse by Category", "Top Sellers", "Recently Added", and the larger
-// "shop results" product grid to the real backend (GET /api/categories,
-// GET /api/listings?sort=newest), plus the hero/toolbar/mobile-drawer
-// search boxes (real navigation to browse.html?q=..., not a data fetch of
-// their own).
+// Wires the homepage's "Browse by Category", "Top Sellers", "Recently
+// Added", and the larger "shop results" product grid to the real backend
+// (GET /api/categories, GET /api/listings?sort=newest), plus the
+// hero/toolbar search boxes (real navigation to browse.html?q=..., not a
+// data fetch of their own). The header and its menu are js/masthead.js.
 //
 // NOT wired, and flagged rather than faked: "Your Recently Viewed Items"
 // (would need per-visitor view-history tracking, which doesn't exist
@@ -57,107 +56,6 @@ async function loadHomepageCategories() {
     a.appendChild(img);
 
     grid.appendChild(a);
-  }
-}
-
-// Global nav -- desktop mega-menu, the .offcanvas mobile-nav, AND the
-// .mobile-drawer's accordion menu (three separate copies of the same menu
-// in this markup). All three previously had the same 9 hardcoded old-catalog
-// category names with href="#" links that went nowhere. Wired to the same
-// GET /api/categories the "Browse by Category" section above uses, via
-// its own independent fetch (same one-section-one-fetch pattern as every
-// other loader in this file). A top-level category only gets the
-// dropdown/accordion treatment if it actually has children in the data --
-// none of the current categories do, so all three menus render as flat
-// link lists for now, but this will pick up real subcategories
-// automatically if any get added later.
-async function loadNavCategories() {
-  const desktopMenu = document.getElementById('global-nav-menu');
-  const mobileMenu = document.getElementById('mobile-nav-menu');
-  const drawerMenu = document.getElementById('drawer-nav-menu');
-  if (!desktopMenu && !mobileMenu && !drawerMenu) return;
-
-  const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
-  if (!res.ok) return; // leave both menus empty rather than guessing
-
-  const body = await res.json();
-  const categories = body.categories || [];
-  const topLevel = categories.filter((cat) => !cat.parent_id);
-
-  const childrenByParent = new Map();
-  for (const cat of categories) {
-    if (!cat.parent_id) continue;
-    if (!childrenByParent.has(cat.parent_id)) childrenByParent.set(cat.parent_id, []);
-    childrenByParent.get(cat.parent_id).push(cat);
-  }
-
-  function categoryLink(cat) {
-    const a = document.createElement('a');
-    a.href = `browse.html?category_id=${encodeURIComponent(cat.id)}`;
-    a.textContent = cat.name;
-    return a;
-  }
-
-  if (desktopMenu) {
-    desktopMenu.innerHTML = '';
-    for (const cat of topLevel) {
-      const li = document.createElement('li');
-      li.appendChild(categoryLink(cat));
-
-      const children = childrenByParent.get(cat.id);
-      if (children && children.length > 0) {
-        li.className = 'has-dropdown';
-        const dropdown = document.createElement('div');
-        dropdown.className = 'dropdown';
-        const ul = document.createElement('ul');
-        for (const child of children) {
-          const childLi = document.createElement('li');
-          childLi.appendChild(categoryLink(child));
-          ul.appendChild(childLi);
-        }
-        dropdown.appendChild(ul);
-        li.appendChild(dropdown);
-      }
-
-      desktopMenu.appendChild(li);
-    }
-  }
-
-  if (mobileMenu) {
-    mobileMenu.innerHTML = '';
-    for (const cat of topLevel) {
-      const li = document.createElement('li');
-      li.appendChild(categoryLink(cat));
-      mobileMenu.appendChild(li);
-    }
-  }
-
-  if (drawerMenu) {
-    drawerMenu.innerHTML = '';
-    for (const cat of topLevel) {
-      const li = document.createElement('li');
-      const children = childrenByParent.get(cat.id);
-
-      if (children && children.length > 0) {
-        const details = document.createElement('details');
-        const summary = document.createElement('summary');
-        summary.textContent = cat.name;
-        details.appendChild(summary);
-
-        const ul = document.createElement('ul');
-        for (const child of children) {
-          const childLi = document.createElement('li');
-          childLi.appendChild(categoryLink(child));
-          ul.appendChild(childLi);
-        }
-        details.appendChild(ul);
-        li.appendChild(details);
-      } else {
-        li.appendChild(categoryLink(cat));
-      }
-
-      drawerMenu.appendChild(li);
-    }
   }
 }
 
@@ -461,7 +359,6 @@ async function loadHeroAds() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadNavCategories();
   loadHomepageCategories();
   loadTopSellers();
   loadShopGrid(loadRecentlyAdded());
