@@ -1,0 +1,92 @@
+/* ---- Hero carousel: one clickable slide per collection ----
+   Each .slide is a real link covering the whole photo, with its own title.
+   The .overlay (search bar) sits above the slides, so it lets clicks fall
+   through everywhere except on the search form itself.
+   Loaded after home.css from index.html only. */
+body.home .carousel-hero .slides .slide {
+  position: relative;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  text-decoration: none;
+  overflow: hidden;
+}
+body.home .carousel-hero .slides .slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+  transition: background 0.3s ease;
+}
+body.home .carousel-hero .slides .slide:hover::before {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
+}
+body.home .carousel-hero .slide-caption {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 1.25rem 6.5rem;
+  text-align: center;
+  max-width: 900px;
+}
+body.home .carousel-hero .slide-title {
+  font-family: "Merriweather", serif;
+  font-weight: 900;
+  font-size: clamp(1.8rem, 4vw, 3.25rem);
+  line-height: 1.15;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+body.home .carousel-hero .slide-sub {
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  color: #f3f4f6;
+}
+body.home .carousel-hero .slide-cta {
+  margin-top: 0.35rem;
+  font-weight: 700;
+  border-bottom: 2px solid #10b981;
+  padding-bottom: 2px;
+}
+body.home .carousel-hero .slide-cta i {
+  margin-left: 0.25rem;
+  transition: transform 0.2s ease;
+}
+body.home .carousel-hero .slide:hover .slide-cta i,
+body.home .carousel-hero .slide:focus-visible .slide-cta i {
+  transform: translateX(5px);
+}
+body.home .carousel-hero .slide:hover .slide-title,
+body.home .carousel-hero .slide:focus-visible .slide-title {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+}
+body.home .carousel-hero .slide:focus-visible {
+  outline: 3px solid #10b981;
+  outline-offset: -3px;
+}
+body.home .carousel-hero .overlay {
+  background: none;
+  pointer-events: none;
+  place-items: end center;
+  padding-bottom: 2.75rem;
+}
+body.home .carousel-hero .overlay > div {
+  width: 100%;
+}
+body.home .carousel-hero .overlay form,
+body.home .carousel-hero .overlay .hero-ads {
+  pointer-events: auto;
+}
+.hero-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

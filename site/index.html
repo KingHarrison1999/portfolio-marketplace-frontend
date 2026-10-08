@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&amp;family=Source+Sans+3:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="Styles/home.css" />
+  <link rel="stylesheet" href="Styles/hero.css" />
   <link rel="stylesheet" href="Styles/site-footer.css" />
   <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -39,19 +40,60 @@
   <section class="hero-section">
     <div class="carousel-hero" id="carousel-hero">
       <div class="slides" id="hero-slides">
-        <div class="slide" style="background:center/cover url('Images/Wool%20Herringbone%20Overcoat.jpg')"></div>
-        <div class="slide" style="background:center/cover url('Images/Tan%20Leather%20Biker%20Jacket.jpg')"></div>
-        <div class="slide" style="background:center/cover url('Images/Emerald%20Velvet%20Evening%20Dress.jpg')"></div>
+        <a class="slide" href="browse.html?sort=newest" style="background:center/cover url('Images/hero-vintage.jpg')">
+          <span class="slide-caption">
+            <span class="slide-title">Latest Barn Finds</span>
+            <span class="slide-sub">Fresh off the rail, straight from the back of someone&rsquo;s wardrobe.</span>
+            <span class="slide-cta">Shop now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </span>
+        </a>
+        <a class="slide" href="browse.html" style="background:center 70%/cover url('Images/hero-beach.jpg')">
+          <span class="slide-caption">
+            <span class="slide-title">Loud Shirts, Quiet Beaches</span>
+            <span class="slide-sub">Holiday prints that have already seen a few sunsets.</span>
+            <span class="slide-cta">Shop now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </span>
+        </a>
+        <a class="slide" href="browse.html" style="background:center/cover url('Images/hero-shoes.jpg')">
+          <span class="slide-caption">
+            <span class="slide-title">Already Broken In</span>
+            <span class="slide-sub">Boots and shoes with the hard miles done for you.</span>
+            <span class="slide-cta">Shop now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </span>
+        </a>
+        <a class="slide" href="browse.html" style="background:center 30%/cover url('Images/hero-winter.jpg')">
+          <span class="slide-caption">
+            <span class="slide-title">Knit Happens</span>
+            <span class="slide-sub">Scarves, bobbles and big coats for when it does.</span>
+            <span class="slide-cta">Shop now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </span>
+        </a>
+        <a class="slide" href="browse.html" style="background:center 60%/cover url('Images/hero-summer.jpg')">
+          <span class="slide-caption">
+            <span class="slide-title">Sun&rsquo;s Out, Thrift&rsquo;s Out</span>
+            <span class="slide-sub">Warm-weather finds that cost less than the petrol.</span>
+            <span class="slide-cta">Shop now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </span>
+        </a>
+        <a class="slide" href="browse.html" style="background:center/cover url('Images/hero-glasses.jpg')">
+          <span class="slide-caption">
+            <span class="slide-title">Throwing Shade Since &rsquo;74</span>
+            <span class="slide-sub">Sunglasses and accessories with a past.</span>
+            <span class="slide-cta">Shop now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </span>
+        </a>
       </div>
       <div class="carousel-dots" id="hero-dots">
         <button class="dot active" aria-label="Slide 1"></button>
         <button class="dot" aria-label="Slide 2"></button>
         <button class="dot" aria-label="Slide 3"></button>
+        <button class="dot" aria-label="Slide 4"></button>
+        <button class="dot" aria-label="Slide 5"></button>
+        <button class="dot" aria-label="Slide 6"></button>
       </div>
       <div class="overlay">
         <div>
-          <h1>Buy and sell pre-loved fashion, all in one place.</h1>
-          <p>Clothing, shoes and accessories — curated by our community.</p>
+          <h1 class="hero-sr-only">Buy and sell pre-loved fashion, all in one place.</h1>
           <form class="search wide" id="hero-search-form">
             <input type="search" id="hero-search-input" placeholder="Search dresses, jackets, shoes, accessories..." aria-label="Search" />
             <button type="submit">Search</button>
