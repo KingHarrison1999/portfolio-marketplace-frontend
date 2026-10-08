@@ -11,7 +11,7 @@ body.theme-dark {
 
 .theme-dark {
   // --- Header / hero ---
-  // Same darkest-tier chrome as .global-nav/.site-footer below, not
+  // Same darkest-tier chrome as .global-nav below, not
   // var(--dark-panel) (that's the card tier).
   .site-header {
     background: #0d0c0b;
@@ -938,9 +938,9 @@ body.theme-dark {
     }
   }
 
-  // .site-footer has no dark-mode override here anymore -- it's
-  // unconditionally dark now (see Layout/_footer.scss), same as home.css's
-  // footer, so there's nothing left for the toggle to change.
+  // The shared site footer has no dark-mode override here -- it's
+  // unconditionally dark (see Styles/site-footer.css), so there's nothing
+  // for the toggle to change.
 }
 
 // Mobile offcanvas drawer — originally scoped `.site-header.theme-dark` rather

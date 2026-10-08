@@ -1,0 +1,359 @@
+/* site-footer.css -- styles for the one shared site footer (markup:
+   js/site-footer.js). Loaded by every page, homepage included, so it's a
+   standalone stylesheet rather than part of main.compiled.css (which the
+   homepage doesn't load) or home.css (which no other page loads).
+
+   The footer design itself is the homepage's original footer, moved here
+   verbatim from home.css; only the body.home scoping was dropped so it
+   applies site-wide. */
+
+/* Sticky footer: body is a full-viewport-height flex column and the footer
+   takes up the slack above itself (margin-top: auto), so on short pages
+   (empty cart, empty browse results, 404...) it sits at the bottom of the
+   screen instead of floating mid-page. On long pages it simply follows the
+   content as before. */
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Flex items don't shrink below their content height... */
+body > * {
+  flex-shrink: 0;
+}
+
+/* ...and a flex item with auto side margins (every centered
+   `max-width + margin: 0 auto` wrapper, e.g. .container) would otherwise
+   shrink-wrap its content instead of filling the row the way a block does.
+   Restore block-like full width; max-width still caps and centers it. */
+body > .container,
+body > main.container {
+  width: 100%;
+}
+
+.contact-footer {
+  margin-top: auto;
+}
+
+/* Pin what the homepage footer otherwise got from home.css's page-level
+   defaults, so it renders identically under main.compiled.css (whose base
+   typography sets a serif h2 and a global border-box). */
+.contact-footer {
+  font-family: "Source Sans 3", system-ui, sans-serif;
+}
+
+.contact-footer .cta-heading {
+  font-family: inherit;
+}
+
+.contact-footer .footer-cta-inner,
+.contact-footer .footer-dark-inner {
+  box-sizing: content-box;
+}
+
+.contact-footer .footer-cta-band {
+  background: #1a1a1a;
+  color: #fff;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem 1.5rem 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner .cta-left,
+.contact-footer .footer-cta-band .footer-cta-inner .cta-center {
+  display: none;
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner .cta-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  text-align: right;
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner .cta-text {
+  color: #e5e7eb;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner .cta-heading {
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner .cta-underline {
+  background: #10b981;
+  height: 3px;
+  flex: 1;
+  min-width: 60px;
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner .cta-button {
+  background: #10b981;
+  color: #fff;
+  transition: all 200ms ease;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner .cta-button:hover {
+  background: #059669;
+  transform: scale(1.05);
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner .cta-button:focus {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+.contact-footer .footer-cta-band .footer-cta-inner .cta-button i {
+  font-size: 1.25rem;
+}
+
+.contact-footer .footer-dark-band {
+  background: #000;
+  color: #fff;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-brand {
+  display: none;
+}
+
+/* "Office" and "Quick Links" sit side by side as one row (mirroring the
+   reference's UK/EU two-column row), separated by a vertical divider;
+   Newsletter and Follow are their own full-width rows below, each gap
+   above coming from the flex column's even spacing rather than a
+   per-block margin, so the whole stack reads as one evenly-spaced
+   rhythm instead of Newsletter/Follow crowding each other. */
+.contact-footer .footer-dark-band .footer-dark-inner .footer-contact-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-contact-row .footer-office:nth-child(2) {
+  border-left: 1px solid #2a2a2a;
+  padding-left: 2rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-divider {
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  margin: 0;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office .office-heading {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office .office-email,
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office .office-phone,
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office .office-address {
+  color: #d1d5db;
+  line-height: 1.6;
+}
+
+/* Every link in the footer's "Office" column -- Quick Links (plain <a> in
+   a <p>, previously had no matching rule at all and fell through to the
+   browser's default blue/underline) and the office email -- share one
+   consistent treatment: no underline at rest, accent green with an
+   underline on hover/focus, same accent as the Search buttons. */
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office a {
+  color: #d1d5db;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office a:hover {
+  color: #10b981;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-office a:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter-heading,
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .social-heading {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin: 0 0 1rem;
+}
+
+/* The newsletter form itself. Rounded to match the hero search box's
+   look rather than the masthead search's squared-off one, since this
+   sits on its own dark band rather than inline with other controls. */
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #333;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.9rem;
+  transition: border-color 200ms ease;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter input::placeholder {
+  color: #9ca3af;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter input:focus {
+  outline: none;
+  border-color: #10b981;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter button {
+  border: 0;
+  border-radius: 999px;
+  background: #10b981;
+  color: #fff;
+  padding: 0.65rem 1.1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter button:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter button:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter-message {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter-cta {
+  color: #d1d5db;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 200ms ease;
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-newsletter .newsletter-cta:hover {
+  color: #10b981;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .footer-social-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .footer-social-icons a {
+  color: #d1d5db;
+  font-size: 1.1rem;
+  transition: all 200ms ease;
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .footer-social-icons a:hover {
+  color: #10b981;
+  transform: translateY(-2px);
+}
+
+.contact-footer .footer-dark-band .footer-dark-inner .footer-follow .footer-social-icons a:focus {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.hk-footer {
+  background-color: #000;
+  color: #fff;
+  border-top: 1px solid #2a2a2a;
+  margin: 0;
+}
+
+.hk-footer .copyright {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+}
+
+.hk-footer .copyright p {
+  color: #ffffff;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-align: center;
+  margin: 0;
+}
+
+/* Footer Responsive - Mobile (max-width: 639px): the Office/Quick Links
+   row collapses to one column, trading the vertical divider between
+   them for a top rule, same as the divider between rows elsewhere in
+   the stack. */
+@media (max-width: 639px) {
+  .contact-footer .footer-dark-band .footer-dark-inner .footer-contact-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .contact-footer .footer-dark-band .footer-dark-inner .footer-contact-row .footer-office:nth-child(2) {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid #2a2a2a;
+    padding-top: 1.5rem;
+  }
+}

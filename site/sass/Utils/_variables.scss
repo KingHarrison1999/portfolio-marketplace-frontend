@@ -21,7 +21,7 @@
   // old cool slate-blue one: --dark-bg is the page background, --dark-panel
   // the card/section tier, --dark-elev a touch lighter for nested
   // interactive bits (inputs, buttons, stat tiles), --dark-line the shared
-  // border tone. Masthead/footer-level chrome (.global-nav, .site-footer)
+  // border tone. Masthead/footer-level chrome (.global-nav, the site footer)
   // intentionally doesn't use --dark-panel -- it's one tier darker than
   // cards, same as the homepage's masthead vs. feature-block split.
   --dark-bg: #141210;
