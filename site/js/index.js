@@ -258,19 +258,22 @@ async function loadTopSellers() {
   const track = document.getElementById('top-sellers-track');
   if (!section || !track) return;
 
-  // Same reasoning as loadRecentlyAdded(): a rejected fetch hides the
+  // Same reasoning as loadRecentlyAdded(): any failure -- a rejected fetch,
+  // a non-2xx response, or the profiles_public lookup below -- hides the
   // section rather than leaving "Loading..." on screen.
-  let listings;
   try {
-    const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=50');
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const body = await res.json();
-    listings = body.listings || [];
+    await renderTopSellers(track);
   } catch (err) {
     console.warn('index: failed to load top sellers.', err);
     section.hidden = true;
-    return;
   }
+}
+
+async function renderTopSellers(track) {
+  const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=50');
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const body = await res.json();
+  const listings = body.listings || [];
 
   const countBySeller = new Map();
   for (const listing of listings) {
@@ -282,20 +285,15 @@ async function loadTopSellers() {
     .slice(0, 8)
     .map(([sellerId]) => sellerId);
 
-  if (topSellerIds.length === 0) {
-    section.hidden = true;
-    return;
-  }
+  if (topSellerIds.length === 0) throw new Error('no active listings');
 
   const { data: profiles, error } = await window.MarketplaceAuth.supabaseClient
     .from('profiles_public')
     .select('id, display_name')
     .in('id', topSellerIds);
 
-  if (error || !profiles || profiles.length === 0) {
-    section.hidden = true;
-    return;
-  }
+  if (error) throw error;
+  if (!profiles || profiles.length === 0) throw new Error('no seller profiles found');
 
   const nameById = new Map(profiles.map((p) => [p.id, p.display_name]));
 
