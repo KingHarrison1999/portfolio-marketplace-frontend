@@ -1356,12 +1356,25 @@ body.home.theme-dark .filters .sizes label:has(input:checked) {
   border-radius: 999px;
   padding: 0.4rem 0.8rem;
 }
+/* Same green pill as .btn-primary (sass/Components/_buttons.scss), which
+   this page doesn't load -- values mirrored here. */
 .results .toolbar .search.small button {
   border: 0;
-  background: #059669;
+  background: #10b981;
   color: #fff;
   border-radius: 999px;
-  padding: 0.4rem 0.7rem;
+  padding: 0.4rem 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.results .toolbar .search.small button:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+.results .toolbar .search.small button:active {
+  transform: translateY(0);
 }
 .toolbar .sort {
   display: flex;

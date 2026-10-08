@@ -36,11 +36,12 @@
       box-sizing: border-box;
     }
 
+    // Colour/shape/hover come from .btn-primary on the button itself
+    // (Components/_buttons.scss); only the padding is tightened so it sits
+    // at the same height as the input beside it.
     button {
-      border: 0;
-      background: #e5e7eb;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.95rem;
       box-sizing: border-box;
     }
   }
