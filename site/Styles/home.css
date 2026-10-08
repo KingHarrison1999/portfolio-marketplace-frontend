@@ -412,9 +412,14 @@ body.home .carousel-hero .slides::-webkit-scrollbar {
   display: none;
 }
 
+/* Each slide's photo is set inline in index.html
+   (style="background:center/cover url('Images/...')"), so the URL resolves
+   against the page, not this stylesheet's Styles/ folder. A url() inside a
+   custom property used here would resolve against Styles/ and 404. */
 body.home .carousel-hero .slides .slide {
   scroll-snap-align: start;
-  background: center/cover var(--img);
+  background-position: center;
+  background-size: cover;
 }
 
 body.home .carousel-hero .carousel-dots {
