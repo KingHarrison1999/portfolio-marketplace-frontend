@@ -1,93 +1,9 @@
-// Mobile hamburger drawer (offcanvas)
-.offcanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.2s ease;
-  z-index: 9999;
-
-  &.open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  // Note: .panel picks up the shared hover-lift transition/hover-transform
-  // from Utils/_helpers.scss (article, .panel, .band) — an incidental match
-  // from the original bare `.panel` selector, preserved here for parity.
-  .panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: min(88vw, 340px);
-    height: 100%;
-    background: white;
-    border-right: 1px solid #d1d5db;
-    padding: 0.75rem;
-    overflow: auto;
-
-    .close {
-      background: rgba(0, 0, 0, 0.1);
-      border: 0;
-      color: #0f172a;
-      border-radius: 0.35rem;
-      padding: 0.35rem 0.5rem;
-      cursor: pointer;
-      font-size: 1.25rem;
-      line-height: 1;
-      margin-bottom: 1rem;
-      transition: background 0.2s ease;
-
-      &:hover {
-        background: rgba(0, 0, 0, 0.15);
-      }
-    }
-
-    .mobile-nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-
-      li {
-        margin-bottom: 0.5rem;
-
-        a {
-          display: block;
-          padding: 0.75rem 1rem;
-          color: #0f172a;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 0.95rem;
-          border-radius: 0.5rem;
-          transition: background 0.2s ease;
-
-          &:hover {
-            background: #f3f4f6;
-            color: #10b981;
-          }
-        }
-      }
-    }
-
-    .mobile-actions {
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #d1d5db;
-
-      .mode-toggle.mobile {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  }
-}
+// The old .offcanvas drawer that used to live here was unused by every
+// page on this stylesheet; the live one (shared with index.html) is in
+// Components/_masthead.scss.
 
 // Mobile search drawer — a second, separate slide-in overlay (distinct from
-// .offcanvas above). Unscoped in the original main.css; recovered from what
+// the .offcanvas menu). Unscoped in the original main.css; recovered from what
 // had been archived as design-4 content, since design1.html's own markup
 // (.mobile-drawer > .drawer-content > .drawer-menu) actually depends on it.
 .mobile-drawer {

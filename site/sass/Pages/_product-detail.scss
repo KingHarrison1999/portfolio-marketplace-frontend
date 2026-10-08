@@ -1,16 +1,97 @@
-.product-detail {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 2rem;
-  align-items: start;
-  margin-top: 1.5rem;
+// listing.html. Desktop: photo + description on the left (~60%), sticky
+// purchase panel on the right (~40%). Under 768px: one column in the order
+// photo, title/price/purchase panel, description, similar items --
+// .product-detail-main becomes display: contents so its two children can be
+// ordered around the panel.
+.listing-container {
+  padding-top: 1.25rem;
+  padding-bottom: 3rem;
+}
+
+.breadcrumb {
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  color: #6b7280;
 
   &[hidden] {
     display: none;
   }
 
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-width: 0;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  li + li::before {
+    content: "›";
+    color: #9ca3af;
+  }
+
+  a {
+    color: #059669;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  [aria-current="page"] {
+    color: #1f2937;
+    overflow-wrap: anywhere;
+  }
+}
+
+.product-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 2.5rem;
+  align-items: start;
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 1023px) {
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr);
+
+    .product-detail-main {
+      display: contents;
+    }
+
+    .product-gallery {
+      order: 1;
+    }
+
+    .purchase-panel {
+      order: 2;
+    }
+
+    .product-description {
+      order: 3;
+      margin-top: 0;
+    }
   }
 }
 
@@ -20,14 +101,70 @@
 
 .product-description {
   margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e6e2da;
 
   h2 {
-    margin-bottom: 0.75rem;
+    margin: 0 0 0.75rem;
+    font-size: 1.3rem;
+    color: #1f2937;
   }
 
   p {
+    margin: 0;
     color: #374151;
-    line-height: 1.6;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+  }
+}
+
+.item-details {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.6rem 1.5rem;
+  margin: 1.5rem 0 0;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border: 1px solid #e6e2da;
+  border-radius: 12px;
+
+  &[hidden] {
+    display: none;
+  }
+
+  dt {
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  dd {
+    margin: 0;
+    color: #374151;
+
+    a {
+      color: #059669;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.similar-items {
+  margin-top: 3rem;
+
+  &[hidden] {
+    display: none;
+  }
+
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 1.4rem;
+    color: #1f2937;
   }
 }
 
@@ -55,4 +192,48 @@
   opacity: 0.5;
   pointer-events: none;
   cursor: not-allowed;
+}
+
+// Dark mode for the pieces above that _dark.scss doesn't already cover.
+body.theme-dark {
+  .breadcrumb {
+    color: var(--dark-muted);
+
+    a {
+      color: #10b981;
+    }
+
+    [aria-current="page"] {
+      color: var(--dark-ink);
+    }
+  }
+
+  .product-description {
+    border-top-color: var(--dark-line);
+
+    h2 {
+      color: var(--dark-ink);
+    }
+  }
+
+  .item-details {
+    background: var(--dark-panel);
+    border-color: var(--dark-line);
+
+    dt {
+      color: var(--dark-ink);
+    }
+
+    dd {
+      color: var(--dark-muted);
+
+      a {
+        color: #10b981;
+      }
+    }
+  }
+
+  .similar-items h2 {
+    color: var(--dark-ink);
+  }
 }

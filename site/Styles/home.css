@@ -16,6 +16,24 @@ body.home.theme-dark {
   color: #e8e8e8;
 }
 
+/* One shared "this is clickable" rule -- identical copy of
+   sass/Base/_interactive.scss (main.compiled.css), which this page doesn't
+   load. Keep the two in sync. Disabled controls are excluded so they keep
+   the default cursor. */
+a[href]:not([aria-disabled="true"]),
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+[role="option"]:not([aria-disabled="true"]),
+label:has(input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled)),
+input[type="checkbox"]:not(:disabled),
+input[type="radio"]:not(:disabled),
+input[type="range"]:not(:disabled),
+input[type="submit"]:not(:disabled),
+select:not(:disabled),
+summary {
+  cursor: pointer;
+}
+
 /* Tiered dark palette instead of flattening everything to black: the page
    background, the masthead/footer, and cards each sit one step apart so
    there's actual depth, with one shared border tone (#2e2a24) tying the
@@ -961,7 +979,8 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   transition: all 0.2s ease;
 }
 
-.recently-added .carousel-track .product .btn:hover {
+.recently-added .carousel-track .product .btn:hover,
+.recently-added .carousel-track .product:hover .btn {
   background: #059669;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
@@ -1145,8 +1164,8 @@ body.home.theme-dark .shop.two-col .results .product-grid.uniform .product-image
   flex-shrink: 0;
   line-height: 1.3;
   /* No min-height: the grid row already stretches every card in the same
-     row to equal height (CSS Grid's default align-items: stretch, plus
-     .product's own height:100%), and .btn below has margin-top:auto, so
+     row to equal height (CSS Grid's default align-items: stretch),
+     and .btn below has margin-top:auto, so
      a short one-line title's button still lands at the same baseline as a
      two-line title's in the same row. A fixed 3.9em reservation here just
      double-counted that space -- it forced ~2 extra blank lines under every
@@ -1177,7 +1196,7 @@ body.home.theme-dark .shop.two-col .results .product-grid.uniform .product-image
   transition: all 0.2s ease;
   font-family: "Source Sans 3", sans-serif;
   flex-shrink: 0;
-  /* The button is an <a> with width:100% at every breakpoint. Without
+  /* The button is a block with width:100% at every breakpoint. Without
      border-box its side padding was added on top of that 100%, pushing it
      out past the right edge of the card. */
   box-sizing: border-box;
@@ -1186,7 +1205,8 @@ body.home.theme-dark .shop.two-col .results .product-grid.uniform .product-image
   text-decoration: none;
 }
 
-.shop.two-col .results .product-grid.uniform .product .btn:hover {
+.shop.two-col .results .product-grid.uniform .product .btn:hover,
+.shop.two-col .results .product-grid.uniform .product:hover .btn {
   background: #059669;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
@@ -1399,7 +1419,7 @@ body.home.theme-dark .shop.two-col .results .product-grid.uniform .product-image
 }
 /* ---- Additions for the portfolio marketplace homepage ---- */
 /* (offcanvas menu, filter internals, and small pieces the original
-   diecast demo didn't need — the rest of this file above is untouched
+   demo didn't need — the rest of this file above is untouched
    from the archived Design 3 stylesheet.) */
 
 .offcanvas {
@@ -1938,4 +1958,102 @@ body.home.theme-dark .custom-select-option[aria-selected="true"] {
 .carousel-loading {
   color: #6b7280;
   padding: 1rem 0;
+}
+
+/* Hover states for header/hero/feature controls that had none (found by
+   hovering every clickable element on the page). The dark-mode lines are
+   needed because the body.home.theme-dark colour rules above out-rank a
+   plain :hover. */
+.masthead .bar .logo,
+.scroll-up-navbar .bar .logo,
+.offcanvas .panel .logo {
+  transition: color 0.2s ease;
+}
+.masthead .bar .logo:hover,
+.scroll-up-navbar .bar .logo:hover,
+.offcanvas .panel .logo:hover,
+body.home.theme-dark .masthead .bar .logo:hover,
+body.home.theme-dark .scroll-up-navbar .bar .logo:hover,
+body.home.theme-dark .offcanvas .panel .logo:hover {
+  color: #059669;
+}
+
+.masthead .bar .hamburger,
+.scroll-up-navbar .bar .hamburger,
+.offcanvas .panel .close {
+  transition: all 0.2s ease;
+}
+.masthead .bar .hamburger:hover,
+.scroll-up-navbar .bar .hamburger:hover,
+.offcanvas .panel .close:hover,
+body.home.theme-dark .offcanvas .panel .close:hover {
+  border-color: #059669;
+  color: #059669;
+}
+
+.masthead .utility .search.combo select,
+.masthead .utility .search.combo input {
+  transition: border-color 0.2s ease;
+}
+.masthead .utility .search.combo select:hover,
+.masthead .utility .search.combo input:hover,
+body.home .masthead .utility .search.combo select:hover,
+body.home .masthead .utility .search.combo input:hover {
+  border-color: #059669;
+}
+
+.masthead .utility .search.combo button,
+body.home .carousel-hero .overlay .search.wide button {
+  transition: all 0.2s ease;
+}
+.masthead .utility .search.combo button:hover,
+body.home .carousel-hero .overlay .search.wide button:hover {
+  background: #047857;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.features-grid .feature.block .carousel.snap a {
+  transition: all 0.2s ease;
+}
+.features-grid .feature.block .carousel.snap a:hover,
+body.home.theme-dark .features-grid .feature.block .carousel.snap a:hover {
+  border-color: #059669;
+  color: #059669;
+}
+
+.filters .price-slider:hover {
+  accent-color: #047857;
+  filter: brightness(0.92);
+}
+
+/* Whole-card product links (shop grid + Recently Added). The title's
+   .card-link is the card's one real link; its ::after is stretched over the
+   whole card, so the photo, price and the "Shop Now" span all open it, and
+   middle-click / keyboard focus behave like any link. Same rule lives in
+   sass/Components/_product-card.scss for the other pages. */
+.product {
+  position: relative;
+}
+.product .card-link {
+  color: inherit;
+  text-decoration: none;
+}
+.product .card-link {
+  transition: color 0.2s ease;
+}
+.product:hover .card-link {
+  color: #059669;
+}
+.product .card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.product .card-link:focus-visible {
+  outline: none;
+}
+.product:has(.card-link:focus-visible) {
+  outline: 2px solid #10b981;
+  outline-offset: 3px;
 }

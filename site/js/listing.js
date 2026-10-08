@@ -13,9 +13,12 @@
 // - Add to Cart calls the real POST /api/cart/items and stays on this page;
 //   Buy It Now does the same then goes straight to checkout.html (skipping
 //   the cart), rather than the old stubs that just linked to cart.html
-//   without adding anything. Make Offer / Add to Wishlist are still
-//   disabled -- no offers or wishlist concept exists anywhere in the
-//   backend.
+//   without adding anything. There are no Make Offer / Add to Wishlist
+//   buttons: no offers or wishlist concept exists anywhere in the backend.
+// - Item details only show what GET /api/listings/:id actually returns.
+//   It has no size or brand fields; the category *name* isn't on the
+//   listing either (only category_id), so it's looked up from the same
+//   public GET /api/categories the browse page uses.
 
 document.addEventListener('DOMContentLoaded', async () => {
   const loadingEl = document.getElementById('listing-loading');
@@ -91,6 +94,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function renderListing(listing) {
     document.title = `${listing.title} — Marketplace`;
+    document.getElementById('breadcrumb-title').textContent = listing.title;
+    document.getElementById('listing-breadcrumb').hidden = false;
 
     renderGallery(listing.images, listing.title);
     document.getElementById('listing-title').textContent = listing.title;
@@ -122,6 +127,54 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     loadingEl.hidden = true;
     detailEl.hidden = false;
+  }
+
+  function addDetail(term, value, { first = false } = {}) {
+    const detailsEl = document.getElementById('listing-details');
+    const dt = document.createElement('dt');
+    dt.textContent = term;
+    const dd = document.createElement('dd');
+    if (value instanceof Node) dd.appendChild(value);
+    else dd.textContent = value;
+    if (first) detailsEl.prepend(dt, dd);
+    else detailsEl.append(dt, dd);
+    detailsEl.hidden = false;
+  }
+
+  // Condition already shows in the purchase panel, so it isn't repeated here.
+  function renderDetails(listing) {
+    if (listing.created_at) {
+      const listed = new Date(listing.created_at);
+      if (!Number.isNaN(listed.getTime())) {
+        addDetail('Listed', listed.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }));
+      }
+    }
+  }
+
+  // Breadcrumb category + "Category" detail row. Left out (not guessed)
+  // if the categories request fails or the id isn't in it.
+  async function loadCategory(listing) {
+    if (!listing.category_id) return;
+    try {
+      const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
+      if (!res.ok) return;
+      const body = await res.json();
+      const category = (body.categories || []).find((cat) => cat.id === listing.category_id);
+      if (!category) return;
+
+      const href = `browse.html?category_id=${encodeURIComponent(category.id)}`;
+      const crumb = document.getElementById('breadcrumb-category');
+      crumb.href = href;
+      crumb.textContent = category.name;
+      document.getElementById('breadcrumb-category-item').hidden = false;
+
+      const link = document.createElement('a');
+      link.href = href;
+      link.textContent = category.name;
+      addDetail('Category', link, { first: true });
+    } catch (err) {
+      console.warn('listing: failed to load category name.', err);
+    }
   }
 
   async function loadSellerName(sellerId) {
@@ -202,34 +255,45 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
+    // Same card markup as the homepage shop grid (js/index.js buildCard):
+    // the title link's ::after makes the whole card clickable.
     similarCards.innerHTML = '';
     for (const listing of listings) {
-      const link = document.createElement('a');
-      link.href = `listing.html?id=${encodeURIComponent(listing.id)}`;
-      link.className = 'product-card';
+      const article = document.createElement('article');
+      article.className = 'product';
 
       if (listing.primary_image_url) {
         const img = document.createElement('img');
         img.src = listing.primary_image_url;
         img.alt = listing.title;
-        link.appendChild(img);
+        article.appendChild(img);
       } else {
         const imagePlaceholder = document.createElement('div');
         imagePlaceholder.className = 'product-image-placeholder';
         imagePlaceholder.innerHTML = '<i class="fa-solid fa-image"></i>';
-        link.appendChild(imagePlaceholder);
+        article.appendChild(imagePlaceholder);
       }
 
-      const textWrap = document.createElement('div');
       const h3 = document.createElement('h3');
-      h3.textContent = listing.title;
-      const p = document.createElement('p');
-      p.textContent = `£${Number(listing.price).toFixed(2)}`;
-      textWrap.appendChild(h3);
-      textWrap.appendChild(p);
-      link.appendChild(textWrap);
+      const link = document.createElement('a');
+      link.href = `listing.html?id=${encodeURIComponent(listing.id)}`;
+      link.className = 'card-link';
+      link.textContent = listing.title;
+      h3.appendChild(link);
+      article.appendChild(h3);
 
-      similarCards.appendChild(link);
+      const meta = document.createElement('p');
+      meta.className = 'meta';
+      meta.textContent = `£${Number(listing.price).toFixed(2)}`;
+      article.appendChild(meta);
+
+      const shopNow = document.createElement('span');
+      shopNow.className = 'btn';
+      shopNow.setAttribute('aria-hidden', 'true');
+      shopNow.textContent = 'Shop Now';
+      article.appendChild(shopNow);
+
+      similarCards.appendChild(article);
     }
 
     similarSection.hidden = false;
@@ -269,6 +333,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const { listing } = await res.json();
   renderListing(listing);
+  renderDetails(listing);
+  loadCategory(listing);
   loadSellerName(listing.seller_id);
   loadSimilarItems(listing);
   wireAddToCart(listing);

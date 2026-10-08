@@ -161,14 +161,18 @@ async function loadNavCategories() {
   }
 }
 
-function buildProductCard(listing) {
+// Whole-card link: the title is the card's one real <a>, and CSS stretches
+// its ::after over the entire card (photo, title, price, button), so
+// middle-click, keyboard focus and screen readers all see a single link.
+// "Shop Now" is a styled <span> inside that clickable area, not a second link.
+function buildCard({ href, title, priceText, imageUrl }) {
   const article = document.createElement('article');
   article.className = 'product';
 
-  if (listing.primary_image_url) {
+  if (imageUrl) {
     const img = document.createElement('img');
-    img.src = listing.primary_image_url;
-    img.alt = listing.title;
+    img.src = imageUrl;
+    img.alt = title;
     article.appendChild(img);
   } else {
     const imagePlaceholder = document.createElement('div');
@@ -178,35 +182,55 @@ function buildProductCard(listing) {
   }
 
   const h3 = document.createElement('h3');
-  h3.textContent = listing.title;
+  const link = document.createElement('a');
+  link.href = href;
+  link.className = 'card-link';
+  link.textContent = title;
+  h3.appendChild(link);
   article.appendChild(h3);
 
   const meta = document.createElement('p');
   meta.className = 'meta';
-  meta.textContent = `£${Number(listing.price).toFixed(2)}`;
+  meta.textContent = priceText;
   article.appendChild(meta);
 
-  const link = document.createElement('a');
-  link.href = `listing.html?id=${encodeURIComponent(listing.id)}`;
-  link.className = 'btn';
-  link.textContent = 'Shop Now';
-  article.appendChild(link);
+  const shopNow = document.createElement('span');
+  shopNow.className = 'btn';
+  shopNow.setAttribute('aria-hidden', 'true');
+  shopNow.textContent = 'Shop Now';
+  article.appendChild(shopNow);
 
   return article;
+}
+
+function buildProductCard(listing) {
+  return buildCard({
+    href: `listing.html?id=${encodeURIComponent(listing.id)}`,
+    title: listing.title,
+    priceText: `£${Number(listing.price).toFixed(2)}`,
+    imageUrl: listing.primary_image_url,
+  });
 }
 
 async function loadRecentlyAdded() {
   const track = document.getElementById('recently-added-track');
   if (!track) return;
 
-  const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=8');
-  if (!res.ok) {
-    track.innerHTML = '<p class="carousel-loading">Failed to load listings.</p>';
+  // A cold or unreachable backend makes fetch() reject outright rather than
+  // return a non-2xx response. Hide the whole section in that case instead
+  // of leaving it stuck on "Loading...".
+  const recentSection = track.closest('.recently-added');
+  let listings;
+  try {
+    const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=8');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const body = await res.json();
+    listings = body.listings || [];
+  } catch (err) {
+    console.warn('index: failed to load recently added listings.', err);
+    if (recentSection) recentSection.hidden = true;
     return;
   }
-
-  const body = await res.json();
-  const listings = body.listings || [];
 
   if (listings.length === 0) {
     track.innerHTML = '<p class="carousel-loading">No listings yet.</p>';
@@ -234,14 +258,19 @@ async function loadTopSellers() {
   const track = document.getElementById('top-sellers-track');
   if (!section || !track) return;
 
-  const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=50');
-  if (!res.ok) {
+  // Same reasoning as loadRecentlyAdded(): a rejected fetch hides the
+  // section rather than leaving "Loading..." on screen.
+  let listings;
+  try {
+    const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=50');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const body = await res.json();
+    listings = body.listings || [];
+  } catch (err) {
+    console.warn('index: failed to load top sellers.', err);
     section.hidden = true;
     return;
   }
-
-  const body = await res.json();
-  const listings = body.listings || [];
 
   const countBySeller = new Map();
   for (const listing of listings) {
@@ -339,31 +368,14 @@ const FALLBACK_LISTINGS = [
   { title: 'Silk Scarf, Paisley Print', price: 10.0, image: 'Silk Scarf Paisley Print.jpg' },
 ];
 
+// No real listing id behind these, so the whole card goes to browse.html.
 function buildFallbackCard(item) {
-  const article = document.createElement('article');
-  article.className = 'product';
-
-  const img = document.createElement('img');
-  img.src = `Images/${encodeURIComponent(item.image)}`;
-  img.alt = item.title;
-  article.appendChild(img);
-
-  const h3 = document.createElement('h3');
-  h3.textContent = item.title;
-  article.appendChild(h3);
-
-  const meta = document.createElement('p');
-  meta.className = 'meta';
-  meta.textContent = `£${item.price.toFixed(2)}`;
-  article.appendChild(meta);
-
-  const link = document.createElement('a');
-  link.href = 'browse.html';
-  link.className = 'btn';
-  link.textContent = 'Shop Now';
-  article.appendChild(link);
-
-  return article;
+  return buildCard({
+    href: 'browse.html',
+    title: item.title,
+    priceText: `£${item.price.toFixed(2)}`,
+    imageUrl: `Images/${encodeURIComponent(item.image)}`,
+  });
 }
 
 // Hero, toolbar, and mobile-drawer search boxes previously had no submit

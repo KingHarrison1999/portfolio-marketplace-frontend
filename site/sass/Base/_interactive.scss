@@ -1,0 +1,17 @@
+// One shared "this is clickable" rule. home.css carries an identical copy
+// (the homepage doesn't load this stylesheet) -- keep the two in sync.
+// Disabled controls are excluded so they keep the default cursor (or the
+// not-allowed cursor some components give them).
+a[href]:not([aria-disabled="true"]),
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+[role="option"]:not([aria-disabled="true"]),
+label:has(input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled)),
+input[type="checkbox"]:not(:disabled),
+input[type="radio"]:not(:disabled),
+input[type="range"]:not(:disabled),
+input[type="submit"]:not(:disabled),
+select:not(:disabled),
+summary {
+  cursor: pointer;
+}

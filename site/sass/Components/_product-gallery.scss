@@ -1,6 +1,13 @@
+// listing.html photo gallery: thumbnails in a column to the left of the main
+// photo on desktop, in a scrolling row under it on narrow screens.
 .product-gallery {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
+  min-width: 0;
+
+  @media (max-width: 767px) {
+    flex-direction: column-reverse;
+  }
 
   .product-gallery-thumbs {
     display: flex;
@@ -11,18 +18,29 @@
     &[hidden] {
       display: none;
     }
+
+    @media (max-width: 767px) {
+      flex-direction: row;
+      overflow-x: auto;
+      padding-bottom: 0.25rem;
+    }
   }
 
   .product-gallery-thumb {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
     padding: 0;
-    border: 2px solid #d1d5db;
-    border-radius: 0.5rem;
+    border: 2px solid #e6e2da;
+    border-radius: 8px;
     overflow: hidden;
     background: white;
-    cursor: pointer;
-    transition: border-color 0.2s ease;
+    flex-shrink: 0;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+
+    @media (max-width: 767px) {
+      width: 60px;
+      height: 60px;
+    }
 
     img {
       width: 100%;
@@ -31,7 +49,8 @@
     }
 
     &:hover {
-      border-color: #9ca3af;
+      border-color: #059669;
+      transform: translateY(-1px);
     }
 
     &.active {
@@ -42,16 +61,17 @@
   .product-gallery-main {
     flex: 1;
     min-width: 0;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
     background: white;
-    border: 1px solid #d1d5db;
-    border-radius: var(--radius);
+    border: 1px solid #e6e2da;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     overflow: hidden;
 
     img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
     }
 
     .product-image-placeholder {

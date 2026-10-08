@@ -107,9 +107,9 @@
   <section class="hero-section">
     <div class="carousel-hero" id="carousel-hero">
       <div class="slides" id="hero-slides">
-        <div class="slide" style="--img:url('Images/Wool%20Herringbone%20Overcoat.jpg')"></div>
-        <div class="slide" style="--img:url('Images/Tan%20Leather%20Biker%20Jacket.jpg')"></div>
-        <div class="slide" style="--img:url('Images/Emerald%20Velvet%20Evening%20Dress.jpg')"></div>
+        <div class="slide" style="background:center/cover url('Images/Wool%20Herringbone%20Overcoat.jpg')"></div>
+        <div class="slide" style="background:center/cover url('Images/Tan%20Leather%20Biker%20Jacket.jpg')"></div>
+        <div class="slide" style="background:center/cover url('Images/Emerald%20Velvet%20Evening%20Dress.jpg')"></div>
       </div>
       <div class="carousel-dots" id="hero-dots">
         <button class="dot active" aria-label="Slide 1"></button>
@@ -190,6 +190,28 @@
       <div class="grid" id="homepage-category-grid"></div>
     </section>
 
+    <section class="top-sellers" id="top-sellers-section">
+      <div class="section-head">
+        <h2>Top Sellers</h2>
+        <a href="browse.html" class="cta">Browse All – Shop Now</a>
+      </div>
+      <div class="carousel-shell">
+        <button class="carousel-nav" data-carousel-btn="top-sellers" data-dir="back" aria-label="Previous sellers">
+          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <!-- Populated from GET /api/listings -- see js/index.js
+             (loadTopSellers). "Top" means sellers with the most active
+             listings right now, with real names from profiles_public. The
+             section hides itself if there are no active listings. -->
+        <div class="carousel" data-carousel="top-sellers" id="top-sellers-track">
+          <p class="carousel-loading">Loading&hellip;</p>
+        </div>
+        <button class="carousel-nav" data-carousel-btn="top-sellers" data-dir="next" aria-label="Next sellers">
+          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
     <section class="shop two-col">
       <aside class="filters">
         <h3>Filters</h3>
@@ -235,6 +257,32 @@
           <p class="carousel-loading">Loading&hellip;</p>
         </div>
       </section>
+    </section>
+
+    <section class="recently-added product-carousel">
+      <h2>Recently Added</h2>
+      <div class="carousel-container">
+        <div class="carousel-banner">
+          <div class="banner-content">
+            <h3>New In</h3>
+            <p>The latest listings from our sellers</p>
+            <a href="browse.html" class="banner-btn">Shop Now</a>
+          </div>
+        </div>
+
+        <div class="carousel-viewport">
+          <!-- Populated from GET /api/listings?sort=newest -- see js/index.js (loadRecentlyAdded) -->
+          <div class="carousel-track" id="recently-added-track">
+            <p class="carousel-loading">Loading&hellip;</p>
+          </div>
+          <button class="carousel-btn carousel-prev" aria-label="Previous listings">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <button class="carousel-btn carousel-next" aria-label="Next listings">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -296,6 +344,30 @@
         }
         heroDots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
         setInterval(() => goTo((idx + 1) % heroDots.length), 5000);
+      }
+
+      // Top Sellers arrows: scroll the pill row by ~60% of its visible width
+      const sellerTrack = document.querySelector('[data-carousel="top-sellers"]');
+      if (sellerTrack) {
+        document.querySelectorAll('[data-carousel-btn="top-sellers"]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const direction = btn.dataset.dir === 'next' ? 1 : -1;
+            sellerTrack.scrollBy({ left: direction * sellerTrack.clientWidth * 0.6, behavior: 'smooth' });
+          });
+        });
+      }
+
+      // Recently Added arrows: scroll by one card (card width + the track's gap)
+      const productTrack = document.getElementById('recently-added-track');
+      const prevBtn = document.querySelector('.recently-added .carousel-prev');
+      const nextBtn = document.querySelector('.recently-added .carousel-next');
+      if (productTrack && prevBtn && nextBtn) {
+        const step = () => {
+          const card = productTrack.querySelector('.product');
+          return card ? card.offsetWidth + parseFloat(getComputedStyle(productTrack).columnGap || 0) : productTrack.clientWidth;
+        };
+        prevBtn.addEventListener('click', () => productTrack.scrollBy({ left: -step(), behavior: 'smooth' }));
+        nextBtn.addEventListener('click', () => productTrack.scrollBy({ left: step(), behavior: 'smooth' }));
       }
 
       // Masthead search (not covered by js/index.js's wireSearchForms, which

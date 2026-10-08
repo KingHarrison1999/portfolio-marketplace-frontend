@@ -11,11 +11,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="js/auth.js" defer></script>
   <script src="js/listing.js" defer></script>
+  <script src="js/masthead.js" defer></script>
   <script src="js/newsletter.js" defer></script>
   <script src="js/site-banner.js" defer></script>
   <script src="js/theme.js" defer></script>
 </head>
-<body class="theme-light">
+<body class="listing-page theme-light">
   <script>
     (function () {
       try {
@@ -26,11 +27,15 @@
     })();
   </script>
   <div id="site-announcement-banner" class="site-announcement-banner" hidden></div>
-  <header class="global-nav">
-    <div class="global-nav-inner">
-      <a href="index.html" class="global-nav-logo">Marketplace</a>
-      <a href="browse.html" class="global-nav-browse">Browse</a>
-      <div class="global-nav-actions">
+  <header class="masthead">
+    <div class="bar">
+      <a href="index.html" class="logo">Marketplace</a>
+      <div class="right">
+        <a href="cart.html" class="masthead-icon" aria-label="Cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i></a>
+        <a href="login.html" class="masthead-icon" aria-label="Account"><i class="fa-solid fa-user" aria-hidden="true"></i></a>
+        <button class="hamburger" id="hamburger-1" aria-label="Open menu" aria-expanded="false" aria-controls="offcanvas">
+          <i class="fa-solid fa-bars"></i>
+        </button>
         <button class="mode-toggle pill-toggle" aria-pressed="false" title="Toggle light/dark">
           <span class="toggle-knob">
             <svg class="toggle-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -49,13 +54,38 @@
             </svg>
           </span>
         </button>
-        <a href="cart.html" class="global-nav-icon" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
-        <a href="login.html" class="global-nav-icon" aria-label="Account"><i class="fa-solid fa-user"></i></a>
       </div>
+    </div>
+    <div class="utility">
+      <form class="search combo" id="masthead-search-form">
+        <select aria-label="Shop by category">
+          <option>Shop by Category</option>
+        </select>
+        <input type="search" id="masthead-search-input" placeholder="Search dresses, jackets, shoes, accessories..." aria-label="Search" />
+        <button type="submit">Search</button>
+      </form>
     </div>
   </header>
 
-  <div class="container">
+  <!-- Mobile/off-canvas nav (opened by the hamburger above) -->
+  <div class="offcanvas" id="offcanvas">
+    <div class="panel">
+      <button class="close" aria-label="Close menu">✕</button>
+      <a href="index.html" class="logo offcanvas-logo">Marketplace</a>
+      <nav class="mobile-nav">
+        <p class="offcanvas-label">Categories</p>
+        <!-- Populated from GET /api/categories -- see js/masthead.js -->
+        <ul id="mobile-nav-menu"></ul>
+      </nav>
+      <div class="offcanvas-links">
+        <a href="browse.html"><i class="fa-solid fa-magnifying-glass"></i> Browse</a>
+        <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+        <a href="login.html"><i class="fa-solid fa-user"></i> Account</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container listing-container">
     <p id="listing-loading">Loading listing&hellip;</p>
 
     <div id="listing-not-found" class="detail-not-found" hidden>
@@ -63,6 +93,15 @@
       <p>This listing doesn't exist, or is no longer available.</p>
       <a href="browse.html" class="btn-primary">Back to Browse</a>
     </div>
+
+    <!-- Category link + title filled in by js/listing.js -->
+    <nav class="breadcrumb" id="listing-breadcrumb" aria-label="Breadcrumb" hidden>
+      <ol>
+        <li><a href="index.html">Home</a></li>
+        <li id="breadcrumb-category-item" hidden><a href="browse.html" id="breadcrumb-category"></a></li>
+        <li><span id="breadcrumb-title" aria-current="page"></span></li>
+      </ol>
+    </nav>
 
     <div class="product-detail" id="product-detail" hidden>
       <div class="product-detail-main">
@@ -76,6 +115,9 @@
         <section class="product-description">
           <h2>Description</h2>
           <p id="listing-description"></p>
+
+          <!-- Only fields the API actually returns -- see js/listing.js -->
+          <dl class="item-details" id="listing-details" hidden></dl>
         </section>
       </div>
 
@@ -85,18 +127,19 @@
       <aside class="purchase-panel">
         <h1 id="listing-title"></h1>
 
-        <div class="purchase-panel-seller">
-          <div class="purchase-panel-seller-avatar"></div>
-          <div>
-            <div class="purchase-panel-seller-name" id="listing-seller-name">&nbsp;</div>
-          </div>
-        </div>
-
         <div class="purchase-panel-price" id="listing-price"></div>
 
         <div class="purchase-panel-meta">
           <span id="listing-condition"></span>
           <span id="listing-stock"></span>
+        </div>
+
+        <div class="purchase-panel-seller">
+          <div class="purchase-panel-seller-avatar" aria-hidden="true"><i class="fa-solid fa-store"></i></div>
+          <div>
+            <div class="purchase-panel-seller-label">Sold by</div>
+            <div class="purchase-panel-seller-name" id="listing-seller-name">&nbsp;</div>
+          </div>
         </div>
 
         <div class="purchase-panel-quantity">
@@ -107,22 +150,28 @@
         <div class="purchase-panel-actions">
           <a href="checkout.html" class="btn-primary" id="buy-now-link">Buy It Now</a>
           <a href="cart.html" class="btn-secondary" id="add-to-cart-link">Add to Cart</a>
-          <button type="button" class="btn-secondary" disabled title="Not built yet">Make Offer</button>
-          <button type="button" class="btn-secondary" disabled title="Not built yet">Add to Wishlist</button>
         </div>
 
         <div id="purchase-panel-message" class="form-message" role="status"></div>
 
+        <!-- Summarises shipping-returns.html; keep the two in step. -->
         <div class="purchase-panel-shipping">
-          <div><strong>Shipping:</strong> Free standard shipping</div>
-          <div><strong>Returns:</strong> 60-day returns accepted</div>
+          <div class="purchase-panel-shipping-row">
+            <i class="fa-solid fa-truck" aria-hidden="true"></i>
+            <div><strong>Shipping:</strong> Posted by the seller within 3 working days. UK delivery usually takes 2 to 5 working days. Postage is set by the seller and shown at checkout.</div>
+          </div>
+          <div class="purchase-panel-shipping-row">
+            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+            <div><strong>Returns:</strong> Within 14 days of delivery if the item arrives damaged, faulty or not as described.</div>
+          </div>
+          <a href="shipping-returns.html" class="purchase-panel-policy-link">Shipping &amp; returns policy</a>
         </div>
       </aside>
     </div>
 
-    <section class="rail-scroll" id="similar-items-section" hidden>
+    <section class="similar-items" id="similar-items-section" hidden>
       <h2>Similar Items</h2>
-      <div class="carousel-cards" id="similar-items-cards"></div>
+      <div class="product-grid similar" id="similar-items-cards"></div>
     </section>
   </div>
 

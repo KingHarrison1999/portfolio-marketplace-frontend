@@ -24,6 +24,12 @@
   font-size: 1rem;
   color: #0f172a;
   text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover,
+  .theme-dark &:hover {
+    color: #059669;
+  }
 
   img {
     height: 28px;

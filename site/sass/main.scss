@@ -3,6 +3,7 @@
 
 @use 'Base/reset';
 @use 'Base/typography';
+@use 'Base/interactive';
 
 @use 'Components/buttons';
 @use 'Components/carousel';
@@ -24,6 +25,8 @@
 @use 'Components/site-announcement';
 @use 'Components/mode-toggle';
 @use 'Components/custom-select';
+@use 'Components/masthead';
+@use 'Components/product-card';
 
 @use 'Layout/grid';
 @use 'Layout/header';

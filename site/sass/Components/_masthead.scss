@@ -1,0 +1,526 @@
+// Homepage masthead (logo, hamburger, light/dark toggle, search combo) and
+// its off-canvas menu, ported from Styles/home.css so pages on
+// main.compiled.css can use the same header markup as index.html (listing.html
+// so far). Generated from home.css's .masthead / .offcanvas rules with
+// body.home.theme-dark -> body.theme-dark; keep the two in step.
+
+body.theme-dark .masthead,
+body.theme-dark .scroll-up-navbar {
+  background: #0d0c0b;
+  color: #e8e8e8;
+  border-color: #2e2a24;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+body.theme-dark .masthead .bar .logo,
+body.theme-dark .scroll-up-navbar .bar .logo {
+  color: #fff;
+}
+
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle,
+body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle:hover,
+body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle:hover {
+  border-color: #059669;
+}
+
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob,
+body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob {
+  background: #1f2937;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon,
+body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
+  color: #fbbf24;
+}
+
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle[aria-pressed=true],
+body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=true] {
+  background: #059669;
+  border-color: #059669;
+}
+
+.masthead {
+  position: relative;
+  width: 100%;
+  background: white;
+  border-bottom: 1px solid #e6e2da;
+  z-index: 100;
+}
+
+.masthead .bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.masthead .bar .logo {
+  font-family: "Merriweather", serif;
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.masthead .bar .hamburger {
+  border: 1px solid #e6e2da;
+  background: white;
+  border-radius: 0.35rem;
+  padding: 0.35rem 0.5rem;
+}
+
+.masthead .bar .mode-toggle.pill-toggle {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  border-radius: 9999px;
+  border: 2px solid #e6e2da;
+  background: #e5e7eb;
+  padding: 2px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, visibility 0.2s ease, all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.masthead .bar .mode-toggle.pill-toggle.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.masthead .bar .mode-toggle.pill-toggle:hover {
+  border-color: #059669;
+}
+
+.masthead .bar .mode-toggle.pill-toggle .toggle-knob {
+  position: absolute;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.masthead .bar .mode-toggle.pill-toggle .toggle-knob .toggle-icon {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.masthead .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
+  display: block;
+  color: #f59e0b;
+}
+
+.masthead .bar .mode-toggle.pill-toggle .toggle-knob .moon-icon {
+  display: none;
+}
+
+.masthead .bar .mode-toggle.pill-toggle .toggle-text {
+  display: none;
+}
+
+.masthead .bar .mode-toggle.pill-toggle[aria-pressed=true] {
+  background: #059669;
+  border-color: #059669;
+}
+
+.masthead .bar .mode-toggle.pill-toggle[aria-pressed=true] .toggle-knob {
+  transform: translateX(24px);
+}
+
+.masthead .bar .mode-toggle.pill-toggle[aria-pressed=true] .toggle-knob .sun-icon {
+  display: none;
+}
+
+.masthead .bar .mode-toggle.pill-toggle[aria-pressed=true] .toggle-knob .moon-icon {
+  display: block;
+  color: white;
+}
+
+.masthead .bar .mode-toggle.pill-toggle[aria-pressed=false] .toggle-knob {
+  transform: translateX(0);
+}
+
+.masthead .bar .right {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.masthead .utility {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid #e6e2da;
+}
+
+.masthead .utility .search.combo {
+  display: grid;
+  grid-template-columns: 220px 1fr auto;
+  gap: 0.5rem;
+}
+
+.masthead .utility .search.combo select,
+.masthead .utility .search.combo input {
+  border: 1px solid #e6e2da;
+  border-radius: 999px;
+  padding: 0.6rem 0.9rem;
+}
+
+.masthead .utility .search.combo button {
+  background: #059669;
+  color: white;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.6rem 0.8rem;
+}
+
+@media (max-width: 639px) {
+  .masthead .utility .search.combo,
+    .scroll-up-navbar .utility .search.combo {
+      display: flex;
+      gap: 0.25rem;
+      align-items: stretch;
+      flex-wrap: nowrap;
+    }
+  .masthead .utility .search.combo select,
+    .scroll-up-navbar .utility .search.combo select {
+      flex: 0 0 auto;
+      min-width: 0;
+      max-width: 140px;
+      width: auto;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.875rem;
+      border: 1px solid #e6e2da;
+      border-radius: 999px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  .masthead .utility .search.combo input,
+    .scroll-up-navbar .utility .search.combo input {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.875rem;
+      border: 1px solid #e6e2da;
+      border-radius: 999px;
+    }
+  .masthead .utility .search.combo button,
+    .scroll-up-navbar .utility .search.combo button {
+      flex: 0 0 auto;
+      width: 40px;
+      min-width: 40px;
+      height: 40px;
+      padding: 0;
+      background: #059669;
+      color: white;
+      border: 0;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      font-size: 0;
+      text-indent: -9999px;
+    }
+  .masthead .utility .search.combo button::before,
+    .scroll-up-navbar .utility .search.combo button::before {
+      content: "⌕";
+      font-size: 1.2rem;
+      line-height: 1;
+      position: absolute;
+      text-indent: 0;
+      color: white;
+    }
+}
+
+.offcanvas {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.4);
+  z-index: 3000;
+  display: none;
+}
+
+.offcanvas.open {
+  display: block;
+}
+
+.offcanvas .panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(320px, 85vw);
+  background: #fff;
+  padding: 1.25rem;
+  overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+}
+
+.offcanvas .panel .close {
+  border: 1px solid #e6e2da;
+  background: #fff;
+  border-radius: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  float: right;
+  cursor: pointer;
+}
+
+.offcanvas .panel .logo {
+  font-family: "Merriweather", serif;
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: 700;
+  clear: both;
+}
+
+.offcanvas .panel .offcanvas-logo {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  font-size: 1.15rem;
+}
+
+.offcanvas .offcanvas-label {
+  margin: 0 0 0.5rem;
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.offcanvas .mobile-nav ul {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+}
+
+.offcanvas .mobile-nav ul li a {
+  display: block;
+  padding: 0.65rem 0.5rem;
+  margin: 0 -0.5rem;
+  border-radius: 0.35rem;
+  color: #1f2937;
+  text-decoration: none;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.offcanvas .mobile-nav ul li a:hover,
+.offcanvas .mobile-nav ul li a:focus-visible {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.offcanvas .mobile-nav ul li a:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: -2px;
+}
+
+.offcanvas-links {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e6e2da;
+}
+
+.offcanvas-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.5rem;
+  margin: 0 -0.5rem;
+  border-radius: 0.35rem;
+  color: #1f2937;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.offcanvas-links a i {
+  width: 1.1em;
+  color: #9ca3af;
+  transition: color 150ms ease;
+}
+
+.offcanvas-links a:hover,
+.offcanvas-links a:focus-visible {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.offcanvas-links a:hover i,
+.offcanvas-links a:focus-visible i {
+  color: #059669;
+}
+
+.offcanvas-links a:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: -2px;
+}
+
+body.theme-dark .offcanvas .panel {
+  background: #000;
+  color: #fff;
+}
+
+body.theme-dark .offcanvas .panel .logo,
+body.theme-dark .offcanvas .mobile-nav ul li a,
+body.theme-dark .offcanvas-links a {
+  color: #fff;
+}
+
+body.theme-dark .offcanvas .offcanvas-label {
+  color: #6b7280;
+}
+
+body.theme-dark .offcanvas-links {
+  border-top-color: #333;
+}
+
+body.theme-dark .offcanvas .mobile-nav ul li a:hover,
+body.theme-dark .offcanvas .mobile-nav ul li a:focus-visible,
+body.theme-dark .offcanvas-links a:hover,
+body.theme-dark .offcanvas-links a:focus-visible {
+  background: #111;
+  color: #10b981;
+}
+
+body.theme-dark .offcanvas-links a:hover i,
+body.theme-dark .offcanvas-links a:focus-visible i {
+  color: #10b981;
+}
+
+body.theme-dark .offcanvas .panel .close {
+  background: #111;
+  border-color: #333;
+  color: #fff;
+}
+
+.masthead .utility .search.combo select,
+.scroll-up-navbar .utility .search.combo select {
+  min-width: 0;
+}
+
+.masthead .bar .logo,
+.scroll-up-navbar .bar .logo,
+.offcanvas .panel .logo {
+  transition: color 0.2s ease;
+}
+
+.masthead .bar .logo:hover,
+.scroll-up-navbar .bar .logo:hover,
+.offcanvas .panel .logo:hover,
+body.theme-dark .masthead .bar .logo:hover,
+body.theme-dark .scroll-up-navbar .bar .logo:hover,
+body.theme-dark .offcanvas .panel .logo:hover {
+  color: #059669;
+}
+
+.masthead .bar .hamburger,
+.scroll-up-navbar .bar .hamburger,
+.offcanvas .panel .close {
+  transition: all 0.2s ease;
+}
+
+.masthead .bar .hamburger:hover,
+.scroll-up-navbar .bar .hamburger:hover,
+.offcanvas .panel .close:hover,
+body.theme-dark .offcanvas .panel .close:hover {
+  border-color: #059669;
+  color: #059669;
+}
+
+.masthead .utility .search.combo select,
+.masthead .utility .search.combo input {
+  transition: border-color 0.2s ease;
+}
+
+.masthead .utility .search.combo select:hover,
+.masthead .utility .search.combo input:hover {
+  border-color: #059669;
+}
+
+.masthead .utility .search.combo button,
+.carousel-hero .overlay .search.wide button {
+  transition: all 0.2s ease;
+}
+
+.masthead .utility .search.combo button:hover,
+.carousel-hero .overlay .search.wide button:hover {
+  background: #047857;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+// --- Differences from home.css's context ---
+// _buttons.scss styles every <button> white-on-transparent; home.css never
+// loads that, so restore the header buttons' ink colour.
+.masthead .bar .hamburger,
+.offcanvas .panel .close {
+  color: #1f2937;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+body.theme-dark .masthead .bar .hamburger {
+  background: #242019;
+  border-color: #2e2a24;
+  color: #e8e8e8;
+}
+
+// Utils/_helpers.scss gives every .panel a hover-lift; the drawer shouldn't move.
+.offcanvas .panel,
+.offcanvas .panel:hover {
+  transform: none;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+}
+
+// Cart / account icons next to the hamburger (index.html keeps these in
+// the off-canvas menu only).
+.masthead .bar .right {
+  align-items: center;
+}
+
+.masthead .bar .masthead-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #1f2937;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #ecfdf5;
+    color: #059669;
+  }
+}
+
+body.theme-dark .masthead .bar .masthead-icon {
+  color: #e8e8e8;
+
+  &:hover {
+    background: #242019;
+    color: #10b981;
+  }
+}

@@ -85,52 +85,71 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function loadCategories() {
-    const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
-    const existingNote = categoryList.querySelector('.filter-empty-note');
-    if (existingNote) existingNote.remove();
-    categoryList.querySelectorAll('.category-group').forEach((el) => el.remove());
+    // Wrapped end-to-end: fetchWithAuth() rejects outright (not just a
+    // non-2xx response) when the Railway backend is cold/suspended or the
+    // network drops. Before this fix that rejection propagated out of the
+    // init IIFE below and skipped the loadListings() call after it entirely
+    // -- the category *filter* failing silently killed the *listings* grid
+    // too, leaving it stuck on "Loading listings..." forever with nothing
+    // but a console error to show why. Now a category-load failure only
+    // affects the category filter.
+    try {
+      const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
+      const existingNote = categoryList.querySelector('.filter-empty-note');
+      if (existingNote) existingNote.remove();
+      categoryList.querySelectorAll('.category-group').forEach((el) => el.remove());
 
-    if (!res.ok) return;
-    const body = await res.json();
-    const categories = body.categories || [];
+      if (!res.ok) throw new Error(`categories request failed: ${res.status}`);
+      const body = await res.json();
+      const categories = body.categories || [];
 
-    if (categories.length === 0) {
-      const note = document.createElement('p');
-      note.className = 'filter-empty-note';
-      note.textContent = 'No categories yet.';
-      categoryList.appendChild(note);
-      return;
-    }
-
-    const state = getState();
-
-    // Group subcategories under their parent rather than listing everything
-    // flat -- the backend only returns two real levels (top-level + child),
-    // so that's all this groups.
-    const topLevel = categories.filter((cat) => !cat.parent_id);
-    const childrenByParent = new Map();
-    for (const cat of categories) {
-      if (!cat.parent_id) continue;
-      if (!childrenByParent.has(cat.parent_id)) childrenByParent.set(cat.parent_id, []);
-      childrenByParent.get(cat.parent_id).push(cat);
-    }
-
-    for (const top of topLevel) {
-      const group = document.createElement('div');
-      group.className = 'category-group';
-      group.appendChild(buildCategoryLabel(top, state));
-
-      const children = childrenByParent.get(top.id) || [];
-      if (children.length > 0) {
-        const childWrap = document.createElement('div');
-        childWrap.className = 'category-children';
-        for (const child of children) {
-          childWrap.appendChild(buildCategoryLabel(child, state));
-        }
-        group.appendChild(childWrap);
+      if (categories.length === 0) {
+        const note = document.createElement('p');
+        note.className = 'filter-empty-note';
+        note.textContent = 'No categories yet.';
+        categoryList.appendChild(note);
+        return;
       }
 
-      categoryList.appendChild(group);
+      const state = getState();
+
+      // Group subcategories under their parent rather than listing everything
+      // flat -- the backend only returns two real levels (top-level + child),
+      // so that's all this groups.
+      const topLevel = categories.filter((cat) => !cat.parent_id);
+      const childrenByParent = new Map();
+      for (const cat of categories) {
+        if (!cat.parent_id) continue;
+        if (!childrenByParent.has(cat.parent_id)) childrenByParent.set(cat.parent_id, []);
+        childrenByParent.get(cat.parent_id).push(cat);
+      }
+
+      for (const top of topLevel) {
+        const group = document.createElement('div');
+        group.className = 'category-group';
+        group.appendChild(buildCategoryLabel(top, state));
+
+        const children = childrenByParent.get(top.id) || [];
+        if (children.length > 0) {
+          const childWrap = document.createElement('div');
+          childWrap.className = 'category-children';
+          for (const child of children) {
+            childWrap.appendChild(buildCategoryLabel(child, state));
+          }
+          group.appendChild(childWrap);
+        }
+
+        categoryList.appendChild(group);
+      }
+    } catch (err) {
+      console.warn('loadCategories: failed to load categories.', err);
+      categoryList.querySelectorAll('.category-group').forEach((el) => el.remove());
+      const existingNote = categoryList.querySelector('.filter-empty-note');
+      if (existingNote) existingNote.remove();
+      const note = document.createElement('p');
+      note.className = 'filter-empty-note';
+      note.textContent = 'Unable to load categories right now.';
+      categoryList.appendChild(note);
     }
   }
 
@@ -170,8 +189,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       appendImage(article, listing.primary_image_url, listing.title);
 
+      // Whole-card link (same pattern as js/index.js buildCard): the title
+      // link's ::after covers the card; Add to Cart sits above it.
       const h3 = document.createElement('h3');
-      h3.textContent = listing.title;
+      const titleLink = document.createElement('a');
+      titleLink.href = `listing.html?id=${encodeURIComponent(listing.id)}`;
+      titleLink.className = 'card-link';
+      titleLink.textContent = listing.title;
+      h3.appendChild(titleLink);
       article.appendChild(h3);
 
       const meta = document.createElement('p');
@@ -192,9 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
         addToCartBtn.textContent = 'Out of Stock';
       }
 
-      const link = document.createElement('a');
-      link.href = `listing.html?id=${encodeURIComponent(listing.id)}`;
+      const link = document.createElement('span');
       link.className = 'btn btn-outline';
+      link.setAttribute('aria-hidden', 'true');
       link.textContent = 'Shop Now';
 
       actions.appendChild(addToCartBtn);
@@ -249,20 +274,29 @@ document.addEventListener('DOMContentLoaded', () => {
     params.set('sort', state.sort);
     params.set('limit', '50');
 
-    const res = await window.MarketplaceAuth.fetchWithAuth(`/api/listings?${params.toString()}`);
-    if (!res.ok) {
+    // Previously unguarded: a non-2xx response was handled, but fetch()
+    // *rejecting* outright (backend unreachable -- the Railway project is
+    // suspended between billing cycles, see js/index.js's loadShopGrid
+    // comment for the same issue on the homepage) was not. That left this
+    // grid showing "Loading listings..." forever with only a console error
+    // to explain it. Now any failure, HTTP or network-level, shows the same
+    // explicit "failed to load" message instead of hanging.
+    try {
+      const res = await window.MarketplaceAuth.fetchWithAuth(`/api/listings?${params.toString()}`);
+      if (!res.ok) throw new Error(`listings request failed: ${res.status}`);
+
+      const body = await res.json();
+      let listings = body.listings || [];
+
+      if (state.condition.length > 0) {
+        listings = listings.filter((l) => state.condition.includes(l.condition));
+      }
+
+      renderListings(listings);
+    } catch (err) {
+      console.warn('loadListings: failed to load listings.', err);
       grid.innerHTML = '<p class="results-empty">Failed to load listings. Please try again.</p>';
-      return;
     }
-
-    const body = await res.json();
-    let listings = body.listings || [];
-
-    if (state.condition.length > 0) {
-      listings = listings.filter((l) => state.condition.includes(l.condition));
-    }
-
-    renderListings(listings);
   }
 
   function readFormIntoState() {

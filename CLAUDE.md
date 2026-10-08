@@ -17,44 +17,40 @@ change.
 
 ## Deployment
 
-**Active host: Cloudflare Pages.**
+**Active host: Cloudflare Workers (static assets).**
 
-- Project name: `collectors-market`
-- Live URL: **https://collectors-market.pages.dev**
-
-  ⚠️ **Not yet renamed.** The Cloudflare Pages project itself is still called `collectors-market`
-  (old client branding) — this doc reflects that actual, current name, it hasn't been left
-  un-rebranded by mistake. If the Cloudflare project is renamed, update the project name, live
-  URL, and the two API/dashboard references below to match — not guessed here, since the new
-  slug isn't decided yet.
-- Connected via GitHub integration to this repo (`KingHarrison1999/Portfolio`), branch `main`
+- Worker name: `portfolio-marketplace-frontend`
+- Live URL: **https://portfolio-marketplace-frontend.kingharrison1999.workers.dev** — this is the
+  real, deployed host, and the only one the backend accepts: Railway's `FRONTEND_URL` is set to
+  it, which drives both the backend's CORS allow-list and Stripe's `success_url`/`cancel_url`.
 - Cloudflare account ID: `b2d08bce33c8d391a114f7297ee2575e`
-- Build command: `npm run build:css`
-- Output/publish directory: `site` (copied directly from this repo's
-  `netlify.toml`, which still holds the canonical build config even though Netlify is no longer
-  the active host — see below)
+- Build command: `npm run build:css` (compiled CSS is committed anyway, see Build above)
+- Published directory: `site` (same as `netlify.toml`, which still holds the canonical build
+  config even though Netlify is no longer the active host — see below)
 
-**Auto-deploy-on-push is deliberately disabled** for this project
-(`deployments_enabled: false` and `production_deployments_enabled: false` on the Cloudflare
-Pages project config) to avoid burning deploys automatically. The git connection is still live —
-disabling auto-deploy only stops it from triggering *by itself* on a push.
+**Deploys are manual, via `wrangler` from a local machine** — there is no git integration, so
+**a push to `main` does NOT go live by itself.** Check what's live with:
 
-**A push to `main` does NOT go live by itself.** After pushing, a deploy has to be triggered manually, either:
+```
+wrangler deployments list --name portfolio-marketplace-frontend
+```
 
-- **API**: `POST https://api.cloudflare.com/client/v4/accounts/b2d08bce33c8d391a114f7297ee2575e/pages/projects/collectors-market/deployments`
-  with a Cloudflare API token/OAuth token scoped to `Pages:Edit` as the Bearer token. This always
-  builds+deploys whatever is currently the latest commit on `main`. (Cloudflare logs this as an
-  `"ad_hoc"` trigger, distinct from a `"push"` trigger.)
-- **Dashboard**: Cloudflare dashboard → Workers & Pages → `collectors-market` → Deployments tab →
-  manual "Create deployment" / "Retry deployment".
+⚠️ The exact deploy command/config isn't recorded in this repo (there's no `wrangler.toml` /
+`wrangler.jsonc` checked in). Before the next deploy, confirm the command that was used and add it
+here (or commit a wrangler config) rather than guessing.
 
-If Cloudflare CLI/API access isn't already authenticated in whatever environment is doing the
-deploy, that's a one-time `wrangler login` (or a supplied `CLOUDFLARE_API_TOKEN`) needed first —
-same pattern as the `gh`/`railway`/`supabase` CLI logins this project already depends on.
+If `wrangler` isn't already authenticated in whatever environment is doing the deploy, that's a
+one-time `wrangler login` (or a supplied `CLOUDFLARE_API_TOKEN`) first — same pattern as the
+`gh`/`railway`/`supabase` CLI logins this project already depends on.
+
+**Do not deploy to, link to, or reference any Cloudflare Pages project for this site.** An older
+Pages deployment exists from before the move to Workers; it's stale (pre-Stripe), blocked by the
+backend's CORS, and named after the original client project — that client's name must never
+appear anywhere in this portfolio demo, including docs and test URLs.
 
 ### Legacy: Netlify (retired, not deleted)
 
-Netlify was the original host and is being retired in favor of Cloudflare Pages (Netlify's
+Netlify was the original host and is being retired in favor of Cloudflare Workers (Netlify's
 free-tier deploy credits ran out mid-cycle). **It has been left untouched** — not deleted, not
 reconfigured — it's just no longer the active deploy target; don't assume it reflects the current
 `main` branch.
@@ -66,10 +62,10 @@ gate, HTTP 401 to anonymous requests, real `site_id` `772012cd-2c04-47a8-9652-d9
 it won't load for a logged-out visitor or a plain HTTP request — that's expected, not a sign
 anything is broken.
 
-**Resolved discrepancy:** during the Cloudflare Pages migration, a second, unrelated Netlify site
+**Resolved discrepancy:** during the move off Netlify, a second, unrelated Netlify site
 was also found live too, serving a stale, leftover pre-rebrand "Design Chooser" placeholder page
 (it happened to share this repo's folder name at the time, before that folder was renamed away
 from old client-era branding) with no connection to this project's real content or deploy
-history. **Cloudflare Pages
-(collectors-market.pages.dev — see the rename flag under Deployment above) remains the only host
-serving current, real content going forward.**
+history. **The Cloudflare Worker above
+(portfolio-marketplace-frontend.kingharrison1999.workers.dev) is the only host serving current,
+real content going forward.**

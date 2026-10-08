@@ -236,11 +236,21 @@
           background: white;
           color: #10b981;
           border: 2px solid #10b981;
+        }
 
-          &:hover {
-            background: #ecfdf5;
-            box-shadow: none;
-          }
+        // "Shop Now" is a span under the card's stretched title link
+        // (Components/_product-card.scss), so it can't be hovered itself --
+        // it lights up with the card instead.
+        .btn-outline:hover {
+          background: #ecfdf5;
+          box-shadow: none;
+        }
+
+        // Add to Cart is a real button of its own, so it sits above the
+        // stretched link and keeps its own click.
+        button {
+          position: relative;
+          z-index: 2;
         }
 
         .btn:disabled {
@@ -259,6 +269,10 @@
         &.is-success {
           color: #15803d;
         }
+      }
+
+      &:hover .product-actions .btn-outline {
+        background: #ecfdf5;
       }
 
       &:hover {

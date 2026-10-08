@@ -1,0 +1,128 @@
+// Whole-card product links. The title's .card-link is the card's one real
+// link; its ::after is stretched over the whole card, so the photo, price
+// and "Shop Now" all open it, and middle-click / keyboard focus behave like
+// any link. Anything that needs its own click (browse's Add to Cart) sits
+// above it with position: relative + z-index: 2. home.css has the same
+// rule for the homepage.
+.product {
+  position: relative;
+
+  .card-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  &:hover .card-link {
+    color: #059669;
+  }
+
+  &:has(.card-link:focus-visible) {
+    outline: 2px solid #10b981;
+    outline-offset: 3px;
+  }
+}
+
+// Same card as the homepage shop grid (home.css .shop.two-col ...
+// .product-grid.uniform .product) -- used by listing.html's Similar Items.
+// Cards stay light in dark mode, same as on the homepage.
+.product-grid.similar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 479px) {
+    gap: 16px;
+  }
+
+  .product {
+    background: #fff;
+    border: 1px solid #e6e2da;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    transition: all 0.3s ease;
+
+    @media (max-width: 479px) {
+      padding: 12px;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    img,
+    .product-image-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .product-image-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f4f6;
+      color: #9ca3af;
+      font-size: 2rem;
+    }
+
+    h3 {
+      font-family: "Merriweather", serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: #1f2937;
+      margin: 0 0 8px;
+      overflow-wrap: anywhere;
+    }
+
+    .meta {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin: 0 0 16px;
+    }
+
+    .btn {
+      margin-top: auto;
+      display: block;
+      text-align: center;
+      background: #10b981;
+      color: #fff;
+      border-radius: 0.5rem;
+      padding: 0.7rem 1rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    &:hover .btn {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+    }
+  }
+}

@@ -285,3 +285,10 @@
     flex: 1;
   }
 }
+
+// Plain text links under a form (e.g. "Forgot your password?") had no
+// hover state at all.
+.form-shell-fields p a:hover {
+  color: #059669;
+  text-decoration: underline;
+}
