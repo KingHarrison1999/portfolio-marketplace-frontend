@@ -484,6 +484,11 @@ body.home .carousel-hero .overlay .search.wide button {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
+  /* site-footer.css gives body > main.container width:100% (body is a flex
+     column). This page doesn't load main.compiled.css's global border-box,
+     so without this the 1rem side padding was added on top of that 100%
+     and the page scrolled sideways by 32px. */
+  box-sizing: border-box;
 }
 
 body.home .hero-section + main.container,
@@ -705,6 +710,295 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   transform: translateY(-2px);
 }
 
+/* Top Sellers + Recently Added carousels -- same markup/class structure as
+   sass/Components/_carousel.scss (.top-sellers .carousel-shell,
+   .recently-added.product-carousel .carousel-track/.carousel-banner), which
+   this page doesn't load, restyled with Design 3's tokens: #e6e2da borders,
+   12px cards with soft shadows, Merriweather card titles, green accents.
+   Cards stay light in dark mode, same as the shop grid and category tiles. */
+.top-sellers,
+.recently-added.product-carousel {
+  margin-top: 1.5rem;
+}
+
+.top-sellers .section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.top-sellers .section-head h2 {
+  margin: 0.5rem 0;
+}
+
+.top-sellers .section-head .cta {
+  text-decoration: none;
+  color: #fff;
+  background: #10b981;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.top-sellers .section-head .cta:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.top-sellers .carousel-shell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.top-sellers .carousel {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(200px, max-content);
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 0.25rem 0;
+}
+
+.top-sellers .carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.top-sellers .carousel .slide {
+  scroll-snap-align: start;
+  background: #fff;
+  border: 1px solid #e6e2da;
+  border-radius: 0.5rem;
+  padding: 0.85rem 1.25rem;
+  color: #1f2937;
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  text-align: center;
+  transition: all 200ms ease;
+}
+
+.top-sellers .carousel .slide:hover {
+  border-color: #059669;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.top-sellers .carousel-nav,
+.recently-added .carousel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #e6e2da;
+  border-radius: 50%;
+  background: #fff;
+  color: #1f2937;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.top-sellers .carousel-nav:hover,
+.recently-added .carousel-btn:hover {
+  border-color: #059669;
+  color: #059669;
+}
+
+.top-sellers .carousel-nav:focus-visible,
+.recently-added .carousel-btn:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+.recently-added .carousel-container {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.recently-added .carousel-banner {
+  flex-shrink: 0;
+  width: 200px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+}
+
+.recently-added .carousel-banner h3 {
+  margin: 0 0 0.5rem;
+  font-family: "Merriweather", serif;
+  font-size: 1.75rem;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.recently-added .carousel-banner p {
+  margin: 0 0 1rem;
+  color: #d1d5db;
+  font-size: 0.9rem;
+}
+
+.recently-added .carousel-banner .banner-btn {
+  display: inline-block;
+  align-self: flex-start;
+  background: #10b981;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.recently-added .carousel-banner .banner-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.recently-added .carousel-viewport {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.recently-added .carousel-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 0.5rem 0.25rem 1.25rem;
+}
+
+.recently-added .carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Same card as the shop grid below (.shop.two-col ... .product) */
+.recently-added .carousel-track .product {
+  scroll-snap-align: start;
+  flex: 0 0 240px;
+  background: #fff;
+  border: 1px solid #e6e2da;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.recently-added .carousel-track .product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.recently-added .carousel-track .product img,
+.recently-added .carousel-track .product .product-image-placeholder {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.recently-added .carousel-track .product .product-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  color: #9ca3af;
+  font-size: 2rem;
+}
+
+.recently-added .carousel-track .product h3 {
+  font-family: "Merriweather", serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1f2937;
+  margin: 0 0 8px;
+}
+
+.recently-added .carousel-track .product .meta {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0 0 16px;
+}
+
+.recently-added .carousel-track .product .btn {
+  margin-top: auto;
+  background: #10b981;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.recently-added .carousel-track .product .btn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.recently-added .carousel-btn {
+  position: absolute;
+  top: calc(50% - 0.5rem);
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.recently-added .carousel-prev {
+  left: -0.5rem;
+}
+
+.recently-added .carousel-next {
+  right: -0.5rem;
+}
+
+@media (max-width: 1023px) {
+  .recently-added .carousel-banner {
+    display: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .recently-added .carousel-track .product {
+    flex-basis: min(75vw, 220px);
+  }
+  .top-sellers .carousel-nav,
+  .recently-added .carousel-btn {
+    width: 34px;
+    height: 34px;
+  }
+}
+
 .shop.two-col {
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -729,6 +1023,10 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   border: 1px solid #e6e2da;
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
+  /* Sort + search side by side are ~500px wide. Unwrapped, that min-content
+     widened the shop's 1fr grid column past the viewport on phones. */
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .shop.two-col .grid.cards {
@@ -787,7 +1085,12 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  /* border-box so the card's padding and border sit inside the grid cell.
+     No height:100% here: the grid already stretches every card in a row to
+     the same height, and a content-box 100% plus padding made each card
+     taller than its row, so it overlapped the row below. */
+  box-sizing: border-box;
+  min-width: 0;
   border: 1px solid #e6e2da;
   transition: all 0.3s ease;
   justify-content: flex-start;
@@ -841,7 +1144,15 @@ body.home.theme-dark .shop.two-col .results .product-grid.uniform .product-image
   color: #1f2937;
   flex-shrink: 0;
   line-height: 1.3;
-  min-height: 3.9em;
+  /* No min-height: the grid row already stretches every card in the same
+     row to equal height (CSS Grid's default align-items: stretch, plus
+     .product's own height:100%), and .btn below has margin-top:auto, so
+     a short one-line title's button still lands at the same baseline as a
+     two-line title's in the same row. A fixed 3.9em reservation here just
+     double-counted that space -- it forced ~2 extra blank lines under every
+     short title regardless of what the row's tallest card actually needed,
+     which is the dead gap seen between the title and price on cards like
+     "Wool Herringbone Overcoat". */
 }
 
 .shop.two-col .results .product-grid.uniform .product .meta {
@@ -866,6 +1177,13 @@ body.home.theme-dark .shop.two-col .results .product-grid.uniform .product-image
   transition: all 0.2s ease;
   font-family: "Source Sans 3", sans-serif;
   flex-shrink: 0;
+  /* The button is an <a> with width:100% at every breakpoint. Without
+     border-box its side padding was added on top of that 100%, pushing it
+     out past the right edge of the card. */
+  box-sizing: border-box;
+  display: block;
+  text-align: center;
+  text-decoration: none;
 }
 
 .shop.two-col .results .product-grid.uniform .product .btn:hover {
@@ -1350,8 +1668,10 @@ body.home.theme-dark .filters .sizes label:has(input:checked) {
 .results .toolbar .search.small {
   display: flex;
   gap: 0.4rem;
+  min-width: 0;
 }
 .results .toolbar .search.small input {
+  min-width: 0;
   border: 1px solid #e6e2da;
   border-radius: 999px;
   padding: 0.4rem 0.8rem;
