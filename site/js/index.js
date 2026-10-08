@@ -27,13 +27,19 @@ async function loadHomepageCategories() {
   const grid = document.getElementById('homepage-category-grid');
   if (!section || !grid) return;
 
-  const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
-  if (!res.ok) {
+  // A cold/unreachable backend makes fetch() reject outright -- hide the
+  // section rather than leave an empty grid and an uncaught error.
+  let body;
+  try {
+    const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    body = await res.json();
+  } catch (err) {
+    console.warn('index: failed to load Browse by Category.', err);
     section.hidden = true;
     return;
   }
 
-  const body = await res.json();
   // Homepage tile is top-level-only; subcategories only show grouped in the
   // browse-page filter (js/browse.js), not flattened in here.
   const categories = (body.categories || []).filter((cat) => !cat.parent_id);
@@ -320,13 +326,18 @@ async function loadHeroAds() {
   const container = document.getElementById('homepage-hero-ads');
   if (!container) return;
 
-  const res = await window.MarketplaceAuth.fetchWithAuth('/api/ad-spaces?placement=homepage-hero');
-  if (!res.ok) {
+  // Same as above: any failure leaves the (already hidden) ad slot hidden.
+  let body;
+  try {
+    const res = await window.MarketplaceAuth.fetchWithAuth('/api/ad-spaces?placement=homepage-hero');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    body = await res.json();
+  } catch (err) {
+    console.warn('index: failed to load hero ads.', err);
     container.hidden = true;
     return;
   }
 
-  const body = await res.json();
   const adSpaces = body.ad_spaces || [];
 
   if (adSpaces.length === 0) {

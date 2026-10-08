@@ -62,10 +62,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('site-announcement-banner');
   if (!container) return;
 
-  const res = await fetch(SITE_ANNOUNCEMENT_API_URL);
-  if (!res.ok) return;
+  // A cold/unreachable backend makes fetch() reject outright; the banner
+  // container starts hidden, so on any failure it just stays that way.
+  let body;
+  try {
+    const res = await fetch(SITE_ANNOUNCEMENT_API_URL);
+    if (!res.ok) return;
+    body = await res.json();
+  } catch (err) {
+    console.warn('site-banner: failed to load announcements.', err);
+    return;
+  }
 
-  const body = await res.json();
   const adSpaces = body.ad_spaces || [];
   if (adSpaces.length === 0) return;
 
