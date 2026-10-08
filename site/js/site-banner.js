@@ -17,24 +17,16 @@
 // business_name is optional on ad_spaces (a raffle/house promo has no real
 // business behind it -- owned by no one, or by the platform itself), so the
 // link text falls back to a generic label when it's not set.
+//
+// Carousel: every active announcement becomes one slide (most recently
+// created first, the order the endpoint returns them in). One slide shows
+// at a time; the chevron buttons on either end step backwards/forwards,
+// wrapping around at each end.
 
 const SITE_ANNOUNCEMENT_API_URL =
   'https://portfolio-marketplace-backend-production.up.railway.app/api/ad-spaces?placement=site-announcement';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const container = document.getElementById('site-announcement-banner');
-  if (!container) return;
-
-  const res = await fetch(SITE_ANNOUNCEMENT_API_URL);
-  if (!res.ok) return;
-
-  const body = await res.json();
-  const adSpaces = body.ad_spaces || [];
-  if (adSpaces.length === 0) return;
-
-  // Only one banner slot on the page -- show the most recently created active one.
-  const adSpace = adSpaces[0];
-
+function buildAnnouncementSlide(adSpace) {
   const a = document.createElement('a');
   a.className = 'site-announcement-link';
   a.href = adSpace.click_through_url || '#';
@@ -54,7 +46,57 @@ document.addEventListener('DOMContentLoaded', async () => {
     a.appendChild(text);
   }
 
+  return a;
+}
+
+function buildAnnouncementArrow(direction) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = `site-announcement-arrow site-announcement-arrow-${direction}`;
+  button.setAttribute('aria-label', direction === 'prev' ? 'Previous announcement' : 'Next announcement');
+  button.innerHTML = `<i class="fa-solid fa-chevron-${direction === 'prev' ? 'left' : 'right'}" aria-hidden="true"></i>`;
+  return button;
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const container = document.getElementById('site-announcement-banner');
+  if (!container) return;
+
+  const res = await fetch(SITE_ANNOUNCEMENT_API_URL);
+  if (!res.ok) return;
+
+  const body = await res.json();
+  const adSpaces = body.ad_spaces || [];
+  if (adSpaces.length === 0) return;
+
+  const track = document.createElement('div');
+  track.className = 'site-announcement-track';
+  track.setAttribute('aria-live', 'polite');
+
+  const slides = adSpaces.map((adSpace, i) => {
+    const slide = buildAnnouncementSlide(adSpace);
+    slide.hidden = i !== 0;
+    track.appendChild(slide);
+    return slide;
+  });
+
+  const prev = buildAnnouncementArrow('prev');
+  const next = buildAnnouncementArrow('next');
+
+  let current = 0;
+  function show(i) {
+    current = (i + slides.length) % slides.length;
+    slides.forEach((slide, si) => {
+      slide.hidden = si !== current;
+    });
+  }
+  prev.addEventListener('click', () => show(current - 1));
+  next.addEventListener('click', () => show(current + 1));
+
+  container.setAttribute('role', 'region');
+  container.setAttribute('aria-roledescription', 'carousel');
+  container.setAttribute('aria-label', 'Announcements');
   container.innerHTML = '';
-  container.appendChild(a);
+  container.append(prev, track, next);
   container.hidden = false;
 });

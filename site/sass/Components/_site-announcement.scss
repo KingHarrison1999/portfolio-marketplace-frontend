@@ -1,10 +1,28 @@
+// Announcement carousel (js/site-banner.js builds the contents): a chevron
+// button pinned to each end, one centered slide visible at a time between
+// them.
 .site-announcement-banner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #10b981;
-  padding: 0.6rem 1rem;
+  padding: 1.1rem 3.5rem;
   text-align: center;
+
+  // display: flex above would otherwise override the hidden attribute and
+  // leave an empty green bar on the page when there are no announcements.
+  &[hidden] {
+    display: none;
+  }
+
+  .site-announcement-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    width: 100%;
+  }
 
   .site-announcement-link {
     display: flex;
@@ -12,10 +30,17 @@
     justify-content: center;
     gap: 0.5rem;
     color: white;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
     text-decoration: none;
     max-width: 100%;
+
+    &[hidden] {
+      display: none;
+    }
 
     &:hover {
       text-decoration: underline;
@@ -26,5 +51,41 @@
       max-width: 100%;
       display: block;
     }
+  }
+
+  .site-announcement-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    &:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+  }
+
+  .site-announcement-arrow-prev {
+    left: 1rem;
+  }
+
+  .site-announcement-arrow-next {
+    right: 1rem;
   }
 }
