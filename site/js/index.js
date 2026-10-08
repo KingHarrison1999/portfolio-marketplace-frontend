@@ -212,9 +212,11 @@ function buildProductCard(listing) {
   });
 }
 
+// Resolves to the ids it rendered, so loadShopGrid() can leave them out
+// (empty array if nothing was shown).
 async function loadRecentlyAdded() {
   const track = document.getElementById('recently-added-track');
-  if (!track) return;
+  if (!track) return [];
 
   // A cold or unreachable backend makes fetch() reject outright rather than
   // return a non-2xx response. Hide the whole section in that case instead
@@ -229,18 +231,19 @@ async function loadRecentlyAdded() {
   } catch (err) {
     console.warn('index: failed to load recently added listings.', err);
     if (recentSection) recentSection.hidden = true;
-    return;
+    return [];
   }
 
   if (listings.length === 0) {
     track.innerHTML = '<p class="carousel-loading">No listings yet.</p>';
-    return;
+    return [];
   }
 
   track.innerHTML = '';
   for (const listing of listings) {
     track.appendChild(buildProductCard(listing));
   }
+  return listings.map((listing) => listing.id);
 }
 
 // "Top Sellers" pill row -- previously 8 hardcoded fake old-catalog-era
@@ -320,17 +323,32 @@ async function renderTopSellers(track) {
 // load listings" message instead of a real product grid. Unlike the old
 // hardcoded set this removed, these fallback cards link to browse.html
 // (not a fake ?id=) so they never 404.
-async function loadShopGrid() {
+// recentIdsPromise: what loadRecentlyAdded() resolves to. Those listings
+// are left out here so the two sections never show the same card; the
+// request asks for 8 extra so the grid can still fill its 16 slots.
+async function loadShopGrid(recentIdsPromise = Promise.resolve([])) {
   const grid = document.getElementById('homepage-shop-grid');
   if (!grid) return;
 
   try {
-    const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=16');
+    const [res, recentIds] = await Promise.all([
+      window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=24'),
+      recentIdsPromise.catch(() => []),
+    ]);
     if (!res.ok) throw new Error(`listings request failed: ${res.status}`);
 
     const body = await res.json();
-    const listings = body.listings || [];
-    if (listings.length === 0) throw new Error('no listings returned');
+    const all = body.listings || [];
+    if (all.length === 0) throw new Error('no listings returned');
+
+    const shownAbove = new Set(recentIds);
+    const listings = all.filter((listing) => !shownAbove.has(listing.id)).slice(0, 16);
+    if (listings.length === 0) {
+      // Everything live is already in Recently Added -- say so rather than
+      // repeat those cards or fall back to the static ones.
+      grid.innerHTML = '<p class="results-empty">That\'s everything for now. <a href="browse.html">Browse all listings</a></p>';
+      return;
+    }
 
     grid.innerHTML = '';
     for (const listing of listings) {
@@ -446,8 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadNavCategories();
   loadHomepageCategories();
   loadTopSellers();
-  loadRecentlyAdded();
-  loadShopGrid();
+  loadShopGrid(loadRecentlyAdded());
   loadHeroAds();
   wireSearchForms();
 });
