@@ -524,3 +524,11 @@ body.theme-dark .masthead .bar .masthead-icon {
     color: #10b981;
   }
 }
+
+// Same explicit Search-button type as home.css (the hamburger's is set
+// above), so the header is identical on every page.
+.masthead .utility .search.combo button {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+}

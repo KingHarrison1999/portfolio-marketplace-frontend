@@ -2317,66 +2317,6 @@ body.theme-dark .purchase-panel-shipping .purchase-panel-policy-link {
   color: #6b7280;
 }
 
-.global-nav {
-  background: white;
-  border-bottom: 1px solid #d1d5db;
-}
-
-.global-nav-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.85rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.global-nav-logo {
-  display: inline-flex;
-  align-items: center;
-  font-family: "Merriweather", serif;
-  font-weight: 700;
-  font-size: 1rem;
-  color: #0f172a;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-.global-nav-logo:hover, .theme-dark .global-nav-logo:hover {
-  color: #059669;
-}
-.global-nav-logo img {
-  height: 28px;
-  width: auto;
-  display: block;
-}
-
-.global-nav-browse {
-  color: #374151;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-.global-nav-browse:hover {
-  color: #10b981;
-}
-
-.global-nav-actions {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.global-nav-icon {
-  display: inline-flex;
-  color: #374151;
-  font-size: 1.1rem;
-  text-decoration: none;
-}
-.global-nav-icon:hover {
-  color: #10b981;
-}
-
 .site-announcement-banner {
   position: relative;
   display: flex;
@@ -3093,6 +3033,12 @@ body.theme-dark .masthead .bar .masthead-icon {
 body.theme-dark .masthead .bar .masthead-icon:hover {
   background: #242019;
   color: #10b981;
+}
+
+.masthead .utility .search.combo button {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .product {
@@ -4909,21 +4855,6 @@ body.theme-dark {
 }
 .theme-dark .toggle-row p {
   color: var(--dark-muted);
-}
-.theme-dark .global-nav {
-  background: #0d0c0b;
-  border-bottom-color: var(--dark-line);
-}
-.theme-dark .global-nav-logo {
-  color: var(--dark-ink);
-}
-.theme-dark .global-nav-browse,
-.theme-dark .global-nav-icon {
-  color: var(--dark-muted);
-}
-.theme-dark .global-nav-browse:hover,
-.theme-dark .global-nav-icon:hover {
-  color: #10b981;
 }
 .theme-dark .order-confirmation-message h1 {
   color: var(--dark-ink);

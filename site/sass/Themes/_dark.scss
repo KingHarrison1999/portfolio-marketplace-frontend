@@ -11,7 +11,7 @@ body.theme-dark {
 
 .theme-dark {
   // --- Header / hero ---
-  // Same darkest-tier chrome as .global-nav below, not
+  // Same darkest-tier chrome as the masthead, not
   // var(--dark-panel) (that's the card tier).
   .site-header {
     background: #0d0c0b;
@@ -639,28 +639,6 @@ body.theme-dark {
 
     p {
       color: var(--dark-muted);
-    }
-  }
-
-  // --- Global nav ---
-  // Deliberately not var(--dark-panel) -- that token is the card/section
-  // tier now. Header/footer chrome sits one tier darker than cards, same
-  // split as the homepage's masthead vs. feature-block.
-  .global-nav {
-    background: #0d0c0b;
-    border-bottom-color: var(--dark-line);
-  }
-
-  .global-nav-logo {
-    color: var(--dark-ink);
-  }
-
-  .global-nav-browse,
-  .global-nav-icon {
-    color: var(--dark-muted);
-
-    &:hover {
-      color: #10b981;
     }
   }
 

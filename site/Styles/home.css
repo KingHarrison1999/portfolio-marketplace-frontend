@@ -2062,3 +2062,68 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a:hover {
   outline: 2px solid #10b981;
   outline-offset: 3px;
 }
+
+/* Cart / account icons in the shared masthead (js/masthead.js). Same as
+   sass/Components/_masthead.scss for the other pages. */
+.masthead .bar .right {
+  align-items: center;
+}
+.masthead .bar .masthead-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #1f2937;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.masthead .bar .masthead-icon:hover {
+  background: #ecfdf5;
+  color: #059669;
+}
+body.home.theme-dark .masthead .bar .masthead-icon {
+  color: #e8e8e8;
+}
+body.home.theme-dark .masthead .bar .masthead-icon:hover {
+  background: #242019;
+  color: #10b981;
+}
+
+/* Match the masthead on every other page (main.compiled.css is border-box
+   throughout): without this the bar's side padding sat outside its 1200px
+   max-width, so the homepage header was 32px wider than everywhere else and
+   out of line with the page content below it. */
+.masthead .bar,
+.masthead .utility {
+  box-sizing: border-box;
+}
+
+/* Same green keyboard focus ring as main.compiled.css's :focus-visible. */
+.masthead :focus-visible,
+.offcanvas :focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* Explicit header button type, set identically in
+   sass/Components/_masthead.scss -- the other pages' global <button> rule
+   (_buttons.scss) otherwise made their hamburger icon and Search label a
+   different size from this page's. */
+.masthead .bar .hamburger,
+.scroll-up-navbar .bar .hamburger {
+  font-size: 1rem;
+  line-height: 1.2;
+  color: #1f2937;
+}
+body.home.theme-dark .masthead .bar .hamburger {
+  background: #242019;
+  border-color: #2e2a24;
+  color: #e8e8e8;
+}
+.masthead .utility .search.combo button {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
