@@ -90,3 +90,30 @@ body.home .carousel-hero .overlay .hero-ads {
   white-space: nowrap;
   border: 0;
 }
+
+/* ---- Hero height ----
+   Taller than the 50vh / 520px set in home.css so more of each photo shows,
+   but capped so the next section still peeks in below the hero. */
+body.home .carousel-hero {
+  height: 75vh;
+  min-height: 420px;
+  max-height: 820px;
+}
+@media (max-width: 639px) {
+  body.home .carousel-hero {
+    height: 62vh;
+    min-height: 380px;
+  }
+}
+
+/* ---- Hero dots ----
+   home.css rings a dot on :focus, so a clicked dot kept its ring after the
+   carousel moved on. Only the current slide's dot (.active) is highlighted
+   now; the ring shows for keyboard focus only. */
+body.home .carousel-hero .carousel-dots .dot:focus {
+  outline: none;
+}
+body.home .carousel-hero .carousel-dots .dot:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
