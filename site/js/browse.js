@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterOverlay = document.getElementById('filter-overlay');
   const filterCloseBtn = document.querySelector('.filter-close');
 
+  // Listings sit in leaf categories and the API matches category_id exactly,
+  // so a checked category stands for its whole subtree (filled in by
+  // loadCategories). Until categories load it's just the id itself.
+  let subtreeIds = (id) => [id];
+
   function getState() {
     const params = new URLSearchParams(window.location.search);
     return {
@@ -114,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const state = getState();
 
       // Group subcategories under their parent rather than listing everything
-      // flat -- the backend only returns two real levels (top-level + child),
-      // so that's all this groups.
+      // flat. Only the top two levels get checkboxes (Women > Shoes); the
+      // third level (Boots...) is covered by subtreeIds() when filtering.
       const topLevel = categories.filter((cat) => !cat.parent_id);
       const childrenByParent = new Map();
       for (const cat of categories) {
@@ -123,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!childrenByParent.has(cat.parent_id)) childrenByParent.set(cat.parent_id, []);
         childrenByParent.get(cat.parent_id).push(cat);
       }
+      subtreeIds = (id) => [id, ...(childrenByParent.get(id) || []).flatMap((child) => subtreeIds(child.id))];
 
       for (const top of topLevel) {
         const group = document.createElement('div');
@@ -302,9 +308,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function readFormIntoState() {
     const state = getState();
 
-    state.category_id = Array.from(categoryList.querySelectorAll('input[type="checkbox"]:checked')).map(
-      (el) => el.value,
-    );
+    const checked = Array.from(categoryList.querySelectorAll('input[type="checkbox"]:checked'));
+    state.category_id = [...new Set(checked.flatMap((el) => subtreeIds(el.value)))];
 
     state.max_price = priceSlider.value;
     state.sort = sortSelect.value;
