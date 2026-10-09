@@ -1,0 +1,504 @@
+/* masthead.css -- the category nav bar, its dropdowns, the off-canvas
+   accordion, and the floating search button + panel (markup: js/masthead.js).
+   Loaded by every page, homepage included, so it's a standalone stylesheet
+   like site-footer.css rather than part of main.compiled.css (which the
+   homepage doesn't load) or home.css (which no other page loads). The older
+   bar / theme toggle / off-canvas drawer rules still live in home.css and
+   sass/Components/_masthead.scss.
+
+   Everything sets its own colours, borders and focus outlines explicitly:
+   main.compiled.css gives every <button> white text and `outline: none`. */
+
+/* ---------- Nav bar ---------- */
+
+.masthead .bar {
+  position: relative; /* dropdowns anchor to the bar, not the link */
+  gap: 1rem;
+}
+
+.masthead .bar .logo {
+  flex-shrink: 0;
+}
+
+.masthead-nav {
+  display: none;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.masthead-nav-list {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.masthead-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.4rem;
+  color: #1f2937;
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.masthead-nav-link i {
+  font-size: 0.65rem;
+  transition: transform 150ms ease;
+}
+
+.masthead-nav-link:hover,
+.masthead-nav-item.open > .masthead-nav-link {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.masthead-nav-item.open > .masthead-nav-link i {
+  transform: rotate(180deg);
+}
+
+.masthead-nav-link:focus-visible,
+.masthead-dropdown a:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+/* Dropdown: full bar width so it never runs off the right edge, whichever
+   top-level link opened it. */
+.masthead-dropdown {
+  position: absolute;
+  top: calc(100% - 0.25rem);
+  left: 1rem;
+  right: 1rem;
+  z-index: 200;
+  padding: 1.5rem 1.75rem 1.25rem;
+  background: #fff;
+  border: 1px solid #e6e2da;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(17, 24, 39, 0.14);
+  font-family: "Source Sans 3", system-ui, sans-serif;
+}
+
+.masthead-dropdown[hidden] {
+  display: none;
+}
+
+.masthead-dropdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.25rem 2rem;
+}
+
+.masthead-dropdown-heading {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+  font-family: "Merriweather", serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.masthead-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.masthead-dropdown ul a {
+  display: block;
+  padding: 0.25rem 0;
+  color: #4b5563;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+
+.masthead-dropdown-heading:hover,
+.masthead-dropdown ul a:hover,
+.masthead-dropdown-all:hover {
+  color: #059669;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.masthead-dropdown-all {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e6e2da;
+  width: 100%;
+  color: #059669;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Desktop: nav links in, hamburger out. Below 1024px it's the reverse. */
+@media (min-width: 1024px) {
+  .masthead-nav {
+    display: block;
+  }
+
+  .masthead .bar .hamburger {
+    display: none;
+  }
+}
+
+/* Focus ring for the bar's own controls (main.compiled.css removes it). */
+.masthead .bar .hamburger:focus-visible,
+.masthead .bar .mode-toggle:focus-visible,
+.masthead .bar .masthead-icon:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+body.theme-dark .masthead-nav-link {
+  color: #e8e8e8;
+}
+
+body.theme-dark .masthead-nav-link:hover,
+body.theme-dark .masthead-nav-item.open > .masthead-nav-link {
+  background: #242019;
+  color: #10b981;
+}
+
+body.theme-dark .masthead-dropdown {
+  background: #1c1a17;
+  border-color: #2e2a24;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+body.theme-dark .masthead-dropdown-heading {
+  color: #fff;
+}
+
+body.theme-dark .masthead-dropdown ul a {
+  color: #b8b2a7;
+}
+
+body.theme-dark .masthead-dropdown-heading:hover,
+body.theme-dark .masthead-dropdown ul a:hover,
+body.theme-dark .masthead-dropdown-all {
+  color: #10b981;
+}
+
+body.theme-dark .masthead-dropdown-all {
+  border-top-color: #2e2a24;
+}
+
+/* ---------- Off-canvas accordion ---------- */
+
+.offcanvas .mobile-nav .accordion-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% + 1rem);
+  margin: 0 -0.5rem;
+  padding: 0.65rem 0.5rem;
+  border: 0;
+  border-radius: 0.35rem;
+  background: none;
+  color: #1f2937;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.offcanvas .mobile-nav .level-2 > .accordion-toggle {
+  font-weight: 600;
+}
+
+.offcanvas .mobile-nav .accordion-toggle i {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  transition: transform 150ms ease;
+}
+
+.offcanvas .mobile-nav .accordion-toggle[aria-expanded="true"] i {
+  transform: rotate(180deg);
+}
+
+.offcanvas .mobile-nav .accordion-toggle:hover,
+.offcanvas .mobile-nav .accordion-toggle:focus-visible {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.offcanvas .mobile-nav .accordion-toggle:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: -2px;
+}
+
+.offcanvas .mobile-nav ul.accordion-body {
+  margin: 0 0 0.25rem 0.25rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid #e6e2da;
+}
+
+.offcanvas .mobile-nav ul.accordion-body[hidden] {
+  display: none;
+}
+
+.offcanvas .mobile-nav ul li a.accordion-all {
+  color: #059669;
+  font-weight: 600;
+}
+
+body.theme-dark .offcanvas .mobile-nav .accordion-toggle {
+  color: #fff;
+}
+
+body.theme-dark .offcanvas .mobile-nav .accordion-toggle:hover,
+body.theme-dark .offcanvas .mobile-nav .accordion-toggle:focus-visible {
+  background: #111;
+  color: #10b981;
+}
+
+body.theme-dark .offcanvas .mobile-nav ul.accordion-body {
+  border-left-color: #333;
+}
+
+body.theme-dark .offcanvas .mobile-nav ul li a.accordion-all {
+  color: #10b981;
+}
+
+/* ---------- Floating search button ---------- */
+
+.floating-search-btn {
+  --fsb-bottom: 1.25rem;
+  position: fixed;
+  right: 1.25rem;
+  bottom: var(--fsb-bottom);
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  height: 52px;
+  padding: 0 1.4rem 0 1.15rem;
+  border: 0;
+  border-radius: 999px;
+  background: #10b981;
+  color: #fff;
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+  transition: background 200ms ease, box-shadow 200ms ease, transform 200ms ease, opacity 200ms ease, visibility 200ms ease;
+}
+
+.floating-search-btn i {
+  font-size: 1.05rem;
+}
+
+.floating-search-btn:hover,
+.floating-search-btn.is-active {
+  background: #059669;
+  box-shadow: 0 14px 32px rgba(16, 185, 129, 0.45);
+  transform: translateY(-2px);
+}
+
+.floating-search-btn:focus-visible {
+  outline: 3px solid #1f2937;
+  outline-offset: 3px;
+}
+
+body.theme-dark .floating-search-btn:focus-visible {
+  outline-color: #fff;
+}
+
+/* is-hidden: homepage hero search in view. is-dodging: the footer
+   newsletter form or listing.html's purchase buttons are underneath it. */
+.floating-search-btn.is-hidden,
+.floating-search-btn.is-dodging {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(12px);
+}
+
+/* browse.html's round filter button already sits in the bottom-right corner
+   (56px, 1.25rem in): stack the search button above it. */
+body:has(.floating-filter-btn) .floating-search-btn {
+  --fsb-bottom: calc(1.25rem + 56px + 0.75rem);
+}
+
+/* ---------- Search panel ---------- */
+
+.search-panel {
+  position: fixed;
+  right: 1.25rem;
+  bottom: calc(var(--fsb-bottom, 1.25rem) + 52px + 0.75rem);
+  z-index: 950;
+  width: min(380px, calc(100vw - 2.5rem));
+  padding: 1.1rem 1.25rem 1.25rem;
+  background: #fff;
+  color: #1f2937;
+  border: 1px solid #e6e2da;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(17, 24, 39, 0.22);
+  font-family: "Source Sans 3", system-ui, sans-serif;
+}
+
+body:has(.floating-filter-btn) .search-panel {
+  --fsb-bottom: calc(1.25rem + 56px + 0.75rem);
+}
+
+.search-panel[hidden] {
+  display: none;
+}
+
+.search-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.search-panel-title {
+  margin: 0;
+  color: inherit;
+  font-family: "Merriweather", serif;
+  font-size: 1.1rem;
+}
+
+.search-panel-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #e6e2da;
+  border-radius: 50%;
+  background: #fff;
+  color: #1f2937;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.search-panel-close:hover {
+  border-color: #059669;
+  color: #059669;
+}
+
+.search-panel-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.search-panel-field {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: default;
+}
+
+.search-panel-field select,
+.search-panel-field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #d6d1c7;
+  border-radius: 999px;
+  background: #fff;
+  color: #1f2937;
+  font: inherit;
+  font-weight: 400;
+  font-size: 1rem;
+  transition: border-color 150ms ease;
+}
+
+.search-panel-field select:hover,
+.search-panel-field input:hover {
+  border-color: #059669;
+}
+
+.search-panel-submit {
+  height: 46px;
+  border: 0;
+  border-radius: 999px;
+  background: #10b981;
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+.search-panel-submit:hover {
+  background: #059669;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.search-panel-field select:focus-visible,
+.search-panel-field input:focus-visible,
+.search-panel-close:focus-visible,
+.search-panel-submit:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+body.theme-dark .search-panel {
+  background: #1c1a17;
+  color: #e8e8e8;
+  border-color: #2e2a24;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+body.theme-dark .search-panel-close,
+body.theme-dark .search-panel-field select,
+body.theme-dark .search-panel-field input {
+  background: #141210;
+  border-color: #3a352d;
+  color: #e8e8e8;
+}
+
+body.theme-dark .search-panel-close:hover {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+/* Phones: icon-only button, and the panel becomes a full-width sheet
+   pinned to the bottom of the screen (over the button). */
+@media (max-width: 639px) {
+  .floating-search-btn {
+    width: 52px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .floating-search-btn .floating-search-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .search-panel,
+  body:has(.floating-filter-btn) .search-panel {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    padding: 1rem 1rem calc(1.25rem + env(safe-area-inset-bottom));
+    border-width: 1px 0 0;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -12px 40px rgba(17, 24, 39, 0.25);
+  }
+}
