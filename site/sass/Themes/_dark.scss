@@ -186,6 +186,10 @@ body.theme-dark {
     }
   }
 
+  .form-field-checks legend {
+    color: var(--dark-ink);
+  }
+
   .form-shell-banner {
     background: var(--dark-elev);
     color: var(--dark-ink);

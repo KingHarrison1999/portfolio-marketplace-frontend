@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const titleInput = document.getElementById('title');
   const categorySelect = document.getElementById('category');
   const conditionSelect = document.getElementById('condition');
+  const seasonInputs = Array.from(document.querySelectorAll('#seasons-field input[name="seasons"]'));
   const priceInput = document.getElementById('price');
   const quantityInput = document.getElementById('quantity');
   const descriptionInput = document.getElementById('description');
@@ -187,6 +188,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       description: descriptionInput.value.trim() || undefined,
       category_id: categorySelect.value || undefined,
       condition: conditionSelect.value || undefined,
+      // Always sent, so unticking every box clears them on edit.
+      seasons: seasonInputs.filter((input) => input.checked).map((input) => input.value),
       // Both sent as the raw trimmed string, not Number()-coerced: an
       // invalid value should surface the backend's real cast/CHECK error,
       // not silently become NaN -> JSON null (which e.g. "Number('abc')"
@@ -306,6 +309,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     descriptionInput.value = listing.description || '';
     categorySelect.value = listing.category_id || '';
     conditionSelect.value = listing.condition || '';
+    const seasons = listing.seasons || [];
+    seasonInputs.forEach((input) => {
+      input.checked = seasons.includes(input.value);
+    });
     priceInput.value = listing.price ?? '';
     quantityInput.value = listing.stock ?? 0;
     existingImages = listing.images || [];

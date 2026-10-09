@@ -210,6 +210,52 @@
   }
 }
 
+// A row of checkboxes as one field: <fieldset class="form-field
+// form-field-checks"> with a <legend> (the listing form's Season). Undoes
+// the text-input box styling above for the checkboxes themselves.
+.form-field-checks {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+
+  legend {
+    padding: 0;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #0f172a;
+  }
+
+  .form-field-check-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+
+  label.form-field-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 400;
+    font-size: 0.95rem;
+  }
+
+  input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    accent-color: #10b981;
+
+    &:focus-visible {
+      outline: 2px solid #10b981;
+      outline-offset: 2px;
+    }
+  }
+}
+
 // Search-as-you-type user picker (admin ad-spaces owner field): a results
 // dropdown that renders directly under the search input, plus a small
 // "chip" showing the currently selected user with a Clear button.
