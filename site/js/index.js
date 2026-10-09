@@ -1,8 +1,10 @@
-// Wires the homepage's "Browse by Category", "Top Sellers", "Recently
-// Added", and the larger "shop results" product grid to the real backend
-// (GET /api/categories, GET /api/listings?sort=newest), plus the
-// hero/toolbar search boxes (real navigation to browse.html?q=..., not a
-// data fetch of their own). The header and its menu are js/masthead.js.
+// Wires the homepage's "Top Sellers", "Recently Added" and "Popular This
+// Week" to the real backend (GET /api/listings?sort=newest, GET
+// /api/listings/popular-this-week), the "Shop by Category" cards to the
+// category tree, plus the hero search box (real navigation to
+// browse.html?q=..., not a data fetch of its own). The header and its menu
+// are js/masthead.js. The Buy / Sell, Shop by Price and Shop by Season
+// sections are plain links in index.html.
 //
 // NOT wired, and flagged rather than faked: "Your Recently Viewed Items"
 // (would need per-visitor view-history tracking, which doesn't exist
@@ -16,62 +18,11 @@
 // claim any rating or sales count, just a seller name, so it's wired to a
 // real (if simple) signal: sellers with the most active listings right now.
 
-const PLACEHOLDER_ICON_SVG =
-  'data:image/svg+xml,' +
-  encodeURIComponent(
-    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' fill='#f3f4f6'/><circle cx='8' cy='8' r='2' fill='#d1d5db'/><path d='M3 18l5-6 4 4 3-4 6 6z' fill='#d1d5db'/></svg>",
-  );
-
-async function loadHomepageCategories() {
-  const section = document.getElementById('browse-by-category-section');
-  const grid = document.getElementById('homepage-category-grid');
-  if (!section || !grid) return;
-
-  // A cold/unreachable backend makes fetch() reject outright -- hide the
-  // section rather than leave an empty grid and an uncaught error.
-  let body;
-  try {
-    const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    body = await res.json();
-  } catch (err) {
-    console.warn('index: failed to load Browse by Category.', err);
-    section.hidden = true;
-    return;
-  }
-
-  // Homepage tile is top-level-only; subcategories only show grouped in the
-  // browse-page filter (js/browse.js), not flattened in here.
-  const categories = (body.categories || []).filter((cat) => !cat.parent_id);
-
-  if (categories.length === 0) {
-    section.hidden = true;
-    return;
-  }
-
-  grid.innerHTML = '';
-  for (const cat of categories) {
-    const a = document.createElement('a');
-    a.href = `browse.html?category_id=${encodeURIComponent(cat.id)}`;
-    a.className = 'cat';
-    a.textContent = cat.name;
-
-    const img = document.createElement('img');
-    img.src = PLACEHOLDER_ICON_SVG;
-    img.alt = '';
-    a.appendChild(img);
-
-    grid.appendChild(a);
-  }
-}
-
 // Cards come from js/shop-card.js (window.ShopCard), shared with browse.html.
 
-// Resolves to the ids it rendered, so loadShopGrid() can leave them out
-// (empty array if nothing was shown).
 async function loadRecentlyAdded() {
   const track = document.getElementById('recently-added-track');
-  if (!track) return [];
+  if (!track) return;
 
   // A cold or unreachable backend makes fetch() reject outright rather than
   // return a non-2xx response. Hide the whole section in that case instead
@@ -86,26 +37,99 @@ async function loadRecentlyAdded() {
   } catch (err) {
     console.warn('index: failed to load recently added listings.', err);
     if (recentSection) recentSection.hidden = true;
-    return [];
+    return;
   }
 
   if (listings.length === 0) {
     track.innerHTML = '<p class="carousel-loading">No listings yet.</p>';
-    return [];
+    return;
   }
 
   track.innerHTML = '';
   for (const listing of listings) {
     track.appendChild(window.ShopCard.render(listing, { showCondition: false }));
   }
-  return listings.map((listing) => listing.id);
+}
+
+// "Popular This Week": 8 listings ranked by units sold in the last 7 days,
+// topped up with a selection that changes weekly -- the ranking is done
+// server-side (GET /api/listings/popular-this-week). Same failure handling
+// as Recently Added: a cold or failing backend hides the section.
+async function loadPopularThisWeek() {
+  const section = document.getElementById('popular-week-section');
+  const track = document.getElementById('popular-week-track');
+  if (!section || !track) return;
+
+  let listings;
+  try {
+    const res = await window.MarketplaceAuth.fetchWithAuth('/api/listings/popular-this-week');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    listings = (await res.json()).listings || [];
+  } catch (err) {
+    console.warn('index: failed to load popular listings.', err);
+    section.hidden = true;
+    return;
+  }
+
+  if (listings.length === 0) {
+    track.innerHTML = '<p class="carousel-loading">No listings yet.</p>';
+    return;
+  }
+
+  track.innerHTML = '';
+  for (const listing of listings) {
+    track.appendChild(window.ShopCard.render(listing, { showCondition: false }));
+  }
+}
+
+// Arrows for a product carousel: scroll by one card (card width + the
+// track's gap). Same behaviour as Recently Added's arrows in index.html.
+function wireCarouselArrows(section) {
+  const track = section.querySelector('.carousel-track');
+  const prev = section.querySelector('.carousel-prev');
+  const next = section.querySelector('.carousel-next');
+  if (!track || !prev || !next) return;
+  const step = () => {
+    const card = track.querySelector('.product');
+    return card ? card.offsetWidth + parseFloat(getComputedStyle(track).columnGap || 0) : track.clientWidth;
+  };
+  prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+}
+
+// "Shop by Category": a card's data-category-slugs names one or more
+// categories; the link gets every id in each one's subtree (listings sit in
+// leaf categories and the API matches category_id exactly), the same shape
+// as the masthead's category links. Until the tree loads, or if it fails,
+// the cards keep their plain browse.html href.
+async function wireCategoryCards() {
+  const cards = document.querySelectorAll('.shop-by-category [data-category-slugs]');
+  if (cards.length === 0 || !window.MarketplaceCategories) return;
+
+  let tree;
+  try {
+    tree = await window.MarketplaceCategories;
+  } catch (err) {
+    console.warn('index: categories unavailable for Shop by Category.', err);
+    return;
+  }
+
+  const bySlug = new Map([...tree.byId.values()].map((cat) => [cat.slug, cat]));
+  for (const card of cards) {
+    const params = new URLSearchParams();
+    for (const slug of card.dataset.categorySlugs.split(' ')) {
+      const cat = bySlug.get(slug);
+      if (!cat) continue;
+      for (const id of tree.subtreeIds(cat)) params.append('category_id', id);
+    }
+    if (params.toString()) card.href = `browse.html?${params.toString()}`;
+  }
 }
 
 // "Top Sellers" pill row -- previously 8 hardcoded fake old-catalog-era
 // business names (e.g. "Modeller's Hub • Manchester"), separate from and
-// stale relative to the real listing grid below it. Reuses the same
-// public GET /api/listings the shop grid already fetches (each listing
-// row carries its own seller_id), tallies which sellers currently have
+// stale relative to the real listings. Uses the public GET /api/listings
+// (each listing row carries its own seller_id), tallies which sellers currently have
 // the most active listings, then looks up just those sellers' real names
 // via the public profiles_public view (id, display_name only -- the same
 // view and pattern js/listing.js already uses for a listing's seller
@@ -264,152 +288,18 @@ async function renderTopSellers(track) {
   }
 }
 
-// The larger "shop results" grid further down the homepage -- previously
-// 16 hardcoded fake products whose "Shop Now" links had no ?id= and always
-// 404'd. Real data, the same card as browse.html (js/shop-card.js). The
-// sidebar filters (wireShopFilters below) refilter it in place; the sort
-// dropdown above it is still decorative only.
-//
-// FALLBACK_LISTINGS below exists because the live backend is a Railway
-// project that gets suspended between billing cycles -- when that happens
-// this fetch fails and the homepage would otherwise show a dead "Failed to
-// load listings" message instead of a real product grid. Unlike the old
-// hardcoded set this removed, these fallback cards link to browse.html
-// (not a fake ?id=) so they never 404.
-// recentIdsPromise: what loadRecentlyAdded() resolves to. Those listings
-// are left out here so the two sections never show the same card; the
-// request asks for 8 extra so the grid can still fill its 16 slots.
-// isCurrent: false once a newer sidebar filter change has taken over the grid.
-async function loadShopGrid(recentIdsPromise = Promise.resolve([]), isCurrent = () => true) {
-  const grid = document.getElementById('homepage-shop-grid');
-  if (!grid) return;
-
-  try {
-    const [res, recentIds] = await Promise.all([
-      window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=24'),
-      recentIdsPromise.catch(() => []),
-    ]);
-    if (!isCurrent()) return;
-    if (!res.ok) throw new Error(`listings request failed: ${res.status}`);
-
-    const body = await res.json();
-    const all = body.listings || [];
-    if (all.length === 0) throw new Error('no listings returned');
-
-    const shownAbove = new Set(recentIds);
-    const listings = all.filter((listing) => !shownAbove.has(listing.id)).slice(0, 16);
-    if (listings.length === 0) {
-      // Everything live is already in Recently Added -- say so rather than
-      // repeat those cards or fall back to the static ones.
-      grid.innerHTML = '<p class="results-empty">That\'s everything for now. <a href="browse.html">Browse all listings</a></p>';
-      return;
-    }
-
-    grid.innerHTML = '';
-    for (const listing of listings) {
-      grid.appendChild(window.ShopCard.render(listing));
-    }
-  } catch (err) {
-    if (!isCurrent()) return;
-    console.warn('loadShopGrid: live listings unavailable, showing static fallback cards.', err);
-    grid.innerHTML = '';
-    for (const item of FALLBACK_LISTINGS) {
-      grid.appendChild(buildFallbackCard(item));
-    }
-  }
-}
-
-// The homepage sidebar (1024px and wider): the shared filters from
-// js/shop-filters.js, applied to the shop grid as they change. With any
-// filter set the grid shows every match (Recently Added overlap included);
-// cleared, it goes back to the default grid.
-function wireShopFilters(recentIdsPromise) {
-  const host = document.getElementById('homepage-filters');
-  const grid = document.getElementById('homepage-shop-grid');
-  if (!host || !grid) return;
-
-  let requestId = 0;
-  window.ShopFilters.mount(host, {
-    idPrefix: 'homepage-filters',
-    onChange: async (state) => {
-      const thisRequest = ++requestId;
-      if (window.ShopFilters.isEmpty(state)) {
-        loadShopGrid(recentIdsPromise, () => thisRequest === requestId);
-        return;
-      }
-      grid.innerHTML = '<p class="results-loading">Loading listings&hellip;</p>';
-      try {
-        const listings = await window.ShopFilters.fetchListings(state);
-        if (thisRequest !== requestId) return; // a newer change won
-        grid.innerHTML = '';
-        if (listings.length === 0) {
-          grid.innerHTML =
-            '<p class="results-empty">Nothing here yet. New items are added all the time. <a href="browse.html">Browse All</a></p>';
-          return;
-        }
-        for (const listing of listings) grid.appendChild(window.ShopCard.render(listing));
-      } catch (err) {
-        if (thisRequest !== requestId) return;
-        console.warn('index: failed to load filtered listings.', err);
-        grid.innerHTML = '<p class="results-empty">Failed to load listings. Please try again.</p>';
-      }
-    },
-  });
-}
-
-// Real product photos already in site/Images/, reused here so the fallback
-// grid looks identical in quality to live data -- just not live.
-const FALLBACK_LISTINGS = [
-  { title: 'Wool Herringbone Overcoat', price: 68.0, image: 'Wool Herringbone Overcoat.jpg' },
-  { title: 'Tan Leather Biker Jacket', price: 54.0, image: 'Tan Leather Biker Jacket.jpg' },
-  { title: 'Emerald Velvet Evening Dress', price: 42.0, image: 'Emerald Velvet Evening Dress.jpg' },
-  { title: 'Structured Leather Satchel Bag', price: 36.0, image: 'Structured Leather Satchel Bag.jpg' },
-  { title: 'Striped Cotton Boat-Neck Top', price: 18.0, image: 'Striped Cotton Boat-Neck Top.jpg' },
-  { title: 'Wide-Leg Corduroy Trousers', price: 28.0, image: 'Wide-Leg Corduroy Trousers.jpg' },
-  { title: 'Silk Pussy-Bow Blouse', price: 24.0, image: 'Silk Pussy-Bow Blouse.jpg' },
-  { title: 'Brown Leather Ankle Boots', price: 46.0, image: 'Brown Leather Ankle Boots.jpg' },
-  { title: 'Polka Dot Shirt Dress', price: 22.0, image: 'Polka Dot Shirt Dress.jpg' },
-  { title: 'Leather Chelsea Boots', price: 38.0, image: 'Leather Chelsea Boots.jpg' },
-  { title: 'Pearl Drop Earrings', price: 12.0, image: 'Pearl Drop Earrings vintage.jpg' },
-  { title: "Men's Wind-Up Wristwatch", price: 32.0, image: "Men's Wind-Up Wristwatch vintage.jpg" },
-  { title: 'Floral Midi Tea Dress', price: 20.0, image: 'Floral Midi Tea Dress.jpg' },
-  { title: 'Pleated Tartan Mini Skirt', price: 16.0, image: 'Pleated Tartan Mini Skirt.jpg' },
-  { title: 'Lace Trim Camisole Top', price: 14.0, image: 'Lace Trim Camisole top.jpg' },
-  { title: 'Silk Scarf, Paisley Print', price: 10.0, image: 'Silk Scarf Paisley Print.jpg' },
-];
-
-// No real listing id behind these, so the whole card goes to browse.html.
-function buildFallbackCard(item) {
-  return window.ShopCard.renderStatic({
-    href: 'browse.html',
-    title: item.title,
-    price: item.price,
-    imageUrl: `Images/${encodeURIComponent(item.image)}`,
-  });
-}
-
-// Hero, toolbar, and mobile-drawer search boxes previously had no submit
-// handler at all -- submitting just reloaded the page and dropped the
-// query. All three now send the visitor to the real browse page's search
+// The hero search box sends the visitor to the real browse page's search
 // (browse.html?q=... -- see js/browse.js reading the same param).
 function wireSearchForms() {
-  const forms = [
-    ['hero-search-form', 'hero-search-input'],
-    ['toolbar-search-form', 'toolbar-search-input'],
-    ['mobile-search-form', 'mobile-search-input'],
-  ];
+  const form = document.getElementById('hero-search-form');
+  const input = document.getElementById('hero-search-input');
+  if (!form || !input) return;
 
-  for (const [formId, inputId] of forms) {
-    const form = document.getElementById(formId);
-    const input = document.getElementById(inputId);
-    if (!form || !input) continue;
-
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const q = input.value.trim();
-      window.location.href = q ? `browse.html?q=${encodeURIComponent(q)}` : 'browse.html';
-    });
-  }
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const q = input.value.trim();
+    window.location.href = q ? `browse.html?q=${encodeURIComponent(q)}` : 'browse.html';
+  });
 }
 
 async function loadHeroAds() {
@@ -460,11 +350,12 @@ async function loadHeroAds() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadHomepageCategories();
   loadTopSellers();
-  const recentIds = loadRecentlyAdded();
-  loadShopGrid(recentIds);
-  wireShopFilters(recentIds);
+  loadRecentlyAdded();
+  loadPopularThisWeek();
+  const popular = document.getElementById('popular-week-section');
+  if (popular) wireCarouselArrows(popular);
+  wireCategoryCards();
   loadHeroAds();
   wireSearchForms();
 });

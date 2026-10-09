@@ -48,7 +48,6 @@ body.home.theme-dark .masthead {
 }
 
 body.home.theme-dark .feature.block,
-body.home.theme-dark .filters,
 body.home.theme-dark .card {
   background: #1c1a17;
   color: #e8e8e8;
@@ -341,7 +340,8 @@ body.home .carousel-hero .overlay .search.wide button {
 }
 
 body.home .hero-section + main.container,
-body.home .hero-section + .container {
+body.home .hero-section + .container,
+body.home .hero-section + .home-main > .container:first-child {
   padding-top: 0.5rem;
 }
 
@@ -526,45 +526,12 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   padding: 0.4rem 0.55rem;
 }
 
-/* The reference Design 3 page has exactly 8 top-level categories filling
-   an 8-column grid edge to edge; this marketplace has only 3 (Men, Women,
-   Junior), so the same fixed 8-column track would leave 5/8 of the row
-   empty. auto-fit keeps the identical card look/spacing/hover below but
-   sizes the columns to however many categories actually exist. */
-.browse-by-category .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 0.5rem;
-}
-
-.browse-by-category .grid a {
-  text-decoration: none;
-  color: #1f2937;
-  background: white;
-  border: 1px solid #e6e2da;
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  aspect-ratio: 1/1;
-  transition: all 200ms ease;
-}
-
-.browse-by-category .grid a:hover {
-  border-color: #059669;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
 /* Top Sellers + Recently Added carousels -- same markup/class structure as
    sass/Components/_carousel.scss (.top-sellers .carousel-shell,
    .recently-added.product-carousel .carousel-track/.carousel-banner), which
    this page doesn't load, restyled with Design 3's tokens: #e6e2da borders,
    12px cards with soft shadows, Merriweather card titles, green accents.
-   Cards stay light in dark mode, same as the shop grid and category tiles. */
+   Cards stay light in dark mode, same as browse.html's shop grid. */
 .top-sellers,
 .recently-added.product-carousel {
   margin-top: 1.5rem;
@@ -652,7 +619,7 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
 }
 
 .top-sellers .carousel-nav,
-.recently-added .carousel-btn {
+:is(.recently-added, .popular-week) .carousel-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -670,13 +637,13 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
 }
 
 .top-sellers .carousel-nav:hover,
-.recently-added .carousel-btn:hover {
+:is(.recently-added, .popular-week) .carousel-btn:hover {
   border-color: #059669;
   color: #059669;
 }
 
 .top-sellers .carousel-nav:focus-visible,
-.recently-added .carousel-btn:focus-visible {
+:is(.recently-added, .popular-week) .carousel-btn:focus-visible {
   outline: 2px solid #10b981;
   outline-offset: 2px;
 }
@@ -731,13 +698,13 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   transform: translateY(-1px);
 }
 
-.recently-added .carousel-viewport {
+:is(.recently-added, .popular-week) .carousel-viewport {
   position: relative;
   flex: 1;
   min-width: 0;
 }
 
-.recently-added .carousel-track {
+:is(.recently-added, .popular-week) .carousel-track {
   display: flex;
   gap: 20px;
   overflow-x: auto;
@@ -747,12 +714,12 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   padding: 0.5rem 0.25rem 1.25rem;
 }
 
-.recently-added .carousel-track::-webkit-scrollbar {
+:is(.recently-added, .popular-week) .carousel-track::-webkit-scrollbar {
   display: none;
 }
 
-/* Same look as the shop grid card below (Styles/shop.css .shop-grid) */
-.recently-added .carousel-track .product {
+/* Same look as browse.html's shop grid card (Styles/shop.css .shop-grid) */
+:is(.recently-added, .popular-week) .carousel-track .product {
   scroll-snap-align: start;
   flex: 0 0 240px;
   background: #fff;
@@ -765,13 +732,13 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   transition: all 0.3s ease;
 }
 
-.recently-added .carousel-track .product:hover {
+:is(.recently-added, .popular-week) .carousel-track .product:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
 
-.recently-added .carousel-track .product img,
-.recently-added .carousel-track .product .product-image-placeholder {
+:is(.recently-added, .popular-week) .carousel-track .product img,
+:is(.recently-added, .popular-week) .carousel-track .product .product-image-placeholder {
   width: 100%;
   aspect-ratio: 4/3;
   object-fit: cover;
@@ -780,7 +747,7 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   margin-bottom: 12px;
 }
 
-.recently-added .carousel-track .product .product-image-placeholder {
+:is(.recently-added, .popular-week) .carousel-track .product .product-image-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -789,7 +756,7 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   font-size: 2rem;
 }
 
-.recently-added .carousel-track .product h3 {
+:is(.recently-added, .popular-week) .carousel-track .product h3 {
   font-family: "Merriweather", serif;
   font-size: 1.05rem;
   font-weight: 700;
@@ -798,13 +765,13 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   margin: 0 0 8px;
 }
 
-.recently-added .carousel-track .product .meta {
+:is(.recently-added, .popular-week) .carousel-track .product .meta {
   color: #6b7280;
   font-size: 0.9rem;
   margin: 0 0 16px;
 }
 
-.recently-added .carousel-track .product .btn {
+:is(.recently-added, .popular-week) .carousel-track .product .btn {
   margin-top: auto;
   background: #10b981;
   color: #fff;
@@ -817,25 +784,25 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   transition: all 0.2s ease;
 }
 
-.recently-added .carousel-track .product .btn:hover,
-.recently-added .carousel-track .product:hover .btn {
+:is(.recently-added, .popular-week) .carousel-track .product .btn:hover,
+:is(.recently-added, .popular-week) .carousel-track .product:hover .btn {
   background: #059669;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
 
-.recently-added .carousel-btn {
+:is(.recently-added, .popular-week) .carousel-btn {
   position: absolute;
   top: calc(50% - 0.5rem);
   transform: translateY(-50%);
   z-index: 2;
 }
 
-.recently-added .carousel-prev {
+:is(.recently-added, .popular-week) .carousel-prev {
   left: -0.5rem;
 }
 
-.recently-added .carousel-next {
+:is(.recently-added, .popular-week) .carousel-next {
   right: -0.5rem;
 }
 
@@ -846,91 +813,15 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
 }
 
 @media (max-width: 639px) {
-  .recently-added .carousel-track .product {
+  :is(.recently-added, .popular-week) .carousel-track .product {
     flex-basis: min(75vw, 220px);
   }
   .top-sellers .carousel-nav,
-  .recently-added .carousel-btn {
+  :is(.recently-added, .popular-week) .carousel-btn {
     width: 34px;
     height: 34px;
   }
 }
-
-.shop.two-col {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.shop.two-col .filters {
-  background: white;
-  border: 1px solid #e6e2da;
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  position: sticky;
-  top: 68px;
-}
-
-.shop.two-col .results .toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  border: 1px solid #e6e2da;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  /* Sort + search side by side are ~500px wide. Unwrapped, that min-content
-     widened the shop's 1fr grid column past the viewport on phones. */
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.shop.two-col .grid.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-}
-
-.shop.two-col .grid.cards .card {
-  background: white;
-  border: 1px solid #e6e2da;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  display: grid;
-  gap: 0.35rem;
-}
-
-.shop.two-col .grid.cards .card img {
-  width: 100%;
-  height: 160px;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-
-.shop.two-col .grid.cards .card h3,
-.shop.two-col .grid.cards .card p {
-  margin: 0;
-  padding: 0 0.6rem;
-}
-
-.shop.two-col .grid.cards .card p {
-  padding-bottom: 0.35rem;
-  color: #6b7280;
-}
-
-.shop.two-col .grid.cards .card button {
-  margin: 0 0.6rem 0.6rem;
-  background: #059669;
-  color: white;
-  border: 0;
-  border-radius: 0.35rem;
-  padding: 0.45rem 0.6rem;
-}
-
-/* The shop grid and its cards (.shop-grid) moved to Styles/shop.css, shared
-   with browse.html. */
 
 @media (max-width: 1024px) {
   .features-grid {
@@ -942,53 +833,12 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   .features-grid .feature.block:has(.ad) {
     grid-column: span 2;
   }
-  .shop.two-col {
-    grid-template-columns: 1fr;
-  }
-  .shop.two-col .filters {
-    display: none;
-  }
   .recently-viewed .rv-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-/* Tablet-only: Remove excess gap between Browse by Category and Shop section */
-@media (min-width: 768px) and (max-width: 1023px) {
-  body.home .browse-by-category {
-    margin-bottom: 0;
-  }
-  body.home .shop.two-col {
-    margin-top: 0.25rem;
-  }
-}
-/* Mobile and Tablet: Remove filter button and modal entirely */
-@media (max-width: 1024px) {
-  body.home .shop.two-col .filters h3 {
-    display: none;
-  }
-  body.home .filter-toggle-btn,
-  body.home .filter-modal,
-  body.home #filterModal {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    position: absolute !important;
-    left: -9999px !important;
-    width: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-  }
-}
-/* Design 3 Shop Section - Responsive Grid */
-@media (min-width: 1024px) {
-  body.home .filter-toggle-btn,
-  body.home .filter-modal {
-    display: none;
-  }
-}
 /* ---- Additions for the portfolio marketplace homepage ---- */
-/* (offcanvas menu, filter internals, and small pieces the original
+/* (offcanvas menu and small pieces the original
    demo didn't need — the rest of this file above is untouched
    from the archived Design 3 stylesheet.) */
 
@@ -1136,296 +986,6 @@ body.home.theme-dark .offcanvas .panel .close {
   color: #fff;
 }
 
-/* Filter sidebar internals (container box already styled above) */
-.filters h3 {
-  font-family: "Merriweather", serif;
-  margin: 0 0 0.75rem;
-}
-.filters label {
-  display: block;
-  font-size: 0.9rem;
-  margin-bottom: 0.35rem;
-}
-.filters .price-slider {
-  width: 100%;
-  accent-color: #059669;
-}
-.filters .price-display {
-  display: inline-block;
-  margin: 0.6rem 0 0;
-  padding: 0.2rem 0.7rem;
-  border-radius: 999px;
-  background: #ecfdf5;
-  color: #059669;
-  font-weight: 600;
-  font-size: 0.85rem;
-}
-
-/* Condition/Size as clickable pill chips rather than plain checkbox rows
-   -- the checkboxes stay in the DOM and functional (label-click still
-   toggles them, they still submit with the form) but are visually
-   replaced by the label's own chip styling. A divider + top padding
-   separates each section (Price / Condition / Size) from the one above. */
-.filters .conditions,
-.filters .sizes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  border: 0;
-  border-top: 1px solid #e6e2da;
-  padding: 1rem 0 0;
-  margin: 1rem 0 0;
-}
-.filters .conditions legend,
-.filters .sizes legend {
-  width: 100%;
-  font-weight: 700;
-  padding: 0;
-  margin-bottom: 0.5rem;
-}
-.filters .conditions label,
-.filters .sizes label {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid #e6e2da;
-  border-radius: 999px;
-  font-weight: 500;
-  font-size: 0.85rem;
-  color: #1f2937;
-  cursor: pointer;
-  transition: all 150ms ease;
-}
-.filters .conditions label:hover,
-.filters .sizes label:hover {
-  border-color: #059669;
-}
-.filters .conditions label:has(input:checked),
-.filters .sizes label:has(input:checked) {
-  background: #059669;
-  border-color: #059669;
-  color: white;
-  font-weight: 600;
-}
-.filters .conditions label input,
-.filters .sizes label input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: 0;
-  opacity: 0;
-}
-.filters .conditions label:has(input:focus-visible),
-.filters .sizes label:has(input:focus-visible) {
-  outline: 2px solid #059669;
-  outline-offset: 2px;
-}
-
-body.home.theme-dark .filters .price-display {
-  background: #242019;
-  color: #34d399;
-}
-body.home.theme-dark .filters .conditions,
-body.home.theme-dark .filters .sizes {
-  border-top-color: #2e2a24;
-}
-body.home.theme-dark .filters .conditions label,
-body.home.theme-dark .filters .sizes label {
-  border-color: #2e2a24;
-  color: #e8e8e8;
-}
-body.home.theme-dark .filters .conditions label:hover,
-body.home.theme-dark .filters .sizes label:hover {
-  border-color: #059669;
-}
-body.home.theme-dark .filters .conditions label:has(input:checked),
-body.home.theme-dark .filters .sizes label:has(input:checked) {
-  background: #059669;
-  border-color: #059669;
-  color: white;
-}
-
-/* Toolbar search box (inside .shop.two-col .results .toolbar) */
-.results .toolbar .search.small {
-  display: flex;
-  gap: 0.4rem;
-  min-width: 0;
-}
-.results .toolbar .search.small input {
-  min-width: 0;
-  border: 1px solid #e6e2da;
-  border-radius: 999px;
-  padding: 0.4rem 0.8rem;
-}
-/* Same green pill as .btn-primary (sass/Components/_buttons.scss), which
-   this page doesn't load -- values mirrored here. */
-.results .toolbar .search.small button {
-  border: 0;
-  background: #10b981;
-  color: #fff;
-  border-radius: 999px;
-  padding: 0.4rem 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.results .toolbar .search.small button:hover {
-  background: #059669;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-}
-.results .toolbar .search.small button:active {
-  transform: translateY(0);
-}
-.toolbar .sort {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.toolbar .sort label {
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.results .toolbar .sort select {
-  border: 1px solid #e6e2da;
-  border-radius: 0.35rem;
-  padding: 0.4rem 0.6rem;
-  background: #fff;
-  color: #1f2937;
-  font-weight: 500;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-}
-
-/* The toolbar bar itself had no dark-mode styling at all, so the sort
-   control would otherwise sit on a white strip even in dark mode. */
-body.home.theme-dark .shop.two-col .results .toolbar {
-  background: #1c1a17;
-  border-color: #2e2a24;
-}
-
-body.home.theme-dark .toolbar .sort label {
-  color: #e8e8e8;
-}
-
-body.home.theme-dark .results .toolbar .sort select {
-  background: #242019;
-  border-color: #2e2a24;
-  color: #e8e8e8;
-  box-shadow: none;
-}
-
-/* Custom listbox that js/custom-select.js builds in place of #sort1 --
-   native <select> option hover/highlight color can't be styled with CSS
-   in any browser, so this replaces the control itself to make that
-   hover color controllable (brand green instead of browser blue). The
-   underlying <select> stays in the DOM, hidden, for existing JS to keep
-   reading/writing its value. */
-.custom-select {
-  position: relative;
-  display: inline-block;
-}
-
-.custom-select-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  min-width: 170px;
-  border: 1px solid #e6e2da;
-  border-radius: 0.35rem;
-  padding: 0.4rem 0.6rem;
-  background: #fff;
-  color: #1f2937;
-  font: inherit;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-}
-
-.custom-select-trigger:hover {
-  border-color: #059669;
-}
-
-.custom-select-trigger:focus-visible {
-  outline: 2px solid #059669;
-  outline-offset: 2px;
-}
-
-.custom-select-caret {
-  font-size: 0.7rem;
-  color: #6b7280;
-  transition: transform 150ms ease;
-}
-
-.custom-select.is-open .custom-select-caret {
-  transform: rotate(180deg);
-}
-
-.custom-select-menu {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  z-index: 20;
-  margin: 0;
-  padding: 0.25rem;
-  list-style: none;
-  background: #fff;
-  border: 1px solid #e6e2da;
-  border-radius: 0.35rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-.custom-select-option {
-  padding: 0.45rem 0.6rem;
-  border-radius: 0.3rem;
-  font-size: 0.95rem;
-  color: #1f2937;
-  cursor: pointer;
-}
-
-.custom-select-option:hover,
-.custom-select-option.is-highlighted {
-  background: #ecfdf5;
-  color: #047857;
-}
-
-.custom-select-option[aria-selected="true"] {
-  font-weight: 600;
-  color: #059669;
-}
-
-body.home.theme-dark .custom-select-trigger {
-  background: #242019;
-  border-color: #2e2a24;
-  color: #e8e8e8;
-  box-shadow: none;
-}
-
-body.home.theme-dark .custom-select-menu {
-  background: #1c1a17;
-  border-color: #2e2a24;
-}
-
-body.home.theme-dark .custom-select-option {
-  color: #e8e8e8;
-}
-
-body.home.theme-dark .custom-select-option:hover,
-body.home.theme-dark .custom-select-option.is-highlighted {
-  background: #2e2a24;
-  color: #34d399;
-}
-
-body.home.theme-dark .custom-select-option[aria-selected="true"] {
-  color: #34d399;
-}
-
 /* Hero ad slot (hidden until js/index.js populates it) */
 .hero-ads {
   margin-top: 0.75rem;
@@ -1567,12 +1127,7 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a:hover {
   color: #059669;
 }
 
-.filters .price-slider:hover {
-  accent-color: #047857;
-  filter: brightness(0.92);
-}
-
-/* Whole-card product links (shop grid + Recently Added). The title's
+/* Whole-card product links (Recently Added + Popular This Week). The title's
    .card-link is the card's one real link; its ::after is stretched over the
    whole card, so the photo, price and the "Shop Now" span all open it, and
    middle-click / keyboard focus behave like any link. Same rule lives in
@@ -1662,3 +1217,288 @@ body.home.theme-dark .masthead .bar .hamburger {
   color: #e8e8e8;
 }
 
+
+/* ---- Below Recently Added: Buy / Sell, Shop by Category, Popular This
+   Week, Shop by Price, Shop by Season ---- */
+
+/* <main> holds a .container, the full-width Buy / Sell split, then another
+   .container (site-footer.css only widens body > main.container). */
+body.home > main.home-main {
+  width: 100%;
+}
+
+/* Section headings and spacing: same as Top Sellers. */
+.home-section {
+  margin-top: 1.5rem;
+}
+
+.home-section .section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.home-section .section-head h2 {
+  margin: 0.5rem 0;
+}
+
+/* Photo tiles (Buy / Sell panels, category and season cards). Each photo
+   is an inline background-image in index.html (a url() set from this file
+   would resolve against Styles/, not the page); the background colour shows
+   if one is missing. ::before is the dark overlay, which deepens on hover
+   and keyboard focus. */
+.photo-tile {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  color: #fff;
+  text-decoration: none;
+  background-color: #1f2937;
+  background-size: cover;
+  background-position: center;
+  isolation: isolate;
+}
+
+.photo-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.38);
+  transition: background-color 250ms ease;
+}
+
+.photo-tile:hover::before,
+.photo-tile:focus-visible::before {
+  background-color: rgba(0, 0, 0, 0.62);
+}
+
+.photo-tile:focus-visible {
+  outline: 3px solid #10b981;
+  outline-offset: 3px;
+}
+
+/* Buy / Sell: two full-bleed 50/50 panels, no gap. */
+.home-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 1.5rem;
+}
+
+.split-panel {
+  height: clamp(520px, 80vh, 860px);
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  box-sizing: border-box;
+}
+
+/* Edge to edge, so the focus ring sits inside the panel. */
+.split-panel:focus-visible {
+  outline-color: #fff;
+  outline-offset: -8px;
+}
+
+.split-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 34rem;
+}
+
+/* Buy: title and button at the bottom. Sell: button at the top. */
+.split-buy .split-content {
+  justify-content: flex-end;
+}
+
+.split-sell .split-content {
+  justify-content: flex-start;
+}
+
+.split-title {
+  font-family: "Merriweather", serif;
+  font-weight: 900;
+  font-size: clamp(1.9rem, 3.4vw, 3.25rem);
+  line-height: 1.12;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* Looks like a button; the whole panel is the link. */
+.split-btn {
+  display: inline-block;
+  background: #10b981;
+  color: #fff;
+  padding: 0.85rem 1.9rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: background-color 250ms ease, transform 250ms ease;
+}
+
+.split-panel:hover .split-btn,
+.split-panel:focus-visible .split-btn {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 767px) {
+  .home-split {
+    grid-template-columns: 1fr;
+  }
+  .split-panel {
+    height: 45vh;
+    min-height: 300px;
+  }
+}
+
+/* Shop by Category / Shop by Season: four landscape photo cards. */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.photo-card {
+  aspect-ratio: 3 / 2;
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  align-items: flex-start;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.photo-card-label {
+  font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 1023px) {
+  .photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 479px) {
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Shop by Price: five text cards, brand green accent; the card fills with
+   the accent on hover and keyboard focus. */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.price-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  min-height: 140px;
+  padding: 1.25rem 0.75rem;
+  border: 1px solid #e6e2da;
+  border-top: 4px solid #10b981;
+  border-radius: 12px;
+  background: #fff;
+  color: #1f2937;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  transition: background-color 250ms ease, border-color 250ms ease, color 250ms ease;
+}
+
+.price-card-under {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #059669;
+  transition: color 250ms ease;
+}
+
+.price-card-amount {
+  font-family: "Merriweather", serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  line-height: 1.1;
+}
+
+.price-card:hover,
+.price-card:focus-visible {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #fff;
+}
+
+.price-card:hover .price-card-under,
+.price-card:focus-visible .price-card-under {
+  color: #fff;
+}
+
+.price-card:focus-visible {
+  outline: 3px solid #059669;
+  outline-offset: 3px;
+}
+
+body.home.theme-dark .price-card {
+  background: #1c1a17;
+  border-color: #2e2a24;
+  border-top-color: #10b981;
+  color: #e8e8e8;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+body.home.theme-dark .price-card-under {
+  color: #34d399;
+}
+
+body.home.theme-dark .price-card:hover,
+body.home.theme-dark .price-card:focus-visible {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #fff;
+}
+
+body.home.theme-dark .price-card:hover .price-card-under,
+body.home.theme-dark .price-card:focus-visible .price-card-under {
+  color: #fff;
+}
+
+body.home.theme-dark .photo-tile:focus-visible,
+body.home.theme-dark .price-card:focus-visible {
+  outline-color: #34d399;
+}
+
+body.home.theme-dark .split-panel:focus-visible {
+  outline-color: #fff;
+}
+
+@media (max-width: 1023px) {
+  .price-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .price-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-tile::before,
+  .split-btn,
+  .price-card,
+  .price-card-under {
+    transition: none;
+  }
+}

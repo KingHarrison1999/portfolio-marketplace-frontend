@@ -1,6 +1,6 @@
-// The one product card used by the homepage (shop grid + Recently Added)
-// and browse.html. Styles: Styles/shop.css (.shop-grid) and, for Recently
-// Added, home.css.
+// The one product card used by the homepage (Recently Added, Popular This
+// Week) and browse.html. Styles: Styles/shop.css (.shop-grid) and, for the
+// homepage carousels, home.css.
 //
 // Whole-card link: the title is the card's one real <a>, and CSS stretches
 // its ::after over the entire card (photo, title, price, button), so
@@ -64,10 +64,5 @@
     });
   }
 
-  // A card with no real listing behind it (the homepage's offline fallback).
-  function renderStatic({ href, title, price: value, imageUrl }) {
-    return build({ href, title, metaText: price(value), imageUrl });
-  }
-
-  window.ShopCard = { render, renderStatic, conditionLabel, CONDITION_LABELS };
+  window.ShopCard = { render, conditionLabel, CONDITION_LABELS };
 })();

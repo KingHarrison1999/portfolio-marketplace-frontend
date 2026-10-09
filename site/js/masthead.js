@@ -626,9 +626,12 @@
     });
 
     // Step aside (fade out) while something clickable scrolls underneath the
-    // button: the footer newsletter form on every page, and listing.html's
-    // Buy / Add to Cart buttons on phones.
-    const obstacles = Array.from(document.querySelectorAll('.newsletter, .purchase-panel-actions'));
+    // button: the footer newsletter form on every page, listing.html's
+    // Buy / Add to Cart buttons on phones, and the homepage's Buy Now / Sell
+    // Now buttons and Popular This Week arrows.
+    const obstacles = Array.from(
+      document.querySelectorAll('.newsletter, .purchase-panel-actions, .home-split .split-btn, .popular-week .carousel-btn'),
+    );
     let dodgeQueued = false;
     function dodge() {
       dodgeQueued = false;
