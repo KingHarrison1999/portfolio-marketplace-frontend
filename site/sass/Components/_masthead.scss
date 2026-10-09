@@ -1,46 +1,39 @@
-// Homepage masthead (logo, hamburger, light/dark toggle, search combo) and
+// Homepage masthead (logo, hamburger, light/dark toggle) and
 // its off-canvas menu, ported from Styles/home.css so pages on
 // main.compiled.css can use the same header markup as index.html (listing.html
 // so far). Generated from home.css's .masthead / .offcanvas rules with
 // body.home.theme-dark -> body.theme-dark; keep the two in step.
 
-body.theme-dark .masthead,
-body.theme-dark .scroll-up-navbar {
+body.theme-dark .masthead {
   background: #0d0c0b;
   color: #e8e8e8;
   border-color: #2e2a24;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-body.theme-dark .masthead .bar .logo,
-body.theme-dark .scroll-up-navbar .bar .logo {
+body.theme-dark .masthead .bar .logo {
   color: #fff;
 }
 
-body.theme-dark .masthead .bar .mode-toggle.pill-toggle,
-body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle {
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle {
   background: #374151;
   border-color: #4b5563;
 }
 
-body.theme-dark .masthead .bar .mode-toggle.pill-toggle:hover,
-body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle:hover {
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle:hover {
   border-color: #059669;
 }
 
-body.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob,
-body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob {
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob {
   background: #1f2937;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-body.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon,
-body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
   color: #fbbf24;
 }
 
-body.theme-dark .masthead .bar .mode-toggle.pill-toggle[aria-pressed=true],
-body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=true] {
+body.theme-dark .masthead .bar .mode-toggle.pill-toggle[aria-pressed=true] {
   background: #059669;
   border-color: #059669;
 }
@@ -160,95 +153,6 @@ body.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=tru
 .masthead .bar .right {
   display: flex;
   gap: 0.5rem;
-}
-
-.masthead .utility {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.5rem 1rem;
-  border-top: 1px solid #e6e2da;
-}
-
-.masthead .utility .search.combo {
-  display: grid;
-  grid-template-columns: 220px 1fr auto;
-  gap: 0.5rem;
-}
-
-.masthead .utility .search.combo select,
-.masthead .utility .search.combo input {
-  border: 1px solid #e6e2da;
-  border-radius: 999px;
-  padding: 0.6rem 0.9rem;
-}
-
-.masthead .utility .search.combo button {
-  background: #059669;
-  color: white;
-  border: 0;
-  border-radius: 999px;
-  padding: 0.6rem 0.8rem;
-}
-
-@media (max-width: 639px) {
-  .masthead .utility .search.combo,
-    .scroll-up-navbar .utility .search.combo {
-      display: flex;
-      gap: 0.25rem;
-      align-items: stretch;
-      flex-wrap: nowrap;
-    }
-  .masthead .utility .search.combo select,
-    .scroll-up-navbar .utility .search.combo select {
-      flex: 0 0 auto;
-      min-width: 0;
-      max-width: 140px;
-      width: auto;
-      padding: 0.4rem 0.7rem;
-      font-size: 0.875rem;
-      border: 1px solid #e6e2da;
-      border-radius: 999px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  .masthead .utility .search.combo input,
-    .scroll-up-navbar .utility .search.combo input {
-      flex: 1 1 auto;
-      min-width: 0;
-      padding: 0.4rem 0.7rem;
-      font-size: 0.875rem;
-      border: 1px solid #e6e2da;
-      border-radius: 999px;
-    }
-  .masthead .utility .search.combo button,
-    .scroll-up-navbar .utility .search.combo button {
-      flex: 0 0 auto;
-      width: 40px;
-      min-width: 40px;
-      height: 40px;
-      padding: 0;
-      background: #059669;
-      color: white;
-      border: 0;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      position: relative;
-      overflow: hidden;
-      font-size: 0;
-      text-indent: -9999px;
-    }
-  .masthead .utility .search.combo button::before,
-    .scroll-up-navbar .utility .search.combo button::before {
-      content: "⌕";
-      font-size: 1.2rem;
-      line-height: 1;
-      position: absolute;
-      text-indent: 0;
-      color: white;
-    }
 }
 
 .offcanvas {
@@ -415,56 +319,34 @@ body.theme-dark .offcanvas .panel .close {
   color: #fff;
 }
 
-.masthead .utility .search.combo select,
-.scroll-up-navbar .utility .search.combo select {
-  min-width: 0;
-}
-
 .masthead .bar .logo,
-.scroll-up-navbar .bar .logo,
 .offcanvas .panel .logo {
   transition: color 0.2s ease;
 }
 
 .masthead .bar .logo:hover,
-.scroll-up-navbar .bar .logo:hover,
 .offcanvas .panel .logo:hover,
 body.theme-dark .masthead .bar .logo:hover,
-body.theme-dark .scroll-up-navbar .bar .logo:hover,
 body.theme-dark .offcanvas .panel .logo:hover {
   color: #059669;
 }
 
 .masthead .bar .hamburger,
-.scroll-up-navbar .bar .hamburger,
 .offcanvas .panel .close {
   transition: all 0.2s ease;
 }
 
 .masthead .bar .hamburger:hover,
-.scroll-up-navbar .bar .hamburger:hover,
 .offcanvas .panel .close:hover,
 body.theme-dark .offcanvas .panel .close:hover {
   border-color: #059669;
   color: #059669;
 }
 
-.masthead .utility .search.combo select,
-.masthead .utility .search.combo input {
-  transition: border-color 0.2s ease;
-}
-
-.masthead .utility .search.combo select:hover,
-.masthead .utility .search.combo input:hover {
-  border-color: #059669;
-}
-
-.masthead .utility .search.combo button,
 .carousel-hero .overlay .search.wide button {
   transition: all 0.2s ease;
 }
 
-.masthead .utility .search.combo button:hover,
 .carousel-hero .overlay .search.wide button:hover {
   background: #047857;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
@@ -525,10 +407,3 @@ body.theme-dark .masthead .bar .masthead-icon {
   }
 }
 
-// Same explicit Search-button type as home.css (the hamburger's is set
-// above), so the header is identical on every page.
-.masthead .utility .search.combo button {
-  font-family: "Source Sans 3", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-}

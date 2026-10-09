@@ -40,8 +40,7 @@ summary {
    tiers together. Accent tiles like the "Hearth & Mend" ad keep their own
    light background regardless of theme, by design -- nothing here touches
    them. */
-body.home.theme-dark .masthead,
-body.home.theme-dark .scroll-up-navbar {
+body.home.theme-dark .masthead {
   background: #0d0c0b;
   color: #e8e8e8;
   border-color: #2e2a24;
@@ -59,35 +58,29 @@ body.home.theme-dark .card {
 /* The hero sits directly under the navbar and is also near-black in dark
    mode (photo + a dark overlay), so without an explicit border/shadow
    here the two visually merge into one black mass. */
-body.home.theme-dark .masthead .bar .logo,
-body.home.theme-dark .scroll-up-navbar .bar .logo {
+body.home.theme-dark .masthead .bar .logo {
   color: #fff;
 }
 
-body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle,
-body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle {
   background: #374151;
   border-color: #4b5563;
 }
 
-body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle:hover,
-body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle:hover {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle:hover {
   border-color: #059669;
 }
 
-body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob,
-body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob {
   background: #1f2937;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon,
-body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
   color: #fbbf24;
 }
 
-body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle[aria-pressed=true],
-body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=true] {
+body.home.theme-dark .masthead .bar .mode-toggle.pill-toggle[aria-pressed=true] {
   background: #059669;
   border-color: #059669;
 }
@@ -207,173 +200,6 @@ body.home.theme-dark .scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-presse
 .masthead .bar .right {
   display: flex;
   gap: 0.5rem;
-}
-
-.masthead .utility {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.5rem 1rem;
-  border-top: 1px solid #e6e2da;
-}
-
-.masthead .utility .search.combo {
-  display: grid;
-  grid-template-columns: 220px 1fr auto;
-  gap: 0.5rem;
-}
-
-.masthead .utility .search.combo select,
-.masthead .utility .search.combo input {
-  border: 1px solid #e6e2da;
-  border-radius: 999px;
-  padding: 0.6rem 0.9rem;
-}
-
-.masthead .utility .search.combo button {
-  background: #059669;
-  color: white;
-  border: 0;
-  border-radius: 999px;
-  padding: 0.6rem 0.8rem;
-}
-
-.scroll-up-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background: white;
-  border-bottom: 1px solid #e6e2da;
-  z-index: 2000;
-  transform: translateY(-100%);
-  transition: transform 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.scroll-up-navbar.is-visible {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.scroll-up-navbar .bar {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.6rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.scroll-up-navbar .bar .logo {
-  font-family: "Merriweather", serif;
-  text-decoration: none;
-  color: #1f2937;
-  font-weight: 700;
-}
-
-.scroll-up-navbar .bar .hamburger {
-  border: 1px solid #e6e2da;
-  background: white;
-  border-radius: 0.35rem;
-  padding: 0.35rem 0.5rem;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle {
-  display: none !important;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle:hover {
-  border-color: #059669;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob {
-  position: absolute;
-  left: 2px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob .toggle-icon {
-  font-size: 0.75rem;
-  line-height: 1;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob .sun-icon {
-  display: block;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-knob .moon-icon {
-  display: none;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle .toggle-text {
-  display: none;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=true] {
-  background: #059669;
-  border-color: #059669;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=true] .toggle-knob {
-  transform: translateX(24px);
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=true] .toggle-knob .sun-icon {
-  display: none;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=true] .toggle-knob .moon-icon {
-  display: block;
-  color: white;
-}
-
-.scroll-up-navbar .bar .mode-toggle.pill-toggle[aria-pressed=false] .toggle-knob {
-  transform: translateX(0);
-}
-
-.scroll-up-navbar .bar .right {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.scroll-up-navbar .utility {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.5rem 1rem;
-  border-top: 1px solid #e6e2da;
-}
-
-.scroll-up-navbar .utility .search.combo {
-  display: grid;
-  grid-template-columns: 220px 1fr auto;
-  gap: 0.5rem;
-}
-
-.scroll-up-navbar .utility .search.combo select,
-.scroll-up-navbar .utility .search.combo input {
-  border: 1px solid #e6e2da;
-  border-radius: 999px;
-  padding: 0.6rem 0.9rem;
-}
-
-.scroll-up-navbar .utility .search.combo button {
-  background: #059669;
-  color: white;
-  border: 0;
-  border-radius: 999px;
-  padding: 0.6rem 0.8rem;
 }
 
 .hero-section {
@@ -1322,64 +1148,6 @@ body.home.theme-dark .shop.two-col .results .product-grid.uniform .product-image
   body.home .shop.two-col .results .product-grid.uniform {
     grid-template-columns: 1fr;
   }
-  body.home .masthead .utility .search.combo,
-  body.home .scroll-up-navbar .utility .search.combo {
-    display: flex;
-    gap: 0.25rem;
-    align-items: stretch;
-    flex-wrap: nowrap;
-  }
-  body.home .masthead .utility .search.combo select,
-  body.home .scroll-up-navbar .utility .search.combo select {
-    flex: 0 0 auto;
-    min-width: 0;
-    max-width: 140px;
-    width: auto;
-    padding: 0.4rem 0.7rem;
-    font-size: 0.875rem;
-    border: 1px solid #e6e2da;
-    border-radius: 999px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  body.home .masthead .utility .search.combo input,
-  body.home .scroll-up-navbar .utility .search.combo input {
-    flex: 1 1 auto;
-    min-width: 0;
-    padding: 0.4rem 0.7rem;
-    font-size: 0.875rem;
-    border: 1px solid #e6e2da;
-    border-radius: 999px;
-  }
-  body.home .masthead .utility .search.combo button,
-  body.home .scroll-up-navbar .utility .search.combo button {
-    flex: 0 0 auto;
-    width: 40px;
-    min-width: 40px;
-    height: 40px;
-    padding: 0;
-    background: #059669;
-    color: white;
-    border: 0;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    position: relative;
-    overflow: hidden;
-    font-size: 0;
-    text-indent: -9999px;
-  }
-  body.home .masthead .utility .search.combo button::before,
-  body.home .scroll-up-navbar .utility .search.combo button::before {
-    content: "⌕";
-    font-size: 1.2rem;
-    line-height: 1;
-    position: absolute;
-    text-indent: 0;
-    color: white;
-  }
 }
 /* Desktop-only: Shop card image and text alignment */
 @media (min-width: 1024px) {
@@ -1683,12 +1451,6 @@ body.home.theme-dark .filters .sizes label:has(input:checked) {
   color: white;
 }
 
-/* Masthead/scroll-up search combo select needs a touch more room */
-.masthead .utility .search.combo select,
-.scroll-up-navbar .utility .search.combo select {
-  min-width: 0;
-}
-
 /* Toolbar search box (inside .shop.two-col .results .toolbar) */
 .results .toolbar .search.small {
   display: flex;
@@ -1970,48 +1732,30 @@ body.home.theme-dark .custom-select-option[aria-selected="true"] {
    needed because the body.home.theme-dark colour rules above out-rank a
    plain :hover. */
 .masthead .bar .logo,
-.scroll-up-navbar .bar .logo,
 .offcanvas .panel .logo {
   transition: color 0.2s ease;
 }
 .masthead .bar .logo:hover,
-.scroll-up-navbar .bar .logo:hover,
 .offcanvas .panel .logo:hover,
 body.home.theme-dark .masthead .bar .logo:hover,
-body.home.theme-dark .scroll-up-navbar .bar .logo:hover,
 body.home.theme-dark .offcanvas .panel .logo:hover {
   color: #059669;
 }
 
 .masthead .bar .hamburger,
-.scroll-up-navbar .bar .hamburger,
 .offcanvas .panel .close {
   transition: all 0.2s ease;
 }
 .masthead .bar .hamburger:hover,
-.scroll-up-navbar .bar .hamburger:hover,
 .offcanvas .panel .close:hover,
 body.home.theme-dark .offcanvas .panel .close:hover {
   border-color: #059669;
   color: #059669;
 }
 
-.masthead .utility .search.combo select,
-.masthead .utility .search.combo input {
-  transition: border-color 0.2s ease;
-}
-.masthead .utility .search.combo select:hover,
-.masthead .utility .search.combo input:hover,
-body.home .masthead .utility .search.combo select:hover,
-body.home .masthead .utility .search.combo input:hover {
-  border-color: #059669;
-}
-
-.masthead .utility .search.combo button,
 body.home .carousel-hero .overlay .search.wide button {
   transition: all 0.2s ease;
 }
-.masthead .utility .search.combo button:hover,
 body.home .carousel-hero .overlay .search.wide button:hover {
   background: #047857;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
@@ -2095,8 +1839,7 @@ body.home.theme-dark .masthead .bar .masthead-icon:hover {
    throughout): without this the bar's side padding sat outside its 1200px
    max-width, so the homepage header was 32px wider than everywhere else and
    out of line with the page content below it. */
-.masthead .bar,
-.masthead .utility {
+.masthead .bar {
   box-sizing: border-box;
 }
 
@@ -2109,10 +1852,9 @@ body.home.theme-dark .masthead .bar .masthead-icon:hover {
 
 /* Explicit header button type, set identically in
    sass/Components/_masthead.scss -- the other pages' global <button> rule
-   (_buttons.scss) otherwise made their hamburger icon and Search label a
-   different size from this page's. */
-.masthead .bar .hamburger,
-.scroll-up-navbar .bar .hamburger {
+   (_buttons.scss) otherwise made their hamburger icon a different size
+   from this page's. */
+.masthead .bar .hamburger {
   font-size: 1rem;
   line-height: 1.2;
   color: #1f2937;
@@ -2122,8 +1864,4 @@ body.home.theme-dark .masthead .bar .hamburger {
   border-color: #2e2a24;
   color: #e8e8e8;
 }
-.masthead .utility .search.combo button {
-  font-family: "Source Sans 3", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-}
+
