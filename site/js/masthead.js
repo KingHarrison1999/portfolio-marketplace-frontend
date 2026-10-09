@@ -17,8 +17,10 @@
 // It also owns, for every page:
 // - the light/dark theme: applies the stored choice as soon as it runs (no
 //   flash of the wrong theme) and wires the toggle (this replaced js/theme.js)
-// - the right-hand icons (theme toggle, cart, log in / account, hamburger),
-//   each with a tooltip (.has-tooltip + data-tooltip, styled in masthead.css)
+// - the right-hand controls: "Sell Now" (1024px and wider; in the phone menu
+//   below that), then the theme toggle, cart, log in / account and
+//   hamburger icons, each with a tooltip (.has-tooltip + data-tooltip,
+//   styled in masthead.css)
 // - the category nav: one link per top-level category from
 //   GET /api/categories (needs js/auth.js on the page), each with a hover /
 //   focus dropdown of its subcategories, plus "Browse All". Below 1024px the
@@ -59,6 +61,7 @@
         </ul>
       </nav>
       <div class="right">
+        <a href="${root}login.html?next=sell" class="sell-now-btn" data-sell-now>Sell Now</a>
         <button class="mode-toggle pill-toggle has-tooltip" aria-pressed="false" aria-label="Switch to dark mode" data-tooltip="Switch to dark mode">
           <span class="toggle-knob">
             <svg class="toggle-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -90,6 +93,7 @@
     <div class="panel" role="dialog" aria-modal="true" aria-label="Menu">
       <button class="close" aria-label="Close menu">✕</button>
       <a href="${root}index.html" class="logo offcanvas-logo">Marketplace</a>
+      <a href="${root}login.html?next=sell" class="sell-now-btn offcanvas-sell-now" data-sell-now>Sell Now</a>
       <nav class="mobile-nav" aria-label="Shop by category">
         <ul id="mobile-nav-menu"></ul>
       </nav>
@@ -152,6 +156,17 @@
       sync();
     });
     sync();
+  }
+
+  // "Sell Now" (bar and phone menu) is a plain link to log in, so it works
+  // before this runs; once the auth state is known it points at the seller
+  // area or the "Become a Seller" settings instead.
+  async function syncSellNow() {
+    if (!window.MarketplaceAuth) return;
+    const destination = await window.MarketplaceAuth.getSellDestination();
+    document.querySelectorAll('[data-sell-now]').forEach((a) => {
+      a.href = `${root}${destination}`;
+    });
   }
 
   // Signed in: the person icon reads "Account" and goes to the dashboard.
@@ -672,6 +687,7 @@
   function init() {
     wireTheme();
     syncAccountLink();
+    syncSellNow();
     wireMenu();
     wireFloatingSearch();
     loadCategories();

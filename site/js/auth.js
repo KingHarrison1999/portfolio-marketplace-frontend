@@ -40,8 +40,32 @@ async function fetchWithAuth(path, options = {}) {
   return fetch(url, { ...options, headers });
 }
 
+// Where the header's "Sell Now" button leads, as a path from the site root:
+// signed out -> log in (then on to the seller area, see js/login.js);
+// a seller or admin -> the new-listing form; anyone else -> the "Become a
+// Seller" section of account settings. Never throws.
+const SELL_SIGNED_OUT = 'login.html?next=sell';
+const SELL_SELLER = 'seller/listing-form.html';
+const SELL_BECOME_SELLER = 'account/settings.html#seller-status-section';
+
+async function getSellDestination() {
+  const session = await getSession();
+  if (!session) return SELL_SIGNED_OUT;
+  try {
+    const res = await fetchWithAuth('/api/profile');
+    if (res.ok) {
+      const role = (await res.json()).profile?.role;
+      if (role === 'seller' || role === 'admin') return SELL_SELLER;
+    }
+  } catch (err) {
+    console.warn('getSellDestination: profile check failed.', err);
+  }
+  return SELL_BECOME_SELLER;
+}
+
 window.MarketplaceAuth = {
   supabaseClient,
   getSession,
   fetchWithAuth,
+  getSellDestination,
 };

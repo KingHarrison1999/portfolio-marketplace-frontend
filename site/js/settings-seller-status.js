@@ -107,5 +107,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     tierSection.hidden = false;
   } else if (profile.role === 'buyer') {
     becomeSellerSection.hidden = false;
+    // Linked here by the header's "Sell Now": the section was hidden when
+    // the browser tried to jump to it, so scroll now it's visible.
+    if (window.location.hash === '#seller-status-section') becomeSellerSection.scrollIntoView();
   }
 });

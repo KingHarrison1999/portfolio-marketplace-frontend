@@ -3,6 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageEl = document.getElementById('form-message');
   const submitBtn = form.querySelector('button[type="submit"]');
 
+  // ?next=sell: arrived from the header's "Sell Now". After signing in, go
+  // on to the seller area (or "Become a Seller") instead of the dashboard,
+  // and keep the destination if they choose to register instead. Only this
+  // one fixed value is accepted, so the param can't send anyone off-site.
+  const fromSellNow = new URLSearchParams(window.location.search).get('next') === 'sell';
+  if (fromSellNow) {
+    const registerLink = document.querySelector('a[href="register.html"]');
+    if (registerLink) registerLink.href = 'register.html?next=sell';
+  }
+
   function showMessage(text, type) {
     messageEl.textContent = text;
     messageEl.className = `form-message is-visible form-message-${type}`;
@@ -23,6 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    window.location.href = 'account/dashboard.html';
+    window.location.href = fromSellNow ? await window.MarketplaceAuth.getSellDestination() : 'account/dashboard.html';
   });
 });

@@ -3,6 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageEl = document.getElementById('form-message');
   const submitBtn = form.querySelector('button[type="submit"]');
 
+  // ?next=sell (from the header's "Sell Now", via login.html): keep it on
+  // the "Log in" link, so signing in after verifying the email still goes
+  // on to the seller area.
+  const fromSellNow = new URLSearchParams(window.location.search).get('next') === 'sell';
+  if (fromSellNow) {
+    const loginLink = document.querySelector('a[href="login.html"]');
+    if (loginLink) loginLink.href = 'login.html?next=sell';
+  }
+
   function showMessage(text, type) {
     messageEl.textContent = text;
     messageEl.className = `form-message is-visible form-message-${type}`;
@@ -21,11 +30,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     submitBtn.disabled = true;
-    const { error } = await window.MarketplaceAuth.supabaseClient.auth.signUp({ email, password });
+    const { data, error } = await window.MarketplaceAuth.supabaseClient.auth.signUp({ email, password });
     submitBtn.disabled = false;
 
     if (error) {
       showMessage(error.message, 'error');
+      return;
+    }
+
+    // Signed in straight away (no email confirmation required): go on.
+    if (fromSellNow && data && data.session) {
+      window.location.href = await window.MarketplaceAuth.getSellDestination();
       return;
     }
 
