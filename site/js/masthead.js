@@ -17,6 +17,8 @@
 // It also owns, for every page:
 // - the light/dark theme: applies the stored choice as soon as it runs (no
 //   flash of the wrong theme) and wires the toggle (this replaced js/theme.js)
+// - the right-hand icons (theme toggle, cart, log in / account, hamburger),
+//   each with a tooltip (.has-tooltip + data-tooltip, styled in masthead.css)
 // - the category nav: one link per top-level category from
 //   GET /api/categories (needs js/auth.js on the page), each with a hover /
 //   focus dropdown of its subcategories, plus "Browse All". Below 1024px the
@@ -54,12 +56,7 @@
         </ul>
       </nav>
       <div class="right">
-        <a href="${root}cart.html" class="masthead-icon" aria-label="Cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i></a>
-        <a href="${root}login.html" class="masthead-icon" aria-label="Account"><i class="fa-solid fa-user" aria-hidden="true"></i></a>
-        <button class="hamburger" id="hamburger-1" aria-label="Open menu" aria-expanded="false" aria-controls="offcanvas">
-          <i class="fa-solid fa-bars" aria-hidden="true"></i>
-        </button>
-        <button class="mode-toggle pill-toggle" aria-pressed="false" title="Toggle light/dark">
+        <button class="mode-toggle pill-toggle has-tooltip" aria-pressed="false" aria-label="Switch to dark mode" data-tooltip="Switch to dark mode">
           <span class="toggle-knob">
             <svg class="toggle-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="4"></circle>
@@ -77,6 +74,11 @@
             </svg>
           </span>
         </button>
+        <a href="${root}cart.html" class="masthead-icon has-tooltip" aria-label="Cart" data-tooltip="Cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i></a>
+        <a href="${root}login.html" class="masthead-icon has-tooltip" id="masthead-account-link" aria-label="Log in" data-tooltip="Log in"><i class="fa-solid fa-user" aria-hidden="true"></i></a>
+        <button class="hamburger has-tooltip" id="hamburger-1" aria-label="Menu" data-tooltip="Menu" aria-expanded="false" aria-controls="offcanvas">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
   </header>
@@ -91,7 +93,7 @@
       <div class="offcanvas-links">
         <a href="${root}browse.html"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Browse All</a>
         <a href="${root}cart.html"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> Cart</a>
-        <a href="${root}login.html"><i class="fa-solid fa-user" aria-hidden="true"></i> Account</a>
+        <a href="${root}login.html" id="offcanvas-account-link"><i class="fa-solid fa-user" aria-hidden="true"></i> <span>Log in</span></a>
       </div>
     </div>
   </div>`;
@@ -127,7 +129,13 @@
   function wireTheme() {
     const toggle = document.querySelector('.masthead .mode-toggle');
     if (!toggle) return;
-    const sync = () => toggle.setAttribute('aria-pressed', String(document.body.classList.contains('theme-dark')));
+    const sync = () => {
+      const isDark = document.body.classList.contains('theme-dark');
+      const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+      toggle.setAttribute('aria-pressed', String(isDark));
+      toggle.setAttribute('aria-label', label);
+      toggle.dataset.tooltip = label;
+    };
     toggle.addEventListener('click', (e) => {
       e.preventDefault();
       const isDark = document.body.classList.toggle('theme-dark');
@@ -139,6 +147,20 @@
       sync();
     });
     sync();
+  }
+
+  // Signed in: the person icon reads "Account" and goes to the dashboard.
+  async function syncAccountLink() {
+    if (!window.MarketplaceAuth) return;
+    const session = await window.MarketplaceAuth.getSession();
+    if (!session) return;
+    const icon = document.getElementById('masthead-account-link');
+    icon.href = `${root}account/dashboard.html`;
+    icon.setAttribute('aria-label', 'Account');
+    icon.dataset.tooltip = 'Account';
+    const menuLink = document.getElementById('offcanvas-account-link');
+    menuLink.href = icon.href;
+    menuLink.querySelector('span').textContent = 'Account';
   }
 
   function wireMenu() {
@@ -583,6 +605,7 @@
 
   function init() {
     wireTheme();
+    syncAccountLink();
     wireMenu();
     wireFloatingSearch();
     loadCategories();

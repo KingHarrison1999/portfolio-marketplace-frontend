@@ -151,6 +151,98 @@
   }
 }
 
+/* ---------- Header tooltips ----------
+   The toggle, cart, log in / account and hamburger each name themselves on
+   hover or keyboard focus (data-tooltip, kept in step with aria-label by
+   js/masthead.js). display:none rather than opacity while hidden, so a
+   tooltip near the screen edge never adds sideways scroll. Hover only on
+   devices that really hover, so a tap doesn't leave one stuck open. */
+.masthead .bar .has-tooltip {
+  position: relative;
+}
+
+/* The pill toggle clips its knob; let the tooltip out. */
+.masthead .bar .mode-toggle.pill-toggle.has-tooltip {
+  overflow: visible;
+}
+
+.masthead .bar .has-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  z-index: 300;
+  display: none;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  background: #1f2937;
+  color: #fff;
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 6px 16px rgba(17, 24, 39, 0.2);
+  transform: translateX(-50%);
+  animation: masthead-tooltip-in 120ms ease-out;
+}
+
+/* The last icon sits at the screen edge: right-align its tooltip. */
+.masthead .bar .right > .has-tooltip:last-child::after {
+  left: auto;
+  right: 0;
+  transform: none;
+  animation-name: masthead-tooltip-in-edge;
+}
+
+@media (min-width: 1024px) {
+  .masthead .bar .right > #masthead-account-link.has-tooltip::after {
+    left: auto;
+    right: 0;
+    transform: none;
+    animation-name: masthead-tooltip-in-edge;
+  }
+}
+
+@media (hover: hover) {
+  .masthead .bar .has-tooltip:hover::after {
+    display: block;
+  }
+}
+
+.masthead .bar .has-tooltip:focus-visible::after {
+  display: block;
+}
+
+@keyframes masthead-tooltip-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -4px);
+  }
+}
+
+@keyframes masthead-tooltip-in-edge {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masthead .bar .has-tooltip::after {
+    animation: none;
+  }
+}
+
+body.theme-dark .masthead .bar .has-tooltip::after {
+  background: #f3f4f6;
+  color: #111827;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
 /* Focus ring for the bar's own controls (main.compiled.css removes it). */
 .masthead .bar .hamburger:focus-visible,
 .masthead .bar .mode-toggle:focus-visible,
