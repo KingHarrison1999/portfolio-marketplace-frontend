@@ -10,11 +10,15 @@
   <link rel="stylesheet" href="Styles/hero.css" />
   <link rel="stylesheet" href="Styles/site-footer.css" />
   <link rel="stylesheet" href="Styles/masthead.css" />
+  <link rel="stylesheet" href="Styles/shop.css" />
+  <link rel="stylesheet" href="Styles/shop-filters.css" />
   <script src="https://kit.fontawesome.com/66b2869aef.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com/">
   <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="js/auth.js" defer></script>
+  <script src="js/shop-card.js" defer></script>
+  <script src="js/shop-filters.js" defer></script>
   <script src="js/index.js" defer></script>
   <script src="js/newsletter.js" defer></script>
   <script src="js/site-banner.js" defer></script>
@@ -175,28 +179,13 @@
       </div>
     </section>
 
-    <section class="shop two-col">
-      <aside class="filters">
+    <section class="shop two-col shop-page">
+      <!-- Filled by js/shop-filters.js (shared with browse.html) -- see
+           js/index.js (wireShopFilters). Shown at 1024px and wider; below
+           that the same filters are in the floating search panel. -->
+      <aside class="shop-sidebar" aria-label="Filters">
         <h3>Filters</h3>
-        <label>Price Range
-          <input type="range" class="price-slider" min="0" max="500" step="5" value="150" />
-        </label>
-        <div class="price-display">£150</div>
-        <fieldset class="conditions">
-          <legend>Condition</legend>
-          <label><input type="checkbox" /> New with Tags</label>
-          <label><input type="checkbox" /> Like New</label>
-          <label><input type="checkbox" /> Good</label>
-          <label><input type="checkbox" /> Fair</label>
-        </fieldset>
-        <fieldset class="sizes">
-          <legend>Size</legend>
-          <label><input type="checkbox" /> XS</label>
-          <label><input type="checkbox" /> S</label>
-          <label><input type="checkbox" /> M</label>
-          <label><input type="checkbox" /> L</label>
-          <label><input type="checkbox" /> XL</label>
-        </fieldset>
+        <div id="homepage-filters"></div>
       </aside>
 
       <section class="results">
@@ -216,7 +205,7 @@
         </div>
 
         <!-- Populated from GET /api/listings -- see js/index.js (loadShopGrid) -->
-        <div class="product-grid uniform" id="homepage-shop-grid">
+        <div class="shop-grid" id="homepage-shop-grid">
           <p class="carousel-loading">Loading&hellip;</p>
         </div>
       </section>
@@ -288,15 +277,6 @@
         };
         prevBtn.addEventListener('click', () => productTrack.scrollBy({ left: -step(), behavior: 'smooth' }));
         nextBtn.addEventListener('click', () => productTrack.scrollBy({ left: step(), behavior: 'smooth' }));
-      }
-
-      // Price slider readout
-      const priceSlider = document.querySelector('.price-slider');
-      const priceDisplay = document.querySelector('.price-display');
-      if (priceSlider && priceDisplay) {
-        priceSlider.addEventListener('input', (e) => {
-          priceDisplay.textContent = `£${e.target.value}`;
-        });
       }
     })();
   </script>

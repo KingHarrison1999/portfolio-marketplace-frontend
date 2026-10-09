@@ -1,384 +1,125 @@
-// Wires the browse page to GET /api/categories and GET /api/listings.
-// Each card's "Add to Cart" button calls the real POST /api/cart/items
-// (quantity 1) and shows the real backend response inline rather than
-// navigating away, so browsing isn't interrupted.
+// Wires the browse page to GET /api/listings. The URL is the state:
+//   ?q=  &sort=  &category_id= (repeated)  &min_price=  &max_price=  &condition= (repeated)
+// The masthead's category links, the homepage and the floating search
+// panel all link here with those params.
+//
+// - Filters: the shared sidebar from js/shop-filters.js (1024px and wider),
+//   applied as they change. Below 1024px the same filters live in the
+//   floating search panel (js/masthead.js), which reloads this page.
+// - Cards: the homepage's shop grid card, from js/shop-card.js.
+// - Heading and document.title say what the page is filtered by.
 //
 // KNOWN GAPS (flagged, not silently worked around):
 // - "condition" has no server-side filter param, so it's applied
 //   client-side against whatever page of results came back rather than
-//   across the full result set. Fine for a small catalog, wrong once
-//   there's enough inventory that condition-filtered results could span
-//   multiple pages.
-// - There's no pagination UI in the existing markup to wire, so this
-//   fetches a single generous page (limit=50) rather than inventing new
-//   pagination controls that weren't asked for.
+//   across the full result set (see ShopFilters.fetchListings). Fine for a
+//   small catalog.
+// - There's no pagination UI, so this fetches a single generous page
+//   (limit=50).
 
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('listings-grid');
-  const categoryList = document.getElementById('category-filter-list');
-  const conditionList = document.getElementById('condition-filter-list');
-  const priceSlider = document.getElementById('price-slider');
-  const priceDisplay = document.getElementById('price-display');
+  const heading = document.getElementById('browse-title');
   const sortSelect = document.getElementById('sort1');
   const searchForm = document.getElementById('browse-search-form');
   const searchInput = document.getElementById('browse-search-input');
-  const applyBtn = document.getElementById('btn-apply-filters');
-  const resetBtn = document.getElementById('btn-reset-filters');
-
-  const floatingFilterBtn = document.getElementById('floating-filter-btn');
-  const filterOverlay = document.getElementById('filter-overlay');
-  const filterCloseBtn = document.querySelector('.filter-close');
-
-  // Listings sit in leaf categories and the API matches category_id exactly,
-  // so a checked category stands for its whole subtree (filled in by
-  // loadCategories). Until categories load it's just the id itself.
-  let subtreeIds = (id) => [id];
+  const SORTS = ['newest', 'price_asc', 'price_desc'];
 
   function getState() {
     const params = new URLSearchParams(window.location.search);
+    const sort = params.get('sort');
     return {
-      category_id: params.getAll('category_id'),
-      max_price: params.get('max_price') || '',
-      q: params.get('q') || '',
-      sort: params.get('sort') || 'newest',
-      condition: params.getAll('condition'),
+      filters: window.ShopFilters.fromParams(params),
+      q: (params.get('q') || '').trim(),
+      sort: SORTS.includes(sort) ? sort : 'newest',
     };
   }
 
-  function setState(state) {
+  function setState({ filters, q, sort }) {
     const params = new URLSearchParams();
-    for (const c of state.category_id || []) params.append('category_id', c);
-    if (state.max_price) params.set('max_price', state.max_price);
-    if (state.q) params.set('q', state.q);
-    if (state.sort) params.set('sort', state.sort);
-    for (const c of state.condition || []) params.append('condition', c);
-    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+    if (q) params.set('q', q);
+    if (sort && sort !== 'newest') params.set('sort', sort);
+    window.ShopFilters.toParams(filters, params);
+    const qs = params.toString();
+    window.history.replaceState({}, '', `${window.location.pathname}${qs ? `?${qs}` : ''}`);
   }
 
-  function applyStateToForm(state) {
-    if (state.max_price) {
-      priceSlider.value = state.max_price;
-    }
-    priceDisplay.textContent = `Up to £${priceSlider.value}`;
-    sortSelect.value = state.sort;
-    searchInput.value = state.q;
-
-    for (const input of categoryList.querySelectorAll('input[type="checkbox"]')) {
-      input.checked = state.category_id.includes(input.value);
-      input.closest('label').classList.toggle('checked', input.checked);
-    }
-    for (const input of conditionList.querySelectorAll('input[type="checkbox"]')) {
-      input.checked = state.condition.includes(input.value);
-      input.closest('label').classList.toggle('checked', input.checked);
-    }
+  // "Browse All" with no filters; otherwise what the page is filtered by.
+  async function updateHeading(state) {
+    const tree = await window.ShopFilters.categoryTree().catch(() => null);
+    const text = window.ShopFilters.describe(state.filters, state.q, tree);
+    heading.textContent = text;
+    document.title = `${text} — Marketplace`;
   }
 
-  function buildCategoryLabel(cat, state) {
-    const label = document.createElement('label');
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.name = 'category_id';
-    input.value = cat.id;
-    input.checked = state.category_id.includes(cat.id);
-    label.classList.toggle('checked', input.checked);
-    input.addEventListener('change', () => {
-      label.classList.toggle('checked', input.checked);
-    });
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(` ${cat.name}`));
-    return label;
-  }
-
-  async function loadCategories() {
-    // Wrapped end-to-end: fetchWithAuth() rejects outright (not just a
-    // non-2xx response) when the Railway backend is cold/suspended or the
-    // network drops. Before this fix that rejection propagated out of the
-    // init IIFE below and skipped the loadListings() call after it entirely
-    // -- the category *filter* failing silently killed the *listings* grid
-    // too, leaving it stuck on "Loading listings..." forever with nothing
-    // but a console error to show why. Now a category-load failure only
-    // affects the category filter.
-    try {
-      const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
-      const existingNote = categoryList.querySelector('.filter-empty-note');
-      if (existingNote) existingNote.remove();
-      categoryList.querySelectorAll('.category-group').forEach((el) => el.remove());
-
-      if (!res.ok) throw new Error(`categories request failed: ${res.status}`);
-      const body = await res.json();
-      const categories = body.categories || [];
-
-      if (categories.length === 0) {
-        const note = document.createElement('p');
-        note.className = 'filter-empty-note';
-        note.textContent = 'No categories yet.';
-        categoryList.appendChild(note);
-        return;
-      }
-
-      const state = getState();
-
-      // Group subcategories under their parent rather than listing everything
-      // flat. Only the top two levels get checkboxes (Women > Shoes); the
-      // third level (Boots...) is covered by subtreeIds() when filtering.
-      const topLevel = categories.filter((cat) => !cat.parent_id);
-      const childrenByParent = new Map();
-      for (const cat of categories) {
-        if (!cat.parent_id) continue;
-        if (!childrenByParent.has(cat.parent_id)) childrenByParent.set(cat.parent_id, []);
-        childrenByParent.get(cat.parent_id).push(cat);
-      }
-      subtreeIds = (id) => [id, ...(childrenByParent.get(id) || []).flatMap((child) => subtreeIds(child.id))];
-
-      for (const top of topLevel) {
-        const group = document.createElement('div');
-        group.className = 'category-group';
-        group.appendChild(buildCategoryLabel(top, state));
-
-        const children = childrenByParent.get(top.id) || [];
-        if (children.length > 0) {
-          const childWrap = document.createElement('div');
-          childWrap.className = 'category-children';
-          for (const child of children) {
-            childWrap.appendChild(buildCategoryLabel(child, state));
-          }
-          group.appendChild(childWrap);
-        }
-
-        categoryList.appendChild(group);
-      }
-    } catch (err) {
-      console.warn('loadCategories: failed to load categories.', err);
-      categoryList.querySelectorAll('.category-group').forEach((el) => el.remove());
-      const existingNote = categoryList.querySelector('.filter-empty-note');
-      if (existingNote) existingNote.remove();
-      const note = document.createElement('p');
-      note.className = 'filter-empty-note';
-      note.textContent = 'Unable to load categories right now.';
-      categoryList.appendChild(note);
-    }
-  }
-
-  function conditionLabel(condition) {
-    const labels = { new: 'New', like_new: 'Like New', used: 'Used', for_parts: 'For Parts' };
-    return labels[condition] || condition;
-  }
-
-  function appendImage(container, imageUrl, alt) {
-    if (imageUrl) {
-      const img = document.createElement('img');
-      img.src = imageUrl;
-      img.alt = alt;
-      container.appendChild(img);
-    } else {
-      const placeholder = document.createElement('div');
-      placeholder.className = 'product-image-placeholder';
-      placeholder.innerHTML = '<i class="fa-solid fa-image"></i>';
-      container.appendChild(placeholder);
-    }
-  }
-
-  function renderListings(listings) {
+  function renderListings(listings, state) {
     grid.innerHTML = '';
 
     if (listings.length === 0) {
       const empty = document.createElement('p');
       empty.className = 'results-empty';
-      empty.textContent = 'No listings match your filters.';
+      empty.textContent = 'Nothing here yet. New items are added all the time. ';
+      const filtered = state.q || !window.ShopFilters.isEmpty(state.filters);
+      if (filtered) {
+        const link = document.createElement('a');
+        link.href = 'browse.html';
+        link.textContent = 'Browse All';
+        empty.appendChild(link);
+      }
       grid.appendChild(empty);
       return;
     }
 
-    for (const listing of listings) {
-      const article = document.createElement('article');
-      article.className = 'product';
-
-      appendImage(article, listing.primary_image_url, listing.title);
-
-      // Whole-card link (same pattern as js/index.js buildCard): the title
-      // link's ::after covers the card; Add to Cart sits above it.
-      const h3 = document.createElement('h3');
-      const titleLink = document.createElement('a');
-      titleLink.href = `listing.html?id=${encodeURIComponent(listing.id)}`;
-      titleLink.className = 'card-link';
-      titleLink.textContent = listing.title;
-      h3.appendChild(titleLink);
-      article.appendChild(h3);
-
-      const meta = document.createElement('p');
-      meta.className = 'meta';
-      const conditionPart = listing.condition ? `${conditionLabel(listing.condition)} • ` : '';
-      meta.textContent = `${conditionPart}£${Number(listing.price).toFixed(2)}`;
-      article.appendChild(meta);
-
-      const actions = document.createElement('div');
-      actions.className = 'product-actions';
-
-      const addToCartBtn = document.createElement('button');
-      addToCartBtn.type = 'button';
-      addToCartBtn.className = 'btn';
-      addToCartBtn.textContent = 'Add to Cart';
-      if (listing.stock <= 0) {
-        addToCartBtn.disabled = true;
-        addToCartBtn.textContent = 'Out of Stock';
-      }
-
-      const link = document.createElement('span');
-      link.className = 'btn btn-outline';
-      link.setAttribute('aria-hidden', 'true');
-      link.textContent = 'Shop Now';
-
-      actions.appendChild(addToCartBtn);
-      actions.appendChild(link);
-      article.appendChild(actions);
-
-      const messageEl = document.createElement('p');
-      messageEl.className = 'product-message';
-      messageEl.hidden = true;
-      article.appendChild(messageEl);
-
-      addToCartBtn.addEventListener('click', async () => {
-        const session = await window.MarketplaceAuth.getSession();
-        if (!session) {
-          messageEl.textContent = 'Log in to add items to your cart.';
-          messageEl.className = 'product-message';
-          messageEl.hidden = false;
-          return;
-        }
-
-        addToCartBtn.disabled = true;
-        const res = await window.MarketplaceAuth.fetchWithAuth('/api/cart/items', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ listing_id: listing.id, quantity: 1 }),
-        });
-        const body = await res.json();
-        addToCartBtn.disabled = listing.stock <= 0 ? true : false;
-
-        messageEl.hidden = false;
-        if (!res.ok) {
-          messageEl.textContent = body.error || 'Failed to add to cart.';
-          messageEl.className = 'product-message';
-        } else {
-          messageEl.textContent = 'Added to your cart.';
-          messageEl.className = 'product-message is-success';
-        }
-      });
-
-      grid.appendChild(article);
-    }
+    for (const listing of listings) grid.appendChild(window.ShopCard.render(listing));
   }
 
+  let requestId = 0;
+
   async function loadListings() {
+    const thisRequest = ++requestId;
+    const state = getState();
+    updateHeading(state);
     grid.innerHTML = '<p class="results-loading">Loading listings&hellip;</p>';
 
-    const state = getState();
-    const params = new URLSearchParams();
-    for (const c of state.category_id) params.append('category_id', c);
-    if (state.max_price) params.set('max_price', state.max_price);
-    if (state.q) params.set('q', state.q);
-    params.set('sort', state.sort);
-    params.set('limit', '50');
-
-    // Previously unguarded: a non-2xx response was handled, but fetch()
-    // *rejecting* outright (backend unreachable -- the Railway project is
-    // suspended between billing cycles, see js/index.js's loadShopGrid
-    // comment for the same issue on the homepage) was not. That left this
-    // grid showing "Loading listings..." forever with only a console error
-    // to explain it. Now any failure, HTTP or network-level, shows the same
-    // explicit "failed to load" message instead of hanging.
+    // Any failure, HTTP or network-level (the Railway backend is suspended
+    // between billing cycles), shows an explicit message instead of hanging
+    // on "Loading listings...".
     try {
-      const res = await window.MarketplaceAuth.fetchWithAuth(`/api/listings?${params.toString()}`);
-      if (!res.ok) throw new Error(`listings request failed: ${res.status}`);
-
-      const body = await res.json();
-      let listings = body.listings || [];
-
-      if (state.condition.length > 0) {
-        listings = listings.filter((l) => state.condition.includes(l.condition));
-      }
-
-      renderListings(listings);
+      const listings = await window.ShopFilters.fetchListings(state.filters, { q: state.q, sort: state.sort });
+      if (thisRequest !== requestId) return; // a newer change won
+      renderListings(listings, state);
     } catch (err) {
+      if (thisRequest !== requestId) return;
       console.warn('loadListings: failed to load listings.', err);
       grid.innerHTML = '<p class="results-empty">Failed to load listings. Please try again.</p>';
     }
   }
 
-  function readFormIntoState() {
-    const state = getState();
-
-    const checked = Array.from(categoryList.querySelectorAll('input[type="checkbox"]:checked'));
-    state.category_id = [...new Set(checked.flatMap((el) => subtreeIds(el.value)))];
-
-    state.max_price = priceSlider.value;
-    state.sort = sortSelect.value;
-    state.q = searchInput.value.trim();
-    state.condition = Array.from(conditionList.querySelectorAll('input[type="checkbox"]:checked')).map(
-      (el) => el.value,
-    );
-
-    return state;
-  }
-
   // --- Wiring ---
 
-  priceSlider.addEventListener('input', () => {
-    priceDisplay.textContent = `Up to £${priceSlider.value}`;
-  });
+  const initial = getState();
+  sortSelect.value = initial.sort;
+  searchInput.value = initial.q;
 
-  for (const input of conditionList.querySelectorAll('input[type="checkbox"]')) {
-    input.addEventListener('change', () => {
-      input.closest('label').classList.toggle('checked', input.checked);
-    });
-  }
-
-  applyBtn.addEventListener('click', () => {
-    setState(readFormIntoState());
-    loadListings();
-    filterOverlay.classList.remove('open');
-  });
-
-  resetBtn.addEventListener('click', () => {
-    priceSlider.value = priceSlider.max;
-    priceDisplay.textContent = `Up to £${priceSlider.value}`;
-    searchInput.value = '';
-    sortSelect.value = 'newest';
-    for (const input of categoryList.querySelectorAll('input[type="checkbox"]')) {
-      input.checked = false;
-      input.closest('label').classList.remove('checked');
-    }
-    for (const input of conditionList.querySelectorAll('input[type="checkbox"]')) {
-      input.checked = false;
-      input.closest('label').classList.remove('checked');
-    }
-    setState({ category_id: [], max_price: '', q: '', sort: 'newest', condition: [] });
-    loadListings();
+  window.ShopFilters.mount(document.getElementById('browse-filters'), {
+    idPrefix: 'browse-filters',
+    state: initial.filters,
+    onChange: (filters) => {
+      setState({ ...getState(), filters });
+      loadListings();
+    },
   });
 
   sortSelect.addEventListener('change', () => {
-    setState(readFormIntoState());
+    setState({ ...getState(), sort: sortSelect.value });
     loadListings();
   });
 
   searchForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    setState(readFormIntoState());
+    setState({ ...getState(), q: searchInput.value.trim() });
     loadListings();
   });
 
-  if (floatingFilterBtn && filterOverlay) {
-    floatingFilterBtn.addEventListener('click', () => filterOverlay.classList.add('open'));
-  }
-  if (filterCloseBtn && filterOverlay) {
-    filterCloseBtn.addEventListener('click', () => filterOverlay.classList.remove('open'));
-  }
-
-  // --- Init ---
-
-  (async () => {
-    await loadCategories();
-    applyStateToForm(getState());
-    await loadListings();
-  })();
+  loadListings();
 });

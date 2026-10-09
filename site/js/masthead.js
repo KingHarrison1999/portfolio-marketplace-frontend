@@ -24,9 +24,12 @@
 //   focus dropdown of its subcategories, plus "Browse All". Below 1024px the
 //   links are hidden and the hamburger opens the off-canvas menu, which holds
 //   the same tree as an accordion. Nothing is hard-coded: if the request
-//   fails, only "Browse All" shows.
+//   fails, only "Browse All" shows. The tree is also shared with
+//   js/shop-filters.js as window.MarketplaceCategories.
 // - the floating "Search for..." button and its search panel (category +
-//   text -> browse.html?q=...&category_id=...). On index.html it stays
+//   text -> browse.html?q=...&category_id=...). Below 1024px the panel swaps
+//   the category select for the shared filters (js/shop-filters.js, loaded
+//   here on pages that don't include it). On index.html the button stays
 //   hidden while the hero search form (#hero-search-form) is on screen.
 //
 // Listings sit in leaf categories and the API matches category_id exactly,
@@ -110,7 +113,7 @@
       <button type="button" class="search-panel-close" aria-label="Close search"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
     </div>
     <form class="search-panel-form" id="search-panel-form" role="search">
-      <label class="search-panel-field">
+      <label class="search-panel-field search-panel-category-field">
         <span>Category</span>
         <select id="search-panel-category">
           <option value="">All categories</option>
@@ -120,7 +123,9 @@
         <span>Search for</span>
         <input type="search" id="search-panel-input" placeholder="Dresses, boots, bags..." autocomplete="off" />
       </label>
+      <div class="search-panel-filters" id="search-panel-filters"></div>
       <button type="submit" class="search-panel-submit">Search</button>
+      <a class="search-panel-clear" id="search-panel-clear" href="${root}browse.html" hidden>Clear all</a>
     </form>
   </div>`;
 
@@ -490,6 +495,34 @@
     tree.topLevel.forEach((top) => add(top, 0));
   }
 
+  // Loads one of the shared scripts the search panel's filters need, unless
+  // the page already includes it (index.html and browse.html do). Resolves
+  // once it has run.
+  function loadSharedScript(name, globalName) {
+    if (window[globalName]) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      let tag = document.querySelector(`script[src$="js/${name}"]`);
+      if (!tag) {
+        tag = document.createElement('script');
+        tag.src = `${root}js/${name}`;
+        tag.async = false; // keep shop-card.js ahead of shop-filters.js
+        document.head.appendChild(tag);
+      }
+      tag.addEventListener('load', () => resolve());
+      tag.addEventListener('error', () => reject(new Error(`failed to load ${name}`)));
+    });
+  }
+
+  function loadSharedStyles() {
+    if (document.querySelector('link[href$="Styles/shop-filters.css"]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `${root}Styles/shop-filters.css`;
+    document.head.appendChild(link);
+  }
+
+  const onBrowsePage = () => /\/browse\.html$/.test(window.location.pathname);
+
   function wireFloatingSearch() {
     document.body.insertAdjacentHTML('beforeend', searchMarkup);
     const btn = document.getElementById('floating-search-btn');
@@ -497,11 +530,38 @@
     const form = document.getElementById('search-panel-form');
     const input = document.getElementById('search-panel-input');
     const select = document.getElementById('search-panel-category');
+    const filtersHost = document.getElementById('search-panel-filters');
+    const clearLink = document.getElementById('search-panel-clear');
     const closeBtn = panel.querySelector('.search-panel-close');
+    const desktop = window.matchMedia(DESKTOP_QUERY);
+
+    // Below 1024px the panel also holds the Category / Price Range /
+    // Condition filters (at 1024px and wider they're in the page sidebars,
+    // and the panel is search only).
+    let filters = null;
+    loadSharedStyles();
+    Promise.all([loadSharedScript('shop-card.js', 'ShopCard'), loadSharedScript('shop-filters.js', 'ShopFilters')])
+      .then(() => {
+        filters = window.ShopFilters.mount(filtersHost, { idPrefix: 'search-panel-filters' });
+        if (isOpen()) prefill();
+      })
+      .catch((err) => console.warn('masthead: search panel filters unavailable.', err));
+
+    // On browse.html the panel opens with the search and filters already
+    // applied there, plus a "Clear all" link.
+    function prefill() {
+      if (!onBrowsePage()) return;
+      const params = new URLSearchParams(window.location.search);
+      input.value = params.get('q') || '';
+      const applied = filters ? window.ShopFilters.fromParams(params) : null;
+      if (applied) filters.setState(applied);
+      clearLink.hidden = !params.get('q') && (!applied || window.ShopFilters.isEmpty(applied));
+    }
 
     const isOpen = () => !panel.hidden;
 
     function openPanel() {
+      prefill();
       panel.hidden = false;
       btn.setAttribute('aria-expanded', 'true');
       btn.classList.add('is-active');
@@ -539,14 +599,20 @@
       const params = new URLSearchParams();
       const q = input.value.trim();
       if (q) params.set('q', q);
-      if (select.value) select.value.split(',').forEach((id) => params.append('category_id', id));
+      if (desktop.matches || !filters) {
+        if (select.value) select.value.split(',').forEach((id) => params.append('category_id', id));
+      } else {
+        window.ShopFilters.toParams(filters.getState(), params);
+      }
+      // Keep browse.html's sort order.
+      const sort = onBrowsePage() && new URLSearchParams(window.location.search).get('sort');
+      if (sort) params.set('sort', sort);
       window.location.href = browseUrl(params);
     });
 
     // Step aside (fade out) while something clickable scrolls underneath the
     // button: the footer newsletter form on every page, and listing.html's
-    // Buy / Add to Cart buttons on phones. browse.html's filter button is
-    // avoided in CSS by stacking above it.
+    // Buy / Add to Cart buttons on phones.
     const obstacles = Array.from(document.querySelectorAll('.newsletter, .purchase-panel-actions'));
     let dodgeQueued = false;
     function dodge() {

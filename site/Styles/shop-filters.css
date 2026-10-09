@@ -1,0 +1,333 @@
+/* shop-filters.css -- the shared Category / Price Range / Condition filters
+   (markup: js/shop-filters.js), used in the homepage and browse.html
+   sidebars and in the floating search panel below 1024px. Linked by
+   index.html and browse.html, and added by js/masthead.js on every other
+   page. Plain CSS like masthead.css, so it reads the same under home.css
+   and main.compiled.css; everything sets its own colours, borders and focus
+   outlines because main.compiled.css gives every <button> white text and
+   `outline: none`. */
+
+.shop-filters {
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  color: #1f2937;
+}
+
+.shop-filters .sf-group {
+  min-width: 0;
+  margin: 1rem 0 0;
+  padding: 1rem 0 0;
+  border: 0;
+  border-top: 1px solid #e6e2da;
+}
+
+.shop-filters .sf-group:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.shop-filters .sf-legend {
+  float: left; /* lets the legend sit inside the fieldset's flow, full width */
+  width: 100%;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.shop-filters .sf-legend + * {
+  clear: both;
+}
+
+.shop-filters .sf-note {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+/* ---- Category tree ---- */
+
+.shop-filters .sf-tree,
+.shop-filters .sf-branch {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.shop-filters .sf-branch {
+  margin: 0 0 0.15rem 0.6rem;
+  padding-left: 0.6rem;
+  border-left: 2px solid #e6e2da;
+}
+
+.shop-filters .sf-branch[hidden] {
+  display: none;
+}
+
+.shop-filters .sf-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.shop-filters .sf-check {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.3rem 0.35rem;
+  border-radius: 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.shop-filters .depth-0 > .sf-row .sf-check {
+  font-weight: 700;
+}
+
+.shop-filters .depth-1 > .sf-row .sf-check {
+  font-weight: 600;
+}
+
+.shop-filters .sf-check:hover {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.shop-filters .sf-check input {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: #059669;
+}
+
+.shop-filters .sf-check input:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+.shop-filters .sf-check-text {
+  overflow-wrap: anywhere;
+}
+
+.shop-filters .sf-expand {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: #6b7280;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.shop-filters .sf-expand i {
+  transition: transform 150ms ease;
+}
+
+.shop-filters .sf-expand[aria-expanded="true"] i {
+  transform: rotate(180deg);
+}
+
+.shop-filters .sf-expand:hover {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.shop-filters .sf-expand:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 0;
+}
+
+/* ---- Price range ---- */
+
+.shop-filters .sf-price-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.shop-filters .sf-price-field {
+  display: grid;
+  flex: 1 1 0;
+  gap: 0.25rem;
+  min-width: 0;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: default;
+}
+
+.shop-filters .sf-price-input {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0 0.6rem;
+  border: 1px solid #d6d1c7;
+  border-radius: 999px;
+  background: #fff;
+  transition: border-color 150ms ease;
+}
+
+.shop-filters .sf-price-input:hover,
+.shop-filters .sf-price-input:focus-within {
+  border-color: #059669;
+}
+
+.shop-filters .sf-price-input:focus-within {
+  outline: 2px solid #059669;
+  outline-offset: 1px;
+}
+
+.shop-filters .sf-currency {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.shop-filters .sf-price-input input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.5rem 0;
+  border: 0;
+  background: transparent;
+  color: #1f2937;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 400;
+  outline: none;
+  box-shadow: none;
+}
+
+.shop-filters .sf-price-sep {
+  padding-bottom: 0.55rem;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+/* ---- Condition chips (same as the homepage's original chips) ---- */
+
+.shop-filters .sf-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.shop-filters .sf-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #e6e2da;
+  border-radius: 999px;
+  color: #1f2937;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.shop-filters .sf-chip:hover {
+  border-color: #059669;
+}
+
+.shop-filters .sf-chip:has(input:checked) {
+  background: #059669;
+  border-color: #059669;
+  color: #fff;
+  font-weight: 600;
+}
+
+.shop-filters .sf-chip input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.shop-filters .sf-chip:has(input:focus-visible) {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+/* ---- Dark ---- */
+
+body.theme-dark .shop-filters {
+  color: #e8e8e8;
+}
+
+body.theme-dark .shop-filters .sf-group {
+  border-top-color: #2e2a24;
+}
+
+body.theme-dark .shop-filters .sf-note,
+body.theme-dark .shop-filters .sf-price-field,
+body.theme-dark .shop-filters .sf-currency,
+body.theme-dark .shop-filters .sf-price-sep,
+body.theme-dark .shop-filters .sf-expand {
+  color: #a8a29b;
+}
+
+body.theme-dark .shop-filters .sf-branch {
+  border-left-color: #2e2a24;
+}
+
+body.theme-dark .shop-filters .sf-check:hover,
+body.theme-dark .shop-filters .sf-expand:hover {
+  background: #242019;
+  color: #34d399;
+}
+
+body.theme-dark .shop-filters .sf-price-input {
+  background: #141210;
+  border-color: #3a352d;
+}
+
+body.theme-dark .shop-filters .sf-price-input input {
+  color: #e8e8e8;
+}
+
+body.theme-dark .shop-filters .sf-chip {
+  border-color: #3a352d;
+  color: #e8e8e8;
+}
+
+body.theme-dark .shop-filters .sf-chip:hover {
+  border-color: #059669;
+}
+
+body.theme-dark .shop-filters .sf-chip:has(input:checked) {
+  background: #059669;
+  border-color: #059669;
+  color: #fff;
+}
+
+/* Inside the search panel: a divider between the search fields and the
+   filters. */
+.search-panel-filters .shop-filters {
+  padding-top: 0.25rem;
+  border-top: 1px solid #e6e2da;
+}
+
+.search-panel-filters .shop-filters .sf-group:first-child {
+  padding-top: 0.75rem;
+}
+
+body.theme-dark .search-panel-filters .shop-filters {
+  border-top-color: #2e2a24;
+}

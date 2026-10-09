@@ -65,56 +65,7 @@ async function loadHomepageCategories() {
   }
 }
 
-// Whole-card link: the title is the card's one real <a>, and CSS stretches
-// its ::after over the entire card (photo, title, price, button), so
-// middle-click, keyboard focus and screen readers all see a single link.
-// "Shop Now" is a styled <span> inside that clickable area, not a second link.
-function buildCard({ href, title, priceText, imageUrl }) {
-  const article = document.createElement('article');
-  article.className = 'product';
-
-  if (imageUrl) {
-    const img = document.createElement('img');
-    img.src = imageUrl;
-    img.alt = title;
-    article.appendChild(img);
-  } else {
-    const imagePlaceholder = document.createElement('div');
-    imagePlaceholder.className = 'product-image-placeholder';
-    imagePlaceholder.innerHTML = '<i class="fa-solid fa-image"></i>';
-    article.appendChild(imagePlaceholder);
-  }
-
-  const h3 = document.createElement('h3');
-  const link = document.createElement('a');
-  link.href = href;
-  link.className = 'card-link';
-  link.textContent = title;
-  h3.appendChild(link);
-  article.appendChild(h3);
-
-  const meta = document.createElement('p');
-  meta.className = 'meta';
-  meta.textContent = priceText;
-  article.appendChild(meta);
-
-  const shopNow = document.createElement('span');
-  shopNow.className = 'btn';
-  shopNow.setAttribute('aria-hidden', 'true');
-  shopNow.textContent = 'Shop Now';
-  article.appendChild(shopNow);
-
-  return article;
-}
-
-function buildProductCard(listing) {
-  return buildCard({
-    href: `listing.html?id=${encodeURIComponent(listing.id)}`,
-    title: listing.title,
-    priceText: `£${Number(listing.price).toFixed(2)}`,
-    imageUrl: listing.primary_image_url,
-  });
-}
+// Cards come from js/shop-card.js (window.ShopCard), shared with browse.html.
 
 // Resolves to the ids it rendered, so loadShopGrid() can leave them out
 // (empty array if nothing was shown).
@@ -145,7 +96,7 @@ async function loadRecentlyAdded() {
 
   track.innerHTML = '';
   for (const listing of listings) {
-    track.appendChild(buildProductCard(listing));
+    track.appendChild(window.ShopCard.render(listing, { showCondition: false }));
   }
   return listings.map((listing) => listing.id);
 }
@@ -315,9 +266,9 @@ async function renderTopSellers(track) {
 
 // The larger "shop results" grid further down the homepage -- previously
 // 16 hardcoded fake products whose "Shop Now" links had no ?id= and always
-// 404'd. Real data, same card markup as Recently Added. The sort dropdown
-// and filter overlay above this grid are still decorative only (see the
-// HTML comment) -- out of scope for this fix.
+// 404'd. Real data, the same card as browse.html (js/shop-card.js). The
+// sidebar filters (wireShopFilters below) refilter it in place; the sort
+// dropdown above it is still decorative only.
 //
 // FALLBACK_LISTINGS below exists because the live backend is a Railway
 // project that gets suspended between billing cycles -- when that happens
@@ -328,7 +279,8 @@ async function renderTopSellers(track) {
 // recentIdsPromise: what loadRecentlyAdded() resolves to. Those listings
 // are left out here so the two sections never show the same card; the
 // request asks for 8 extra so the grid can still fill its 16 slots.
-async function loadShopGrid(recentIdsPromise = Promise.resolve([])) {
+// isCurrent: false once a newer sidebar filter change has taken over the grid.
+async function loadShopGrid(recentIdsPromise = Promise.resolve([]), isCurrent = () => true) {
   const grid = document.getElementById('homepage-shop-grid');
   if (!grid) return;
 
@@ -337,6 +289,7 @@ async function loadShopGrid(recentIdsPromise = Promise.resolve([])) {
       window.MarketplaceAuth.fetchWithAuth('/api/listings?sort=newest&limit=24'),
       recentIdsPromise.catch(() => []),
     ]);
+    if (!isCurrent()) return;
     if (!res.ok) throw new Error(`listings request failed: ${res.status}`);
 
     const body = await res.json();
@@ -354,15 +307,54 @@ async function loadShopGrid(recentIdsPromise = Promise.resolve([])) {
 
     grid.innerHTML = '';
     for (const listing of listings) {
-      grid.appendChild(buildProductCard(listing));
+      grid.appendChild(window.ShopCard.render(listing));
     }
   } catch (err) {
+    if (!isCurrent()) return;
     console.warn('loadShopGrid: live listings unavailable, showing static fallback cards.', err);
     grid.innerHTML = '';
     for (const item of FALLBACK_LISTINGS) {
       grid.appendChild(buildFallbackCard(item));
     }
   }
+}
+
+// The homepage sidebar (1024px and wider): the shared filters from
+// js/shop-filters.js, applied to the shop grid as they change. With any
+// filter set the grid shows every match (Recently Added overlap included);
+// cleared, it goes back to the default grid.
+function wireShopFilters(recentIdsPromise) {
+  const host = document.getElementById('homepage-filters');
+  const grid = document.getElementById('homepage-shop-grid');
+  if (!host || !grid) return;
+
+  let requestId = 0;
+  window.ShopFilters.mount(host, {
+    idPrefix: 'homepage-filters',
+    onChange: async (state) => {
+      const thisRequest = ++requestId;
+      if (window.ShopFilters.isEmpty(state)) {
+        loadShopGrid(recentIdsPromise, () => thisRequest === requestId);
+        return;
+      }
+      grid.innerHTML = '<p class="results-loading">Loading listings&hellip;</p>';
+      try {
+        const listings = await window.ShopFilters.fetchListings(state);
+        if (thisRequest !== requestId) return; // a newer change won
+        grid.innerHTML = '';
+        if (listings.length === 0) {
+          grid.innerHTML =
+            '<p class="results-empty">Nothing here yet. New items are added all the time. <a href="browse.html">Browse All</a></p>';
+          return;
+        }
+        for (const listing of listings) grid.appendChild(window.ShopCard.render(listing));
+      } catch (err) {
+        if (thisRequest !== requestId) return;
+        console.warn('index: failed to load filtered listings.', err);
+        grid.innerHTML = '<p class="results-empty">Failed to load listings. Please try again.</p>';
+      }
+    },
+  });
 }
 
 // Real product photos already in site/Images/, reused here so the fallback
@@ -388,10 +380,10 @@ const FALLBACK_LISTINGS = [
 
 // No real listing id behind these, so the whole card goes to browse.html.
 function buildFallbackCard(item) {
-  return buildCard({
+  return window.ShopCard.renderStatic({
     href: 'browse.html',
     title: item.title,
-    priceText: `£${item.price.toFixed(2)}`,
+    price: item.price,
     imageUrl: `Images/${encodeURIComponent(item.image)}`,
   });
 }
@@ -470,7 +462,9 @@ async function loadHeroAds() {
 document.addEventListener('DOMContentLoaded', () => {
   loadHomepageCategories();
   loadTopSellers();
-  loadShopGrid(loadRecentlyAdded());
+  const recentIds = loadRecentlyAdded();
+  loadShopGrid(recentIds);
+  wireShopFilters(recentIds);
   loadHeroAds();
   wireSearchForms();
 });

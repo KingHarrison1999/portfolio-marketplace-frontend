@@ -418,12 +418,6 @@ body.theme-dark .floating-search-btn:focus-visible {
   transform: translateY(12px);
 }
 
-/* browse.html's round filter button already sits in the bottom-right corner
-   (56px, 1.25rem in): stack the search button above it. */
-body:has(.floating-filter-btn) .floating-search-btn {
-  --fsb-bottom: calc(1.25rem + 56px + 0.75rem);
-}
-
 /* ---------- Search panel ---------- */
 
 .search-panel {
@@ -441,19 +435,70 @@ body:has(.floating-filter-btn) .floating-search-btn {
   font-family: "Source Sans 3", system-ui, sans-serif;
 }
 
-body:has(.floating-filter-btn) .search-panel {
-  --fsb-bottom: calc(1.25rem + 56px + 0.75rem);
+/* Taller than the screen (the filters below 1024px): scroll inside. */
+.search-panel {
+  max-height: calc(100vh - (var(--fsb-bottom, 1.25rem) + 52px + 0.75rem) - 1rem);
+  max-height: calc(100dvh - (var(--fsb-bottom, 1.25rem) + 52px + 0.75rem) - 1rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .search-panel[hidden] {
   display: none;
 }
 
+/* The title and close button stay put while the panel scrolls. */
 .search-panel-head {
+  position: sticky;
+  top: -1.1rem;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  margin: -1.1rem -1.25rem 0.75rem;
+  padding: 1.1rem 1.25rem 0.5rem;
+  background: inherit;
+}
+
+/* Below 1024px the shared filters replace the category select; at 1024px
+   and wider the panel is search only (the filters are in the sidebars). */
+.search-panel-filters {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .search-panel-filters {
+    display: block;
+  }
+
+  .search-panel-field.search-panel-category-field {
+    display: none;
+  }
+}
+
+.search-panel-clear {
+  justify-self: center;
+  color: #047857;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.search-panel-clear[hidden] {
+  display: none;
+}
+
+.search-panel-clear:hover {
+  color: #059669;
+}
+
+.search-panel-clear:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+body.theme-dark .search-panel-clear {
+  color: #34d399;
 }
 
 .search-panel-title {
@@ -582,15 +627,22 @@ body.theme-dark .search-panel-close:hover {
     white-space: nowrap;
   }
 
-  .search-panel,
-  body:has(.floating-filter-btn) .search-panel {
+  .search-panel {
     left: 0;
     right: 0;
     bottom: 0;
     width: auto;
+    max-height: 88vh;
+    max-height: 88dvh;
     padding: 1rem 1rem calc(1.25rem + env(safe-area-inset-bottom));
     border-width: 1px 0 0;
     border-radius: 16px 16px 0 0;
     box-shadow: 0 -12px 40px rgba(17, 24, 39, 0.25);
+  }
+
+  .search-panel-head {
+    top: -1rem;
+    margin: -1rem -1rem 0.75rem;
+    padding: 1rem 1rem 0.5rem;
   }
 }

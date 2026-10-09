@@ -1,0 +1,240 @@
+/* shop.css -- the listing grid shared by the homepage shop section and
+   browse.html: the filter sidebar beside it, the grid columns, and the
+   product card from js/shop-card.js. Linked by index.html (after home.css)
+   and browse.html (after main.compiled.css), so both pages get exactly the
+   same card. Plain CSS so it reads the same under either stylesheet; the
+   card sets every property it depends on rather than inheriting them. */
+
+/* ---------- Layout: sidebar + results ---------- */
+
+.shop.shop-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.shop.shop-page .shop-sidebar {
+  display: none;
+}
+
+/* 1024px and wider: filters in a sidebar. Below that they're in the
+   floating search panel (js/masthead.js). */
+@media (min-width: 1024px) {
+  .shop.shop-page {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+
+  .shop.shop-page .shop-sidebar {
+    display: block;
+    position: sticky;
+    top: 68px;
+    align-self: start;
+    max-height: calc(100vh - 84px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-sizing: border-box;
+    padding: 0.75rem;
+    background: #fff;
+    border: 1px solid #e6e2da;
+    border-radius: 0.5rem;
+    color: #1f2937;
+  }
+}
+
+.shop-sidebar h3 {
+  margin: 0 0 0.75rem;
+  color: inherit;
+  font-family: "Merriweather", serif;
+  font-size: 1.17em;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+body.theme-dark .shop.shop-page .shop-sidebar {
+  background: #1c1a17;
+  border-color: #2e2a24;
+  color: #e8e8e8;
+}
+
+/* ---------- Grid columns ---------- */
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 1rem;
+}
+
+@media (min-width: 640px) {
+  .shop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .shop-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ---------- The card ----------
+   Light in dark mode too, as the homepage has always had it. */
+
+.shop-grid > .product {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 16px;
+  background: #fff;
+  color: #1f2937;
+  border: 1px solid #e6e2da;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.shop-grid > .product:hover {
+  transform: translateY(-5px);
+  border-color: #e6e2da;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.shop-grid > .product img,
+.shop-grid > .product .product-image-placeholder {
+  display: block;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  margin: 0 0 12px;
+  border-radius: 8px;
+}
+
+.shop-grid > .product img {
+  object-fit: cover;
+}
+
+.shop-grid > .product .product-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  color: #9ca3af;
+  font-size: 2rem;
+}
+
+body.theme-dark .shop-grid > .product .product-image-placeholder {
+  background: #242019;
+  color: #a8a29b;
+}
+
+.shop-grid > .product h3 {
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 0;
+  color: #1f2937;
+  font-family: "Merriweather", serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-align: left;
+}
+
+.shop-grid > .product .meta {
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0 0 16px;
+  padding: 0;
+  color: #6b7280;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 0.9rem;
+  line-height: normal;
+  text-align: left;
+}
+
+.shop-grid > .product .btn {
+  display: block;
+  flex-shrink: 0;
+  align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: auto;
+  padding: 0.75rem 1.25rem;
+  background: #10b981;
+  color: #fff;
+  border: 0;
+  border-radius: 0.5rem;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: normal;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shop-grid > .product .btn:hover,
+.shop-grid > .product:hover .btn {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+/* ---------- Loading / empty messages ---------- */
+
+.shop-grid > .results-empty,
+.shop-grid > .results-loading,
+.shop-grid > .carousel-loading {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 3rem 1rem;
+  color: #6b7280;
+  font-size: 1rem;
+  text-align: center;
+}
+
+body.theme-dark .shop-grid > .results-empty,
+body.theme-dark .shop-grid > .results-loading,
+body.theme-dark .shop-grid > .carousel-loading {
+  color: #a8a29b;
+}
+
+/* Text links in those messages ("Browse all listings", "Browse All"):
+   the site's green, dark enough to read on the light page and lighter on
+   the dark one. */
+.shop-grid > .results-empty a {
+  color: #047857;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 150ms ease;
+}
+
+.shop-grid > .results-empty a:hover {
+  color: #059669;
+}
+
+.shop-grid > .results-empty a:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+body.theme-dark .shop-grid > .results-empty a {
+  color: #34d399;
+}
+
+body.theme-dark .shop-grid > .results-empty a:hover {
+  color: #6ee7b7;
+}
