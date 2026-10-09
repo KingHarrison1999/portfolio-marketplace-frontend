@@ -274,16 +274,8 @@
         setInterval(() => goTo((idx + 1) % heroDots.length), 5000);
       }
 
-      // Top Sellers arrows: scroll the pill row by ~60% of its visible width
-      const sellerTrack = document.querySelector('[data-carousel="top-sellers"]');
-      if (sellerTrack) {
-        document.querySelectorAll('[data-carousel-btn="top-sellers"]').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const direction = btn.dataset.dir === 'next' ? 1 : -1;
-            sellerTrack.scrollBy({ left: direction * sellerTrack.clientWidth * 0.6, behavior: 'smooth' });
-          });
-        });
-      }
+      // Top Sellers (auto-scroll + arrows) is wired by js/index.js once the
+      // sellers have loaded.
 
       // Recently Added arrows: scroll by one card (card width + the track's gap)
       const productTrack = document.getElementById('recently-added-track');

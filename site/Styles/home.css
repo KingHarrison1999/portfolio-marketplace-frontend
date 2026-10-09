@@ -624,6 +624,13 @@ body.home.theme-dark .features-grid .feature.block .carousel.snap a {
   display: none;
 }
 
+/* While js/index.js auto-scrolls the row: no snapping or smooth-scroll
+   easing to fight the frame-by-frame movement. */
+.top-sellers .carousel.is-auto-scrolling {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+
 .top-sellers .carousel .slide {
   scroll-snap-align: start;
   background: #fff;

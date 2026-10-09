@@ -173,7 +173,104 @@ async function loadTopSellers() {
   } catch (err) {
     console.warn('index: failed to load top sellers.', err);
     section.hidden = true;
+    return;
   }
+  wireTopSellersCarousel(section, track);
+}
+
+// Top Sellers moves by itself: a slow continuous scroll that loops with no
+// visible jump (the sellers are cloned once, and the scroll wraps by exactly
+// one set's width). The first click or tap anywhere on it -- either arrow or
+// a seller -- stops it for good (until the page reloads); hovering doesn't.
+// After that, the arrows move one seller at a time and wrap at the ends.
+// No auto-scroll at all with prefers-reduced-motion.
+const TOP_SELLERS_SPEED = 28; // px per second
+
+function wireTopSellersCarousel(section, track) {
+  const shell = section.querySelector('.carousel-shell');
+  const buttons = section.querySelectorAll('[data-carousel-btn="top-sellers"]');
+  const originals = Array.from(track.children);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let running = false;
+  let frame = 0;
+  let pos = 0;
+  let lastTime = 0;
+  let clones = [];
+
+  // Width of one full set of sellers, gap included: where the clones start.
+  const loopWidth = () => (clones.length ? clones[0].offsetLeft - originals[0].offsetLeft : 0);
+
+  function tick(time) {
+    if (!running) return;
+    const dt = lastTime ? Math.min(time - lastTime, 100) : 0;
+    lastTime = time;
+    // Someone scrolled it by other means (trackpad, wheel): carry on from there.
+    if (Math.abs(track.scrollLeft - pos) > 2) pos = track.scrollLeft;
+    pos += (TOP_SELLERS_SPEED * dt) / 1000;
+    const width = loopWidth();
+    if (width > 0 && pos >= width) pos -= width;
+    track.scrollLeft = pos;
+    frame = requestAnimationFrame(tick);
+  }
+
+  function start() {
+    // Nothing to scroll if every seller already fits.
+    if (track.scrollWidth <= track.clientWidth + 1) return;
+    clones = originals.map((slide) => {
+      const clone = slide.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.classList.add('is-clone');
+      return clone;
+    });
+    clones.forEach((clone) => track.appendChild(clone));
+    track.classList.add('is-auto-scrolling');
+    pos = track.scrollLeft;
+    running = true;
+    frame = requestAnimationFrame(tick);
+  }
+
+  function stop() {
+    if (!running) return;
+    running = false;
+    cancelAnimationFrame(frame);
+    // Back into the original set at the same visual spot, then drop the clones.
+    const width = loopWidth();
+    let left = track.scrollLeft;
+    if (width > 0 && left >= width) left -= width;
+    clones.forEach((clone) => clone.remove());
+    clones = [];
+    track.classList.remove('is-auto-scrolling');
+    track.scrollTo({ left, behavior: 'instant' });
+  }
+
+  // Slide offsets within the track, for one-step arrow moves.
+  const slideLefts = () => originals.map((slide) => slide.offsetLeft - originals[0].offsetLeft);
+
+  function step(direction) {
+    const max = track.scrollWidth - track.clientWidth;
+    const current = track.scrollLeft;
+    const lefts = slideLefts().map((left) => Math.min(left, max));
+    let target;
+    if (direction > 0) {
+      target = current >= max - 1 ? 0 : lefts.find((left) => left > current + 1);
+      if (target === undefined) target = max;
+    } else {
+      target = current <= 1 ? max : [...lefts].reverse().find((left) => left < current - 1);
+      if (target === undefined) target = 0;
+    }
+    track.scrollTo({ left: target, behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+
+  shell.addEventListener('pointerdown', stop);
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      stop(); // keyboard activation has no pointerdown
+      step(btn.dataset.dir === 'next' ? 1 : -1);
+    });
+  });
+
+  if (!reduceMotion) start();
 }
 
 async function renderTopSellers(track) {
@@ -187,9 +284,10 @@ async function renderTopSellers(track) {
     countBySeller.set(listing.seller_id, (countBySeller.get(listing.seller_id) || 0) + 1);
   }
 
+  // Up to 20, so every seller with an active listing shows (there are 10).
   const topSellerIds = [...countBySeller.entries()]
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 8)
+    .slice(0, 20)
     .map(([sellerId]) => sellerId);
 
   if (topSellerIds.length === 0) throw new Error('no active listings');
