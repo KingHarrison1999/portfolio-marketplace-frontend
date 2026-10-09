@@ -1,5 +1,6 @@
 // Wires the browse page to GET /api/listings. The URL is the state:
-//   ?q=  &sort=  &category_id= (repeated)  &min_price=  &max_price=  &condition= (repeated)
+//   ?q=  &sort=  &category_id= (repeated)  &season= (repeated)  &min_price=  &max_price=
+//   &condition= (repeated)
 // The masthead's category links, the homepage and the floating search
 // panel all link here with those params.
 //

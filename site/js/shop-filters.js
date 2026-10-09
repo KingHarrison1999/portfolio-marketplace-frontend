@@ -1,10 +1,10 @@
-// The one set of listing filters -- Category (the full tree), Price Range
-// and Condition -- used in three places: the homepage and browse.html
+// The one set of listing filters -- Category (the full tree), Season,
+// Price Range and Condition -- used in three places: the homepage and browse.html
 // sidebars (1024px and wider) and the floating search panel (below 1024px,
 // every page). Styles: Styles/shop-filters.css.
 //
 //   const filters = ShopFilters.mount(container, { idPrefix, state, onChange });
-//   filters.getState()   // { categoryIds, minPrice, maxPrice, conditions }
+//   filters.getState()   // { categoryIds, seasons, minPrice, maxPrice, conditions }
 //   filters.setState(state)
 //
 // onChange (optional) fires on every change, for sidebars that apply
@@ -19,6 +19,14 @@
 // category links put in the URL.
 (function () {
   const CONDITION_ORDER = ['new', 'like_new', 'used', 'for_parts'];
+  // listings.seasons values, in order, with their labels.
+  const SEASONS = [
+    { value: 'spring', label: 'Spring' },
+    { value: 'summer', label: 'Summer' },
+    { value: 'autumn', label: 'Autumn' },
+    { value: 'winter', label: 'Winter' },
+  ];
+  const SEASON_VALUES = SEASONS.map((s) => s.value);
   const PRICE_DEBOUNCE_MS = 500;
 
   let conditionsPromise = null;
@@ -59,6 +67,7 @@
   function fromParams(params) {
     return {
       categoryIds: params.getAll('category_id'),
+      seasons: params.getAll('season').filter((s) => SEASON_VALUES.includes(s)),
       minPrice: readPrice(params.get('min_price')),
       maxPrice: readPrice(params.get('max_price')),
       conditions: params.getAll('condition'),
@@ -67,6 +76,7 @@
 
   function toParams(state, params = new URLSearchParams()) {
     for (const id of state.categoryIds || []) params.append('category_id', id);
+    for (const season of state.seasons || []) params.append('season', season);
     if (state.minPrice) params.set('min_price', state.minPrice);
     if (state.maxPrice) params.set('max_price', state.maxPrice);
     for (const c of state.conditions || []) params.append('condition', c);
@@ -74,9 +84,11 @@
   }
 
   const isEmpty = (state) =>
-    !(state.categoryIds || []).length && !state.minPrice && !state.maxPrice && !(state.conditions || []).length;
+    !(state.categoryIds || []).length &&
+    !(state.seasons || []).length &&
+    !state.minPrice && !state.maxPrice && !(state.conditions || []).length;
 
-  // GET /api/listings for a filter state. The API has no condition
+  // GET /api/listings for a filter state (season matches any). The API has no condition
   // parameter, so condition is applied here, to the one generous page that
   // comes back (fine at this catalog's size). Rejects on any failure.
   async function fetchListings(state, { q = '', sort = 'newest', limit = 50 } = {}) {
@@ -116,19 +128,24 @@
     return '';
   }
 
+  const seasonLabel = (seasons) =>
+    SEASONS.filter((s) => seasons.includes(s.value))
+      .map((s) => s.label)
+      .join(' or ');
+
   // "Browse All", 'Results for "boots"', "Men: Clothing", 'Results for
-  // "boots" in Women: Shoes', "Used, Up to £50"... tree may be null when
-  // categories failed to load.
+  // "boots" in Women: Shoes', "Summer, Up to £50", "Used, Up to £50"...
+  // tree may be null when categories failed to load.
   function describe(state, q, tree) {
-    const category = tree ? categoryLabel(state.categoryIds || [], tree) : '';
-    const extras = [
+    const parts = [
+      tree ? categoryLabel(state.categoryIds || [], tree) : '',
+      seasonLabel(state.seasons || []),
       (state.conditions || []).map((c) => window.ShopCard.conditionLabel(c)).join(' or '),
       priceLabel(state),
     ].filter(Boolean);
 
-    if (q) return `Results for "${q}"${category ? ` in ${category}` : ''}`;
-    if (category) return category;
-    if (extras.length) return extras.join(', ');
+    if (q) return `Results for "${q}"${parts.length ? ` in ${parts.join(', ')}` : ''}`;
+    if (parts.length) return parts.join(', ');
     if ((state.categoryIds || []).length) return 'Filtered listings';
     return 'Browse All';
   }
@@ -146,7 +163,7 @@
 
   function mount(container, { idPrefix = `shop-filters-${instanceCount}`, state = {}, onChange } = {}) {
     instanceCount += 1;
-    let current = { categoryIds: [], minPrice: '', maxPrice: '', conditions: [], ...state };
+    let current = { categoryIds: [], seasons: [], minPrice: '', maxPrice: '', conditions: [], ...state };
     let priceTimer = null;
 
     container.innerHTML = '';
@@ -159,6 +176,24 @@
     treeHost.appendChild(el('p', 'sf-note', 'Loading categories…'));
     catGroup.appendChild(treeHost);
     root.appendChild(catGroup);
+
+    // Season
+    const seasonGroup = el('fieldset', 'sf-group sf-seasons');
+    seasonGroup.appendChild(el('legend', 'sf-legend', 'Season'));
+    const seasonHost = el('div', 'sf-chips');
+    const seasonInputs = SEASONS.map(({ value, label }) => {
+      const chip = el('label', 'sf-chip');
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.value = value;
+      input.addEventListener('change', () => changed());
+      chip.appendChild(input);
+      chip.appendChild(document.createTextNode(label));
+      seasonHost.appendChild(chip);
+      return input;
+    });
+    seasonGroup.appendChild(seasonHost);
+    root.appendChild(seasonGroup);
 
     // Price Range
     const priceGroup = el('fieldset', 'sf-group sf-price');
@@ -367,14 +402,18 @@
       const conditions = conditionInputs.length
         ? Array.from(conditionInputs).filter((i) => i.checked).map((i) => i.value)
         : current.conditions.slice();
+      const seasons = seasonInputs.filter((i) => i.checked).map((i) => i.value);
       let minPrice = readPrice(minInput.value);
       let maxPrice = readPrice(maxInput.value);
       if (minPrice && maxPrice && Number(minPrice) > Number(maxPrice)) [minPrice, maxPrice] = [maxPrice, minPrice];
-      return { categoryIds, minPrice, maxPrice, conditions };
+      return { categoryIds, seasons, minPrice, maxPrice, conditions };
     }
 
     function setState(next) {
-      current = { categoryIds: [], minPrice: '', maxPrice: '', conditions: [], ...next };
+      current = { categoryIds: [], seasons: [], minPrice: '', maxPrice: '', conditions: [], ...next };
+      seasonInputs.forEach((input) => {
+        input.checked = current.seasons.includes(input.value);
+      });
       minInput.value = current.minPrice;
       maxInput.value = current.maxPrice;
       applyCategories(current.categoryIds);
@@ -385,5 +424,5 @@
     return { getState, setState, element: root };
   }
 
-  window.ShopFilters = { mount, fromParams, toParams, isEmpty, describe, fetchListings, categoryTree };
+  window.ShopFilters = { mount, fromParams, toParams, isEmpty, describe, fetchListings, categoryTree, SEASONS };
 })();
