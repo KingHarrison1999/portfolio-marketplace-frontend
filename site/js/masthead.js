@@ -187,8 +187,27 @@
     return browseUrl(params);
   }
 
+  // The groups under each top-level category (Men, Women) in this order;
+  // anything else follows alphabetically. Below the groups, everything is
+  // alphabetical with "Other" always last.
+  const GROUP_ORDER = ['Clothing', 'Shoes', 'Accessories', 'Bags'];
+
+  function compareCategories(a, b, isGroupLevel) {
+    if (isGroupLevel) {
+      const rank = (cat) => {
+        const i = GROUP_ORDER.indexOf(cat.name);
+        return i === -1 ? GROUP_ORDER.length : i;
+      };
+      if (rank(a) !== rank(b)) return rank(a) - rank(b);
+    }
+    const isOther = (cat) => cat.name === 'Other';
+    if (isOther(a) !== isOther(b)) return isOther(a) ? 1 : -1;
+    return a.name.localeCompare(b.name);
+  }
+
   // GET /api/categories as a tree: top-level categories in API order, and
-  // each category's children. Rejects if the request fails or is empty.
+  // each category's children in display order. Rejects if the request fails
+  // or is empty.
   async function fetchCategoryTree() {
     if (!window.MarketplaceAuth) throw new Error('js/auth.js not loaded');
     const res = await window.MarketplaceAuth.fetchWithAuth('/api/categories');
@@ -196,17 +215,40 @@
     const categories = (await res.json()).categories || [];
     if (categories.length === 0) throw new Error('no categories');
 
+    const byId = new Map(categories.map((cat) => [cat.id, cat]));
     const childrenByParent = new Map();
     for (const cat of categories) {
       if (!cat.parent_id) continue;
       if (!childrenByParent.has(cat.parent_id)) childrenByParent.set(cat.parent_id, []);
       childrenByParent.get(cat.parent_id).push(cat);
     }
+    for (const [parentId, kids] of childrenByParent) {
+      const parent = byId.get(parentId);
+      const isGroupLevel = Boolean(parent && !parent.parent_id);
+      kids.sort((a, b) => compareCategories(a, b, isGroupLevel));
+    }
     const children = (cat) => childrenByParent.get(cat.id) || [];
     // Every id in a category's subtree, the category itself included.
     const subtreeIds = (cat) => [cat.id, ...children(cat).flatMap(subtreeIds)];
-    return { topLevel: categories.filter((cat) => !cat.parent_id), children, subtreeIds };
+    // The top-level category a category sits under (itself if top-level).
+    const topOf = (cat) => {
+      let node = cat;
+      while (node.parent_id && byId.has(node.parent_id)) node = byId.get(node.parent_id);
+      return node;
+    };
+    return { topLevel: categories.filter((cat) => !cat.parent_id), children, subtreeIds, byId, topOf };
   }
+
+  // The tree for other scripts (js/shop-filters.js), so a page fetches
+  // categories once. Settles after init() below runs the request; rejects
+  // if it fails.
+  let settleCategories;
+  window.MarketplaceCategories = new Promise((resolve, reject) => {
+    settleCategories = { resolve, reject };
+  });
+  // Callers handle the rejection themselves; this just keeps an unused
+  // promise from reporting it as unhandled.
+  window.MarketplaceCategories.catch(() => {});
 
   function link(href, text, className) {
     const a = document.createElement('a');
@@ -530,8 +572,10 @@
     } catch (err) {
       // Nav keeps just "Browse All"; the search panel keeps "All categories".
       console.warn('masthead: failed to load categories.', err);
+      settleCategories.reject(err);
       return;
     }
+    settleCategories.resolve(tree);
     buildNav(tree);
     buildMobileNav(tree);
     fillSearchCategories(tree);
