@@ -626,11 +626,14 @@
     });
 
     // Step aside (fade out) while something clickable scrolls underneath the
-    // button: the footer newsletter form on every page, listing.html's
-    // Buy / Add to Cart buttons on phones, and the homepage's Buy Now / Sell
-    // Now buttons and Popular This Week arrows.
+    // button: the footer's "READY TO START?" heading and newsletter form on
+    // every page, listing.html's Buy / Add to Cart buttons on phones, and the
+    // homepage's Buy Now / Sell Now buttons, Popular This Week arrows and
+    // photo card labels ("New Arrivals", "Winter"...).
     const obstacles = Array.from(
-      document.querySelectorAll('.newsletter, .purchase-panel-actions, .home-split .split-btn, .popular-week .carousel-btn'),
+      document.querySelectorAll(
+        '.footer-cta-band .cta-text, .newsletter, .purchase-panel-actions, .home-split .split-btn, .popular-week .carousel-btn, .photo-card-label',
+      ),
     );
     let dodgeQueued = false;
     function dodge() {
