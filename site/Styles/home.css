@@ -407,12 +407,12 @@ body.home .hero-section + .home-main > .container:first-child {
   font-family: "Merriweather", serif;
 }
 
+/* Wraps instead of scrolling sideways, so every link shows without a
+   scrollbar inside the card. */
 .features-grid .feature.block .carousel.snap {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 160px;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  overflow-x: auto;
 }
 
 .features-grid .feature.block .carousel.snap a {
