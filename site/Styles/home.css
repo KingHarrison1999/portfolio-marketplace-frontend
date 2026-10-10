@@ -1287,10 +1287,13 @@ body.home > main.home-main {
   margin-top: 1.5rem;
 }
 
+/* A size container, so the title can be sized from the panel's own width. */
 .split-panel {
   height: clamp(520px, 80vh, 860px);
   padding: clamp(1.5rem, 4vw, 3.5rem);
   box-sizing: border-box;
+  align-items: center;
+  container-type: inline-size;
 }
 
 /* Edge to edge, so the focus ring sits inside the panel. */
@@ -1299,30 +1302,45 @@ body.home > main.home-main {
   outline-offset: -8px;
 }
 
+/* One row, vertically centred, so both buttons sit on the same line
+   halfway up. Mirror image: Buy has the button on the outer (left) edge and
+   the title against the centre line; Sell has the title against the centre
+   line and the button on the outer (right) edge. */
 .split-content {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
   width: 100%;
-  max-width: 34rem;
 }
 
-/* Buy: title and button at the bottom. Sell: button at the top. */
 .split-buy .split-content {
-  justify-content: flex-end;
+  flex-direction: row-reverse;
 }
 
-.split-sell .split-content {
-  justify-content: flex-start;
+.split-buy .split-title {
+  text-align: right;
 }
 
+.split-sell .split-title {
+  text-align: left;
+}
+
+/* Always exactly two lines (.split-line each). The size fits the longer line
+   ("Your Wardrobe Called.", about 11em wide) beside the button and gap, in
+   both panels, so the two stay the same size. */
 .split-title {
+  min-width: 0;
   font-family: "Merriweather", serif;
   font-weight: 900;
-  font-size: clamp(1.9rem, 3.4vw, 3.25rem);
+  font-size: min(3.25rem, (100cqi - 9.9rem) / 11.3);
   line-height: 1.12;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+}
+
+.split-line {
+  display: block;
+  white-space: nowrap;
 }
 
 /* Looks like a button; the whole panel is the link. */
@@ -1334,6 +1352,7 @@ body.home > main.home-main {
   border-radius: 999px;
   font-weight: 700;
   font-size: 1.05rem;
+  flex: none;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   transition: background-color 250ms ease, transform 250ms ease;
 }
@@ -1351,6 +1370,18 @@ body.home > main.home-main {
   .split-panel {
     height: 45vh;
     min-height: 300px;
+  }
+  /* Stacked: everything centred, the title's two lines above the button. */
+  .split-content,
+  .split-buy .split-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+  .split-buy .split-title,
+  .split-sell .split-title {
+    text-align: center;
+    font-size: min(1.9rem, 100cqi / 11.3);
   }
 }
 
