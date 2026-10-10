@@ -105,26 +105,48 @@
 
   // --- Describing a state in words (browse.html's heading) ---
 
-  // The checked categories that aren't under another checked one,
-  // e.g. "Men: Clothing" or "Women: Dresses".
+  // Sets of category names that read as one name, e.g. the homepage's
+  // "Accessories" card, which links to Accessories and Bags.
+  const NAME_GROUPS = [{ name: 'Accessories', members: ['Accessories', 'Bags'] }];
+
+  // The checked categories that aren't under another checked one, e.g.
+  // "Men: Clothing" or "Women: Dresses". A name checked under every
+  // top-level category that has it reads bare ("Shoes", not "Men: Shoes,
+  // Women: Shoes"). More than three names: the first three, "and more".
   function categoryLabel(categoryIds, tree) {
     const ids = new Set(categoryIds);
     const named = categoryIds
       .map((id) => tree.byId.get(id))
       .filter((cat) => cat && !(cat.parent_id && ids.has(cat.parent_id)));
-    const label = (cat) => {
-      const top = tree.topOf(cat);
-      return top === cat ? cat.name : `${top.name}: ${cat.name}`;
-    };
     if (named.length === 0) return '';
-    if (named.length > 3) return `${named.length} categories`;
-    return named.map(label).join(', ');
+
+    const all = [...tree.byId.values()];
+    const labels = [];
+    for (const cat of named) {
+      const top = tree.topOf(cat);
+      if (top === cat) {
+        labels.push(cat.name);
+        continue;
+      }
+      const sameName = all.filter((other) => other.name === cat.name && tree.topOf(other) !== other);
+      const everywhere = sameName.length > 1 && sameName.every((other) => named.includes(other));
+      labels.push(everywhere ? cat.name : `${top.name}: ${cat.name}`);
+    }
+    const unique = [...new Set(labels)];
+
+    const group = NAME_GROUPS.find(
+      (g) => g.members.length === unique.length && g.members.every((m) => unique.includes(m)),
+    );
+    if (group) return group.name;
+    if (unique.length > 3) return `${unique.slice(0, 3).join(', ')} and more`;
+    return unique.join(', ');
   }
 
+  // max_price is exclusive in the API: "Under £50" means below £50.
   function priceLabel(state) {
     if (state.minPrice && state.maxPrice) return `£${state.minPrice}–£${state.maxPrice}`;
     if (state.minPrice) return `£${state.minPrice} and up`;
-    if (state.maxPrice) return `Up to £${state.maxPrice}`;
+    if (state.maxPrice) return `Under £${state.maxPrice}`;
     return '';
   }
 
@@ -134,7 +156,7 @@
       .join(' or ');
 
   // "Browse All", 'Results for "boots"', "Men: Clothing", 'Results for
-  // "boots" in Women: Shoes', "Summer, Up to £50", "Used, Up to £50"...
+  // "boots" in Women: Shoes', "Summer, Under £50", "Used, Under £50"...
   // tree may be null when categories failed to load.
   function describe(state, q, tree) {
     const parts = [
